@@ -1,3 +1,10 @@
+const imageContext = require.context(
+  '../Default',
+  false,
+  /\.(jpg|jpeg|png|webp)$/,
+);
+const categoryData = imageContext.keys().map(imageContext);
+
 let db = [
   {
     name: 'Bulbasaur',

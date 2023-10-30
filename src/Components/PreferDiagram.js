@@ -3,6 +3,16 @@ import styled from 'styled-components';
 import sprites from '../Default/spritesheet.png';
 import db from './PKDB';
 
+const imageContext = require.context(
+  '../Default',
+  false,
+  /\.(jpg|jpeg|png|webp)$/,
+);
+const categoryData = imageContext.keys().map(imageContext);
+
+console.log(categoryData);
+console.log(categoryData[0]);
+
 const $Container = styled.div`
   display: flex;
   justify-content: 'center';
@@ -16,7 +26,6 @@ const $Diagram = styled.div`
   border-radius: 5px;
   display: flex;
   justify-content: 'center';
-  /* flex-wrap: wrap; */
 `;
 
 const $Card = styled.div`
@@ -84,13 +93,14 @@ const PreferDiagram = () => {
       <div style={{ width: '128px', height: '128px', overflow: 'hidden' }}>
         <img style={{ margin: '0px 0px 0px -512px' }} src={sprites}></img>
       </div>
-      <img
+      {/* <img
         alt="failbaby"
         src="https://archives.bulbagarden.net/media/upload/4/48/Menu_HOME_0999-Roaming.png"
-      ></img>
-      {db.map((x) => {
+      ></img> */}
+      <img alt="failbaby" src={categoryData[0]}></img>
+      {/* {db.map((x) => {
         return <img src={x.url} />;
-      })}
+      })} */}
       <$Diagram>
         {types.map((x) => {
           return (

@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import react, { useState, useRef } from 'react';
 import sprites from '../Default/spritesheet.png';
-import db from './PKDB';
+import { db, categoryData } from './PKDB';
 import { toPng } from 'html-to-image';
+import { DataShow } from './DataShow';
 
 // const imageContext = require.context(
 //   '../Default',
@@ -277,6 +278,7 @@ const PreferDiagram = () => {
 
   return (
     <>
+      {/* <DataShow /> */}
       <$Container>
         {types.map((x) => {
           return (
@@ -284,16 +286,24 @@ const PreferDiagram = () => {
               <select
                 style={{ width: '90%' }}
                 onChange={(e) => {
+                  let flag = 0;
                   for (let i = 0; i < x.list.length; i++) {
-                    if (x.list[i].name == e.target.value) {
+                    if (x.list[i].nameKo == e.target.value.split(' ')[1]) {
                       x.func(x.list[i].url);
+                      flag++;
+                      break;
                     }
                   }
+                  if (flag == 0) x.func(db[0].url);
                 }}
               >
                 <option>{x.type}</option>
                 {x.list.map((y) => {
-                  return <option>{y.nameKo}</option>;
+                  return (
+                    <option>
+                      {y.code} {y.nameKo}
+                    </option>
+                  );
                 })}
               </select>
               <div
@@ -315,7 +325,9 @@ const PreferDiagram = () => {
       </$Container>
       <div ref={elementRef}>
         {db.map((x) => {
-          return <img src={x.url} />;
+          return (
+            <img style={{ width: '128px', height: '128px' }} src={x.url} />
+          );
         })}
       </div>
       <$Diagram ref={elementRef}>

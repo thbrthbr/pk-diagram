@@ -351,21 +351,21 @@ const PreferDiagram = () => {
 
   // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-  const quickView = () => {
-    setToggler(!toggler);
-  };
+  // const quickView = () => {
+  //   setToggler(!toggler);
+  // };
 
-  useEffect(() => {
-    if (isMounted.current) {
-      const place = document.getElementById('here');
-      place.scrollIntoView(false);
-    } else {
-      isMounted.current = true;
-    }
-  }, [toggler]);
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     const place = document.getElementById('here');
+  //     place.scrollIntoView(false);
+  //   } else {
+  //     isMounted.current = true;
+  //   }
+  // }, [toggler]);
 
   return (
-    <>
+    <$Area>
       <Select
         options={option}
         onChange={languageChanger}
@@ -397,7 +397,7 @@ const PreferDiagram = () => {
           );
         })}
       </$Container>
-      <button onClick={quickView}>
+      {/* <button onClick={quickView}>
         <h1>{toggler ? '접기' : '펼치기'}</h1>
       </button>
       <div ref={elementRef}>
@@ -410,7 +410,7 @@ const PreferDiagram = () => {
       </div>
       <button id="here" onClick={quickView}>
         <h1>{toggler ? '접기' : '펼치기'}</h1>
-      </button>
+      </button> */}
       <$Diagram ref={elementRef}>
         {types.map((x) => {
           return (
@@ -436,13 +436,20 @@ const PreferDiagram = () => {
         })}
       </$Diagram>
       <button onClick={exportElementAsPNG}>Download</button>
-    </>
+    </$Area>
   );
 };
 
+const $Area = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const $Container = styled.div`
   display: flex;
-  justify-content: 'center';
+  justify-content: center;
   flex-wrap: wrap;
 `;
 
@@ -453,7 +460,7 @@ const $Diagram = styled.div`
   border-radius: 5px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: 'center';
+  justify-content: center;
 `;
 
 const $Card = styled.div`

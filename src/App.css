@@ -40,3 +40,23 @@
 .color {
   color: #bed3d6;
 }
+
+@font-face {
+  font-family: 'monoton';
+  src: url('./font/Monoton-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'wehaven-bold';
+  src: url('./font/Warhaven_Bold.ttf');
+}
+
+@font-face {
+  font-family: 'wehaven-regular';
+  src: url('./font/Warhaven_Regular.ttf');
+}
+
+@font-face {
+  font-family: 'tenada';
+  src: url('./font/Tenada.ttf');
+}

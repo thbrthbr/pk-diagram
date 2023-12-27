@@ -6,22 +6,34 @@ import { toPng } from 'html-to-image';
 import { DataShow } from './DataShow';
 import { FaLanguage } from 'react-icons/fa';
 import Select from 'react-select';
+import Logo from '../Logo/PK-DIAGRAM.png';
+import { FaArrowUp } from 'react-icons/fa';
 
-// const imageContext = require.context(
-//   '../Default',
-//   false,
-//   /\.(jpg|jpeg|png|webp)$/,
-// );
-// const categoryData = imageContext.keys().map(imageContext);
+const imageContext = require.context(
+  '../icon',
+  false,
+  /\.(jpg|jpeg|png|webp|svg)$/,
+);
+const typeIcons = imageContext.keys().map(imageContext);
 
 const PreferDiagram = () => {
   const elementRef = useRef();
-  const isMounted = useRef(false);
+  const TestRef = useRef();
+  const buttonRef = useRef();
+  const logoRef = useRef();
+
   let option = [
     { value: 'korean', label: '한국어' },
     { value: 'english', label: 'English' },
   ];
 
+  let borderExsist = ['포켓몬테마', 'Pokemon'];
+  let pokeTheme = ['몬스터볼테마', 'PokeBall'];
+
+  const [themeColor, setThemeColor] = useState('aliceblue');
+  const [themeTitleColor, setThemeTitleColor] = useState('black');
+  const [themeBorderColor, setThemeBorderColor] = useState('aliceblue');
+  const [themeDesc, setThemeDesc] = useState('');
   const [toggler, setToggler] = useState(false);
   const [language, setLanguage] = useState('korean');
   const [grass, setGrass] = useState(db[0].url);
@@ -42,6 +54,45 @@ const PreferDiagram = () => {
   const [ice, setIce] = useState(db[0].url);
   const [dragon, setDragon] = useState(db[0].url);
   const [flying, setFlying] = useState(db[0].url);
+
+  let backgroundColors = [
+    {
+      color: 'aliceblue',
+      titleColor: 'black',
+      borderColor: 'aliceblue',
+      desc: language == 'korean' ? '기본' : 'Standard',
+    },
+    {
+      color: 'indigo',
+      titleColor: 'white',
+      borderColor: 'indigo',
+      desc: language == 'korean' ? '군청' : 'Indigo',
+    },
+    {
+      color: 'black',
+      titleColor: 'white',
+      borderColor: 'black',
+      desc: language == 'korean' ? '모노톤' : 'Monochrome',
+    },
+    {
+      color: '#6D3A7C',
+      titleColor: 'black',
+      borderColor: '#6D3A7C',
+      desc: language == 'korean' ? '메인테마' : 'Main',
+    },
+    {
+      color: '#FFCC00',
+      titleColor: '#3861AD',
+      borderColor: '#3861AD',
+      desc: language == 'korean' ? '포켓몬테마' : 'Pokemon',
+    },
+    {
+      color: 'white',
+      titleColor: 'black',
+      borderColor: 'red',
+      desc: language == 'korean' ? '몬스터볼테마' : 'PokeBall',
+    },
+  ];
 
   const types = [
     {
@@ -103,7 +154,7 @@ const PreferDiagram = () => {
     {
       type: '독',
       color: '#994DCF',
-      engType: 'posion',
+      engType: 'poison',
       list: [],
       func: setPoison,
       cur: poison,
@@ -248,11 +299,17 @@ const PreferDiagram = () => {
   }
 
   const exportElementAsPNG = () => {
-    toPng(elementRef.current).then((image) => {
+    if (buttonRef.current) {
+      buttonRef.current.style.animation = 'jelly 0.5s';
+    }
+    TestRef.current.style.display = 'block';
+    TestRef.current.style.fontFamily = 'monoton';
+    toPng(TestRef.current).then((image) => {
       const link = window.document.createElement('a');
-      link.download = 'test.png';
+      link.download = 'PK-DIAGRAM.png';
       link.href = image;
       link.click();
+      TestRef.current.style.display = 'none';
     });
   };
 
@@ -266,28 +323,6 @@ const PreferDiagram = () => {
   };
 
   const picker = (x, e) => {
-    console.log(e);
-    let flag = 0;
-    for (let i = 0; i < x.list.length; i++) {
-      if (language == 'korean') {
-        if (x.list[i].nameKo == e.target.value.split(' ')[1]) {
-          x.func(x.list[i].url);
-          flag++;
-          break;
-        }
-      } else if (language == 'english') {
-        if (x.list[i].name == e.target.value.split(' ')[1]) {
-          x.func(x.list[i].url);
-          flag++;
-          break;
-        }
-      }
-    }
-    if (flag == 0) x.func(db[0].url);
-  };
-
-  const picker2 = (x, e) => {
-    console.log(e);
     let flag = 0;
     for (let i = 0; i < x.list.length; i++) {
       if (language == 'korean') {
@@ -305,10 +340,6 @@ const PreferDiagram = () => {
       }
     }
     if (flag == 0) x.func(db[0].url);
-  };
-
-  const listMaker = () => {
-    for (let i = 0; i < types.length; i++) {}
   };
 
   const eachTypeSelector = (type) => {
@@ -345,38 +376,103 @@ const PreferDiagram = () => {
     return option;
   };
 
-  useEffect(() => {
-    listMaker();
-  }, []);
+  const iconSelector = (type) => {
+    for (let i = 0; i < typeIcons.length; i++) {
+      if (typeIcons[i].includes(type)) {
+        return typeIcons[i];
+      }
+    }
+  };
 
-  // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  const goUp = () => {
+    if (logoRef.current) {
+      logoRef.current.scrollIntoView();
+    }
+  };
 
-  // const quickView = () => {
-  //   setToggler(!toggler);
-  // };
-
-  // useEffect(() => {
-  //   if (isMounted.current) {
-  //     const place = document.getElementById('here');
-  //     place.scrollIntoView(false);
-  //   } else {
-  //     isMounted.current = true;
-  //   }
-  // }, [toggler]);
+  const themeChanger = (color) => {
+    setThemeColor(color.color);
+    setThemeTitleColor(color.titleColor);
+    setThemeBorderColor(color.borderColor);
+    setThemeDesc(color.desc);
+  };
 
   return (
     <$Area>
-      <Select
-        options={option}
-        onChange={languageChanger}
-        placeholder={<FaLanguage style={{ fontSize: '30px' }} />}
-      ></Select>
+      <$Logo
+        ref={logoRef}
+        onClick={() => {
+          window.location.reload();
+        }}
+      >
+        <img src={Logo}></img>
+        <div>PK-DIAGRAM</div>
+      </$Logo>
+      <$DownloadImage
+        ref={TestRef}
+        bgColor={themeColor}
+        bgTitleColor={themeTitleColor}
+        bgBorderColor={themeBorderColor}
+      >
+        <div
+          style={{
+            height: '20px',
+            width: '100%',
+            backgroundColor: pokeTheme.includes(themeDesc) ? 'red' : themeColor,
+          }}
+        ></div>
+        <$TitleLine
+          style={{
+            backgroundColor: pokeTheme.includes(themeDesc) ? 'red' : themeColor,
+          }}
+        >
+          PK-DIAGRAM
+        </$TitleLine>
+        <div
+          style={{
+            width: '100%',
+            height: '10px',
+            backgroundColor: pokeTheme.includes(themeDesc)
+              ? 'black'
+              : themeColor,
+          }}
+        ></div>
+        <$CardWrapper>
+          {types.map((x) => {
+            return (
+              <$Card3 style={{ backgroundColor: x.color }}>
+                <$TypeFont>
+                  <$RealTypeIconWrapper
+                    src={iconSelector(x.engType)}
+                  ></$RealTypeIconWrapper>
+                  <$RealTypeWrapper>
+                    {language == 'korean'
+                      ? x.type
+                      : x.engType[0].toUpperCase() + x.engType.slice(1)}
+                  </$RealTypeWrapper>
+                </$TypeFont>
+                <$ImgWrapper>
+                  <$Img src={x.cur}></$Img>
+                </$ImgWrapper>
+              </$Card3>
+            );
+          })}
+        </$CardWrapper>
+      </$DownloadImage>
+      <$SelectWrapper>
+        <Select
+          options={option}
+          onChange={languageChanger}
+          placeholder={<FaLanguage style={{ fontSize: '30px' }} />}
+        ></Select>
+      </$SelectWrapper>
+      <br></br>
       <$Container>
         {types.map((x) => {
           let option = eachTypeSelector(x.type);
           return (
-            <$Card style={{ backgroundColor: x.color }}>
-              <$TypeWrapper>
+            <$Card style={{ backgroundColor: x.color }} sizing={language}>
+              <$TypeWrapper id="type" sizing={language}>
                 {language == 'korean'
                   ? x.type + ' 타입'
                   : x.engType[0].toUpperCase() + x.engType.slice(1) + ' Type'}
@@ -384,107 +480,368 @@ const PreferDiagram = () => {
               <$customSelect
                 options={option}
                 onChange={(e) => {
-                  picker2(x, e);
+                  picker(x, e);
                 }}
                 value={''}
                 placeholder={language == 'korean' ? '검색' : 'Search'}
               ></$customSelect>
-              <img
-                style={{ margin: '10px', width: '128px', height: '128px' }}
-                src={x.cur}
-              ></img>
+              <img style={{ margin: '10px', width: '80%' }} src={x.cur}></img>
             </$Card>
           );
         })}
       </$Container>
-      {/* <button onClick={quickView}>
-        <h1>{toggler ? '접기' : '펼치기'}</h1>
-      </button>
-      <div ref={elementRef}>
-        {toggler &&
-          db.map((x) => {
+      <br></br>
+      <$PreviewImage
+        bgColor={themeColor}
+        bgTitleColor={themeTitleColor}
+        bgBorderColor={themeBorderColor}
+      >
+        <div
+          style={{
+            height: '20px',
+            width: '100%',
+            backgroundColor: pokeTheme.includes(themeDesc) ? 'red' : themeColor,
+          }}
+        ></div>
+        <$TitleLine2
+          style={{
+            backgroundColor: pokeTheme.includes(themeDesc) ? 'red' : themeColor,
+          }}
+        >
+          PK-DIAGRAM
+        </$TitleLine2>
+        <div
+          style={{
+            width: '100%',
+            height: '10px',
+            backgroundColor: pokeTheme.includes(themeDesc)
+              ? 'black'
+              : themeColor,
+          }}
+        ></div>
+        <$CardWrapper2>
+          {types.map((x) => {
             return (
-              <img style={{ width: '128px', height: '128px' }} src={x.url} />
+              <$Card2 style={{ backgroundColor: x.color }}>
+                <$TypeFont2>
+                  <$PvTypeIconWrapper
+                    src={iconSelector(x.engType)}
+                  ></$PvTypeIconWrapper>
+                  <$PvTypeWrapper>
+                    {language == 'korean'
+                      ? x.type
+                      : x.engType[0].toUpperCase() + x.engType.slice(1)}
+                  </$PvTypeWrapper>
+                </$TypeFont2>
+                <$ImgWrapper>
+                  <$PvImg src={x.cur}></$PvImg>
+                </$ImgWrapper>
+              </$Card2>
             );
           })}
-      </div>
-      <button id="here" onClick={quickView}>
-        <h1>{toggler ? '접기' : '펼치기'}</h1>
-      </button> */}
-      <$Diagram ref={elementRef}>
-        {types.map((x) => {
+        </$CardWrapper2>
+      </$PreviewImage>
+      <br></br>
+      <$Themes>
+        {backgroundColors.map((color) => {
           return (
-            <$Card2 style={{ backgroundColor: x.color }}>
-              <h2 style={{ margin: 0 }}>
-                {language == 'korean' ? x.type : x.engType}
-              </h2>
-              <div
+            <$EachColor
+              id="each"
+              onClick={() => {
+                themeChanger(color);
+              }}
+            >
+              <$ColorPreview
+                theme={color.desc}
+                judge={borderExsist}
+                border={color.borderColor}
                 style={{
-                  height: '80%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  backgroundColor: pokeTheme.includes(color.desc)
+                    ? 'red'
+                    : color.color,
                 }}
-              >
-                <img
-                  style={{ width: '128px', height: '128px' }}
-                  src={x.cur}
-                ></img>
-              </div>
-            </$Card2>
+              ></$ColorPreview>
+              <h4 style={{ margin: 0 }}>{color.desc}</h4>
+            </$EachColor>
           );
         })}
-      </$Diagram>
-      <button onClick={exportElementAsPNG}>Download</button>
+      </$Themes>
+      <br></br>
+      <$GenerateButton ref={buttonRef} onClick={exportElementAsPNG}>
+        DOWNLOAD
+      </$GenerateButton>
+      <br></br>
+      <$GoUp onClick={goUp}>
+        <FaArrowUp />
+      </$GoUp>
     </$Area>
   );
 };
 
-const $Area = styled.div`
+const $PvTypeIconWrapper = styled.img`
+  margin-left: 8px;
+  width: 10%;
+`;
+
+const $PvTypeWrapper = styled.div`
+  margin-right: 8px;
+  font-size: 2vw;
+  color: black;
+`;
+
+const $RealTypeWrapper = styled.div`
+  margin-right: 8px;
+  color: black;
+`;
+
+const $RealTypeIconWrapper = styled.img`
+  margin-left: 8px;
+  width: 20px;
+`;
+
+const $ImgWrapper = styled.div`
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const $PvImg = styled.img`
+  width: 80%;
+  margin-top: 10px;
+`;
+
+const $Img = styled.img`
+  width: 128px;
+  height: 128px;
+`;
+
+const $SelectWrapper = styled.div`
+  width: 90%;
+  display: flex;
+  justify-content: end;
+`;
+
+const $ColorPreview = styled.div`
+  width: 15px;
+  height: 15px;
+  box-sizing: border-box;
+  border-width: ${(props) =>
+    props.judge.includes(props.theme) ? '2px' : '0.5px'};
+  border-style: solid;
+  border-color: ${(props) =>
+    props.judge.includes(props.theme) ? props.border : 'black'};
+  margin-right: 5px;
+`;
+
+const $EachColor = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  cursor: pointer;
+`;
+
+const $Themes = styled.div`
+  display: flex;
+  width: 90%;
+  justify-content: end;
+  flex-wrap: wrap;
+  @media (max-width: 400px) {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: start;
+    & #each {
+      height: 20px;
+    }
+  }
+`;
+
+const $GoUp = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: black;
+  opacity: 30%;
+  color: white;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  right: 3%;
+  bottom: 3%;
+  @media (max-width: 280px) {
+    right: 10%;
+  }
+`;
+
+const $TypeFont = styled.div`
+  margin: 0;
+  background-color: white;
+  font-family: 'wehaven-regular';
+  margin-top: 10px;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const $TypeFont2 = styled.div`
+  margin: 0;
+  background-color: white;
+  font-family: 'wehaven-regular';
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const $TitleLine2 = styled.div`
+  font-family: 'monoton';
+  box-sizing: border-box;
+  font-size: 30px;
+  height: auto;
+  width: 100%;
+`;
+
+const $TitleLine = styled.div`
+  font-family: 'monoton';
+  font-size: 45px;
+  box-sizing: border-box;
+`;
+
+const $DownloadImage = styled.div`
+  background-color: ${(props) => props.bgColor};
+  color: ${(props) => props.bgTitleColor};
+  border: 15px solid ${(props) => props.bgBorderColor};
+  border-radius: 10px;
+  display: none;
+`;
+
+const $PreviewImage = styled.div`
+  background-color: ${(props) => props.bgColor};
+  color: ${(props) => props.bgTitleColor};
+  border-radius: 10px;
+  border: 15px solid ${(props) => props.bgBorderColor};
+  width: 90vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
-const $Container = styled.div`
+const $CardWrapper = styled.div`
+  width: 1050px;
   display: flex;
-  justify-content: center;
+  padding: 10px;
   flex-wrap: wrap;
+  justify-content: center;
+  padding: 15px;
 `;
 
-const $Diagram = styled.div`
-  width: 90vw;
-  margin: 5px 5px 5px 5px;
-  border: 1px black solid;
-  border-radius: 5px;
+const $CardWrapper2 = styled.div`
+  width: 100%;
+  display: flex;
+  padding: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const $Logo = styled.div`
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-use-select: none;
+  user-select: none;
+  font-family: 'monoton';
+  font-size: 30px;
+  color: #cb6ce6;
+  cursor: pointer;
+  & img {
+    width: 250px;
+  }
+  & div {
+    margin-top: -20px;
+  }
+`;
+
+const $Area = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: aliceblue;
+  position: relative;
+`;
+
+const $Container = styled.div`
+  font-family: 'wehaven-regular';
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 `;
 
 const $Card = styled.div`
-  width: 200px;
-  /* height: 200px; */
+  width: 14%;
   border-radius: 5px;
-  margin: 5px 5px 5px 5px;
+  margin: 1%;
+  @media (min-width: 500px) and (max-width: 780px) {
+    width: 35%;
+    & #type {
+      font-size: ${(props) => (props.sizing == 'korean' ? '5vw' : '3vw')};
+    }
+  }
+  @media (max-width: 500px) {
+    width: 70%;
+    & #type {
+      font-size: ${(props) => (props.sizing == 'korean' ? '5vw' : '3vw')};
+    }
+  }
 `;
 
 const $Card2 = styled.div`
-  width: 16vw;
-  min-width: 150px;
-  height: 23vw;
-  min-height: 178px;
+  width: 14%;
+  border-radius: 5px;
+  margin: 1%;
+  padding-bottom: 15px;
+`;
+
+const $Card3 = styled.div`
+  width: 150px;
+  height: 220px;
   border-radius: 5px;
   margin: 5px 5px 5px 5px;
 `;
 
 const $TypeWrapper = styled.div`
   padding: 10px;
+  font-size: ${(props) => (props.sizing == 'korean' ? '2vw' : '1.5vw')};
 `;
 
 const $customSelect = styled(Select)`
   margin: 10px;
+`;
+
+const $GenerateButton = styled.button`
+  border-radius: 5px;
+  border-style: none;
+  font-family: 'monoton';
+  background-color: black;
+  color: white;
+  width: 90vw;
+  font-size: 40px;
+  animation: none;
+  cursor: pointer;
+  @keyframes jelly {
+    25% {
+      transform: scale(0.9, 1.1);
+    }
+    50% {
+      transform: scale(1.1, 0.9);
+    }
+    75% {
+      transform: scale(0.95, 1.05);
+    }
+  }
 `;
 
 export default PreferDiagram;

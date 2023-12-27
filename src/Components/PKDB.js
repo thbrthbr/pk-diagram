@@ -8323,14 +8323,14 @@ let db = [
     name: 'Calyrex-IceRider',
     nameKo: '버드렉스-백마탄모습',
     code: '',
-    type: ['psychic', 'grass'],
+    type: ['psychic', 'ice'],
     url: '',
   },
   {
     name: 'Calyrex-ShadowRider',
     nameKo: '버드렉스-흑마탄모습',
     code: '',
-    type: ['psychic', 'grass'],
+    type: ['psychic', 'ghost'],
     url: '',
   },
   {

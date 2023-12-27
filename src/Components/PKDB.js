@@ -8363,7 +8363,7 @@ let db = [
   },
   {
     name: 'Basculegion-Male',
-    nameKo: '대쓰여-수컷',
+    nameKo: '대쓰여너-수컷',
     code: '',
     type: ['water', 'ghost'],
     url: '',

@@ -1614,7 +1614,7 @@ let db = [
     name: 'Crobat',
     nameKo: '크로뱃',
     code: '',
-    type: ['bug', 'flying'],
+    type: ['poison', 'flying'],
     url: '',
   },
   {

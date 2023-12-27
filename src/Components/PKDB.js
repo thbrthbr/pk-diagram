@@ -1583,8 +1583,8 @@ let db = [
     url: '',
   },
   {
-    name: '레디바',
-    nameKo: 'Ledyba',
+    name: 'Ledyba',
+    nameKo: '레디바',
     code: '',
     type: ['bug', 'flying'],
     url: '',

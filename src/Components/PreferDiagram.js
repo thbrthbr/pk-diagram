@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import react, { useState, useRef, useEffect } from 'react';
-import sprites from '../Default/spritesheet.png';
 import { db, categoryData } from './PKDB';
 import { toPng } from 'html-to-image';
 import { DataShow } from './DataShow';

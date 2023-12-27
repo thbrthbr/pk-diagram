@@ -26,8 +26,8 @@ const PreferDiagram = () => {
     { value: 'english', label: 'English' },
   ];
 
-  let borderExsist = ['포켓몬테마', 'Pokemon'];
-  let pokeTheme = ['몬스터볼테마', 'PokeBall'];
+  let borderExsist = ['포켓몬테마', 'Pokémon'];
+  let pokeTheme = ['몬스터볼테마', 'PokéBall'];
 
   const [themeColor, setThemeColor] = useState('aliceblue');
   const [themeTitleColor, setThemeTitleColor] = useState('black');
@@ -83,13 +83,13 @@ const PreferDiagram = () => {
       color: '#FFCC00',
       titleColor: '#3861AD',
       borderColor: '#3861AD',
-      desc: language == 'korean' ? '포켓몬테마' : 'Pokemon',
+      desc: language == 'korean' ? '포켓몬테마' : 'Pokémon',
     },
     {
       color: 'white',
       titleColor: 'black',
       borderColor: 'red',
-      desc: language == 'korean' ? '몬스터볼테마' : 'PokeBall',
+      desc: language == 'korean' ? '몬스터볼테마' : 'PokéBall',
     },
   ];
 
@@ -590,7 +590,7 @@ const $PvTypeWrapper = styled.div`
 
 const $RealTypeWrapper = styled.div`
   margin-right: 8px;
-  font-size: 14px;
+  font-size: 15px;
   color: black;
 `;
 

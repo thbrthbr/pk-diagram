@@ -5311,7 +5311,7 @@ let db = [
   },
   {
     name: 'Duosion',
-    nameKo: '유니란',
+    nameKo: '듀란',
     code: '',
     type: ['psychic'],
     url: '',
@@ -7483,21 +7483,21 @@ let db = [
     name: 'Necrozma-DuskMane',
     nameKo: '네크로즈마-황혼의갈기',
     code: '',
-    type: ['psychic'],
+    type: ['psychic', 'steel'],
     url: '',
   },
   {
     name: 'Necrozma-DawnWing',
     nameKo: '네크로즈마-새벽의날개',
     code: '',
-    type: ['psychic'],
+    type: ['psychic', 'ghost'],
     url: '',
   },
   {
     name: 'Necrozma-Ultra',
     nameKo: '울트라네크로즈마',
     code: '',
-    type: ['psychic'],
+    type: ['psychic', 'dragon'],
     url: '',
   },
   {

@@ -4235,7 +4235,7 @@ let db = [
     name: 'Rhyperior',
     nameKo: '거대코뿌리',
     code: '',
-    type: ['gorund', 'rock'],
+    type: ['ground', 'rock'],
     url: '',
   },
   {

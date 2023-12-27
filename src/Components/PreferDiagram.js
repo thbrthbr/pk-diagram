@@ -440,6 +440,7 @@ const PreferDiagram = () => {
           {types.map((x) => {
             return (
               <$Card3 style={{ backgroundColor: x.color }}>
+                <div style={{ width: '100%', height: '8px' }}></div>
                 <$TypeFont>
                   <$RealTypeIconWrapper
                     src={iconSelector(x.engType)}
@@ -591,7 +592,7 @@ const $PvTypeWrapper = styled.div`
 
 const $RealTypeWrapper = styled.div`
   margin-right: 8px;
-  font-size: 15px;
+  font-size: 18px;
   color: black;
 `;
 
@@ -681,10 +682,10 @@ const $TypeFont = styled.div`
   margin: 0;
   background-color: white;
   font-family: 'wehaven-regular';
-  margin-top: 10px;
-  font-size: 20px;
+  /* font-size: 20px; */
   display: flex;
   justify-content: space-between;
+  height: 25px;
 `;
 
 const $TypeFont2 = styled.div`

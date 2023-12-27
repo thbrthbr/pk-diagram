@@ -1058,7 +1058,7 @@ let db = [
   },
   {
     name: 'Marowak-Alola',
-    nameKo: '텅구리',
+    nameKo: '알로라텅구리',
     code: '',
     type: ['fire', 'ghost'],
     url: '',

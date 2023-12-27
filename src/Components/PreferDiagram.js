@@ -590,6 +590,7 @@ const $PvTypeWrapper = styled.div`
 
 const $RealTypeWrapper = styled.div`
   margin-right: 8px;
+  font-size: 2vw;
   color: black;
 `;
 

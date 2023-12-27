@@ -570,6 +570,7 @@ const PreferDiagram = () => {
         DOWNLOAD
       </$GenerateButton>
       <br></br>
+      <br></br>
       <$GoUp onClick={goUp}>
         <FaArrowUp />
       </$GoUp>

@@ -3,6 +3,7 @@ import react, { useState, useRef, useEffect } from 'react';
 import { db, categoryData } from './PKDB';
 import { toPng } from 'html-to-image';
 import { DataShow } from './DataShow';
+import { MdOutlineEmail } from 'react-icons/md';
 import { FaLanguage } from 'react-icons/fa';
 import Select from 'react-select';
 import Logo from '../Logo/PK-DIAGRAM.png';
@@ -576,12 +577,51 @@ const PreferDiagram = () => {
       </$GenerateButton>
       <br></br>
       <br></br>
+      <br></br>
+      <$FooterLine></$FooterLine>
+      <br></br>
+      <$Footer>
+        <$MailLink href="mailto:boyosagrance@gmail.com">
+          <MdOutlineEmail
+            style={{
+              fontSize: '10px',
+            }}
+          />{' '}
+          <span
+            style={{
+              fontSize: '10px',
+            }}
+          >
+            boyosagrance@gmail.com
+          </span>
+        </$MailLink>
+      </$Footer>
+      <br></br>
       <$GoUp onClick={goUp}>
         <FaArrowUp />
       </$GoUp>
     </$Area>
   );
 };
+const $MailLink = styled.a`
+  margin: 0;
+  width: 100%;
+  color: #ccc;
+  text-decoration: none;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+`;
+
+const $Footer = styled.div`
+  width: 90%;
+`;
+
+const $FooterLine = styled.div`
+  width: 95%;
+  height: 2px;
+  background-color: #ccc;
+`;
 
 const $PvTypeIconWrapper = styled.img`
   margin-left: 8px;

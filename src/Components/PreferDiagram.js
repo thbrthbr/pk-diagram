@@ -605,16 +605,13 @@ const PreferDiagram = () => {
 };
 const $MailLink = styled.a`
   margin: 0;
-  width: 100%;
   color: #ccc;
   text-decoration: none;
-  display: flex;
-  justify-content: start;
-  align-items: start;
 `;
 
 const $Footer = styled.div`
   width: 90%;
+  display: flex;
 `;
 
 const $FooterLine = styled.div`

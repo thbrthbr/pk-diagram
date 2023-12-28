@@ -341,10 +341,10 @@ const PreferDiagram = () => {
     if (flag == 0) x.func(db[0].url);
   };
 
-  const eachTypeSelector = (type) => {
+  const eachTypeSelector = (x) => {
     let option = [];
     for (let i = 0; i < types.length; i++) {
-      if (types[i].type == type) {
+      if (types[i].type == x.type) {
         for (let j = 0; j < types[i].list.length; j++) {
           option.push({
             value: `${types[i].list[j].code} ${
@@ -352,11 +352,15 @@ const PreferDiagram = () => {
                 ? types[i].list[j].nameKo
                 : types[i].list[j].name
             }`,
-            label: `${types[i].list[j].code} ${
-              language == 'korean'
-                ? types[i].list[j].nameKo
-                : types[i].list[j].name
-            }`,
+            label: (
+              <div>
+                {types[i].list[j].code}{' '}
+                {language == 'korean'
+                  ? types[i].list[j].nameKo
+                  : types[i].list[j].name}
+                <img style={{ width: '30px' }} src={x.list[j].url}></img>
+              </div>
+            ),
           });
         }
         option.unshift({
@@ -469,7 +473,7 @@ const PreferDiagram = () => {
       <br></br>
       <$Container>
         {types.map((x) => {
-          let option = eachTypeSelector(x.type);
+          let option = eachTypeSelector(x);
           return (
             <$Card style={{ backgroundColor: x.color }} sizing={language}>
               <$TypeWrapper id="type" sizing={language}>

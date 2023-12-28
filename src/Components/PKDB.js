@@ -3490,7 +3490,7 @@ let db = [
   },
   {
     name: 'Regirock',
-    nameKo: '레지록',
+    nameKo: '레지락',
     code: '',
     type: ['rock'],
     url: '',

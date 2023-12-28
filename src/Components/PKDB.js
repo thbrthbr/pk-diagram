@@ -3602,7 +3602,7 @@ let db = [
   },
   {
     name: 'Deoxys-Defense',
-    nameKo: '테오키스-방어폼',
+    nameKo: '테오키스-디펜스폼',
     code: '',
     type: ['psychic'],
     url: '',
@@ -6566,7 +6566,7 @@ let db = [
     name: 'Dragalge',
     nameKo: '드래캄',
     code: '',
-    type: ['poison', 'water'],
+    type: ['poison', 'dragon'],
     url: '',
   },
   {

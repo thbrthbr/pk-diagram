@@ -326,13 +326,13 @@ const PreferDiagram = () => {
     let flag = 0;
     for (let i = 0; i < x.list.length; i++) {
       if (language == 'korean') {
-        if (x.list[i].nameKo == e.value.split(' ')[1]) {
+        if (x.list[i].nameKo == e.value.split(' ').slice(1).join(' ')) {
           x.func(x.list[i].url);
           flag++;
           break;
         }
       } else if (language == 'english') {
-        if (x.list[i].name == e.value.split(' ')[1]) {
+        if (x.list[i].name == e.value.split(' ').slice(1).join(' ')) {
           x.func(x.list[i].url);
           flag++;
           break;

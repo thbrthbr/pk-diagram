@@ -652,7 +652,7 @@ const PreferDiagram = () => {
           );
         })}
       </$Themes>
-      <div
+      {/* <div
         ref={downloadImgRef}
         style={{
           display: 'flex',
@@ -677,7 +677,7 @@ const PreferDiagram = () => {
             );
           })}
         </div>
-      </div>
+      </div> */}
       <br></br>
       <$GenerateButton ref={buttonRef} onClick={exportElementAsPNG}>
         DOWNLOAD

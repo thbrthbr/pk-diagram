@@ -9,29 +9,6 @@ import Select from 'react-select';
 import Logo from '../Logo/PK-DIAGRAM.png';
 import { FaArrowUp } from 'react-icons/fa';
 
-const templates = require.context(
-  '../Templates',
-  false,
-  /\.(jpg|jpeg|png|webp|svg)$/,
-);
-
-const diagramTemplates = templates.keys().map(templates);
-
-let themeObj = {
-  aliceblue: diagramTemplates[0],
-  indigo: diagramTemplates[1],
-  black: diagramTemplates[2],
-  '#6D3A7C': diagramTemplates[3],
-  '#FFCC00': diagramTemplates[4],
-  white: diagramTemplates[5],
-  aliceblue_en: diagramTemplates[6],
-  indigo_en: diagramTemplates[7],
-  black_en: diagramTemplates[8],
-  '#6D3A7C_en': diagramTemplates[9],
-  '#FFCC00_en': diagramTemplates[10],
-  white_en: diagramTemplates[11],
-};
-
 const imageContext = require.context(
   '../icon',
   false,
@@ -44,7 +21,6 @@ const PreferDiagram = () => {
   const TestRef = useRef();
   const buttonRef = useRef();
   const logoRef = useRef();
-  const downloadImgRef = useRef();
 
   let option = [
     { value: 'korean', label: '한국어' },
@@ -54,7 +30,6 @@ const PreferDiagram = () => {
   let borderExsist = ['포켓몬테마', 'Pokémon'];
   let pokeTheme = ['몬스터볼테마', 'PokéBall'];
 
-  const [theme2, setTheme2] = useState(themeObj['aliceblue']);
   const [themeColor, setThemeColor] = useState('aliceblue');
   const [themeTitleColor, setThemeTitleColor] = useState('black');
   const [themeBorderColor, setThemeBorderColor] = useState('aliceblue');
@@ -324,29 +299,17 @@ const PreferDiagram = () => {
   }
 
   const exportElementAsPNG = () => {
-    // if (buttonRef.current) {
-    //   buttonRef.current.style.animation = 'jelly 0.5s';
-    // }
-    // TestRef.current.style.display = 'block';
-    // TestRef.current.style.fontFamily = 'monoton';
-    // toPng(TestRef.current).then((image) => {
-    //   const link = window.document.createElement('a');
-    //   link.download = 'PK-DIAGRAM.png';
-    //   link.href = image;
-    //   link.click();
-    //   TestRef.current.style.display = 'none';
-    // });
     if (buttonRef.current) {
       buttonRef.current.style.animation = 'jelly 0.5s';
     }
-    downloadImgRef.current.style.display = 'block';
-    downloadImgRef.current.style.fontFamily = 'monoton';
-    toPng(downloadImgRef.current).then((image) => {
+    TestRef.current.style.display = 'block';
+    TestRef.current.style.fontFamily = 'monoton';
+    toPng(TestRef.current).then((image) => {
       const link = window.document.createElement('a');
       link.download = 'PK-DIAGRAM.png';
       link.href = image;
       link.click();
-      downloadImgRef.current.style.display = 'none';
+      TestRef.current.style.display = 'none';
     });
   };
 
@@ -433,27 +396,10 @@ const PreferDiagram = () => {
 
   const themeChanger = (color) => {
     setThemeColor(color.color);
-    console.log(color.color);
     setThemeTitleColor(color.titleColor);
     setThemeBorderColor(color.borderColor);
     setThemeDesc(color.desc);
   };
-
-  const themeChanger2 = (color) => {
-    if (language == 'korean') {
-      setTheme2(themeObj[color.color]);
-    } else {
-      setTheme2(themeObj[color.color + '_en']);
-    }
-  };
-
-  useEffect(() => {
-    if (language == 'korean') {
-      setTheme2(themeObj[themeColor]);
-    } else {
-      setTheme2(themeObj[themeColor + '_en']);
-    }
-  }, [language]);
 
   return (
     <$Area>
@@ -466,32 +412,6 @@ const PreferDiagram = () => {
         <img src={Logo}></img>
         <div>PK-DIAGRAM</div>
       </$Logo>
-      <div
-        ref={downloadImgRef}
-        style={{
-          display: 'none',
-          width: '1386px',
-          height: '1061px',
-          backgroundImage: `url(${theme2})`,
-        }}
-      >
-        <div style={{ paddingTop: '130px' }}>
-          {types.map((x) => {
-            return (
-              <img
-                style={{
-                  marginRight: '36.5px',
-                  marginLeft: '36.5px',
-                  marginTop: '150px',
-                  width: '128px',
-                  height: '128px',
-                }}
-                src={x.cur}
-              ></img>
-            );
-          })}
-        </div>
-      </div>
       <$DownloadImage
         ref={TestRef}
         bgColor={themeColor}
@@ -634,7 +554,6 @@ const PreferDiagram = () => {
               id="each"
               onClick={() => {
                 themeChanger(color);
-                themeChanger2(color);
               }}
             >
               <$ColorPreview
@@ -652,32 +571,6 @@ const PreferDiagram = () => {
           );
         })}
       </$Themes>
-      {/* <div
-        ref={downloadImgRef}
-        style={{
-          display: 'flex',
-          width: '1386px',
-          height: '1061px',
-          backgroundImage: `url(${theme2})`,
-        }}
-      >
-        <div style={{ paddingTop: '130px' }}>
-          {types.map((x) => {
-            return (
-              <img
-                style={{
-                  marginRight: '36.5px',
-                  marginLeft: '36.5px',
-                  marginTop: '150px',
-                  width: '128px',
-                  height: '128px',
-                }}
-                src={x.cur}
-              ></img>
-            );
-          })}
-        </div>
-      </div> */}
       <br></br>
       <$GenerateButton ref={buttonRef} onClick={exportElementAsPNG}>
         DOWNLOAD

@@ -129,10 +129,23 @@ const Tiermaker = () => {
     setImgSet(sorted);
   };
 
+  const convertForMobile = () => {
+    let mob1 = document.getElementsByClassName('forMob1');
+    let mob2 = document.getElementsByClassName('forMob2');
+    for (let i = 0; i < mob1.length; i++) {
+      mob1[i].style.display = 'flex';
+      mob1[i].style.border = '1px black solid';
+      mob2[i].style.width = '120px';
+    }
+  };
+
   const exportElementAsPNG = () => {
     if (coverRef.current && realDownloadRef.current) {
       coverRef.current.style.display = 'flex';
       realDownloadRef.current.style.display = 'block';
+      let saveDisplay = '';
+      let saveBorder = '';
+      let saveWidth = '';
       if (elementRef.current) {
         toPng(elementRef.current).then((image1) => {
           if (previewRef.current) {
@@ -141,6 +154,16 @@ const Tiermaker = () => {
           var matches = document.getElementsByClassName('toggle');
           for (let i = 0; i < matches.length; i++) {
             matches[i].style.visibility = 'hidden';
+          }
+          let mob1 = document.getElementsByClassName('forMob1');
+          let mob2 = document.getElementsByClassName('forMob2');
+          saveDisplay = mob1[0].style.display;
+          saveBorder = mob1[0].style.border;
+          saveWidth = mob2[0].style.width;
+          for (let i = 0; i < mob1.length; i++) {
+            mob1[i].style.display = 'flex';
+            mob1[i].style.border = '1px black solid';
+            mob2[i].style.width = '120px';
           }
           coverRef.current.style.width = '100vw';
           elementRef.current.style.width = '1450px';
@@ -156,6 +179,11 @@ const Tiermaker = () => {
                 for (let i = 0; i < matches.length; i++) {
                   matches[i].style.visibility = 'visible';
                 }
+                for (let i = 0; i < mob1.length; i++) {
+                  mob1[i].style.display = saveDisplay;
+                  mob1[i].style.border = saveBorder;
+                  mob2[i].style.width = saveWidth;
+                }
                 realDownloadRef.current.style.display = 'none';
                 realDownloadRef.current.src = '';
                 realDownloadRef.current.style.width = 'auto';
@@ -167,29 +195,6 @@ const Tiermaker = () => {
         });
       }
     }
-  };
-
-  const elementSub = (e) => {
-    // 요소 삭제는 우클릭 & 모바일에선 꾹 누르기
-    e.preventDefault();
-    let id = e.currentTarget.id;
-    let img = e.currentTarget.src;
-    let source = img.split('/');
-    let sourceStr = source.splice(3);
-    sourceStr = '/' + sourceStr.join('/');
-
-    let save = [];
-    for (let i = 0; i < tierList.length; i++) {
-      let save2 = [];
-      for (let j = 0; j < tierList[i].contentArr.length; j++) {
-        if (tierList[i].contentArr[j].id != id)
-          save2.push(tierList[i].contentArr[j]);
-      }
-      save.push({ id: tierList[i].id, contentArr: save2 });
-    }
-
-    setImgSet([{ img: sourceStr, id }, ...imgSet]);
-    setTierList(save);
   };
 
   const back = (id) => {
@@ -1020,8 +1025,12 @@ const Tiermaker = () => {
             </$TierHeader>
             {tierList.map((x, i) => {
               return (
-                <$TierLine>
-                  <$TierHead props={colorDatabase} color={i}>
+                <$TierLine className="forMob1">
+                  <$TierHead
+                    props={colorDatabase}
+                    color={i}
+                    className="forMob2"
+                  >
                     <$MoveUp
                       className="toggle"
                       onClick={() => {

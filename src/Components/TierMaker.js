@@ -1716,7 +1716,7 @@ const $TierHead = styled.div`
   min-width: 120px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   @media (max-width: 500px) {
     width: 100%;

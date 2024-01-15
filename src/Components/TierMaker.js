@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import react, { useEffect, useState, useRef } from 'react';
-import { toPng, toSvg } from 'html-to-image';
+import { toPng, toSvg, toJpeg } from 'html-to-image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -12,12 +12,15 @@ import { FaSortNumericDown } from 'react-icons/fa';
 import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
 import { categoryData, db } from './PKDB';
 import Select from 'react-select';
+import { MdOutlineEmail } from 'react-icons/md';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
 import { FaRegQuestionCircle } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { RiFileSearchLine } from 'react-icons/ri';
 import { TbHttpDelete } from 'react-icons/tb';
+import { GrDocumentTxt } from 'react-icons/gr';
+import { GrDocumentUpload } from 'react-icons/gr';
 
 const Tiermaker = () => {
   let option = [
@@ -160,28 +163,110 @@ const Tiermaker = () => {
           elementRef.current.style.width = '1450px';
           toPng(elementRef.current).then((image2) => {
             realDownloadRef.current.children[0].src = image2;
-            setTimeout(() => {
-              toPng(realDownloadRef.current.children[0]).then((image3) => {
-                const link = window.document.createElement('a');
-                link.download = 'tierlist.png';
-                link.href = image3;
-                link.click();
-                elementRef.current.style.width = '90vw';
-                for (let i = 0; i < matches.length; i++) {
-                  matches[i].style.visibility = 'visible';
-                }
-                for (let i = 0; i < mob1.length; i++) {
-                  mob1[i].style.display = saveDisplay;
-                  mob1[i].style.border = saveBorder;
-                  mob2[i].style.width = saveWidth;
-                }
-                realDownloadRef.current.style.display = 'none';
-                realDownloadRef.current.src = '';
-                realDownloadRef.current.style.width = 'auto';
-                coverRef.current.style.display = 'none';
-                previewRef.current.src = '';
-              });
-            }, 1000);
+            realDownloadRef.current.children[0].width = 800;
+            realDownloadRef.current.children[0].addEventListener('load', () => {
+              setTimeout(() => {
+                toPng(realDownloadRef.current.children[0]).then((image3) => {
+                  const link = window.document.createElement('a');
+                  link.download = 'tierlist.png';
+                  link.href = image3;
+                  link.click();
+                  elementRef.current.style.width = '90vw';
+                  for (let i = 0; i < matches.length; i++) {
+                    matches[i].style.visibility = 'visible';
+                  }
+                  for (let i = 0; i < mob1.length; i++) {
+                    mob1[i].style.display = saveDisplay;
+                    mob1[i].style.border = saveBorder;
+                    mob2[i].style.width = saveWidth;
+                  }
+                  realDownloadRef.current.style.display = 'none';
+                  realDownloadRef.current.children[0].src = '';
+                  coverRef.current.style.width = 'auto';
+                  coverRef.current.style.display = 'none';
+                  previewRef.current.src = '';
+                });
+              }, 1000);
+            });
+          });
+        });
+      }
+    }
+  };
+
+  const exportElementAsPNG2 = () => {
+    if (coverRef.current && realDownloadRef.current) {
+      coverRef.current.style.display = 'flex';
+      realDownloadRef.current.style.display = 'block';
+      let saveDisplay = '';
+      let saveBorder = '';
+      let saveWidth = '';
+      if (elementRef.current) {
+        toPng(elementRef.current).then((image1) => {
+          if (previewRef.current) {
+            previewRef.current.src = image1;
+          }
+          var matches = document.getElementsByClassName('toggle');
+          for (let i = 0; i < matches.length; i++) {
+            matches[i].style.visibility = 'hidden';
+          }
+          let mob1 = document.getElementsByClassName('forMob1');
+          let mob2 = document.getElementsByClassName('forMob2');
+          saveDisplay = mob1[0].style.display;
+          saveBorder = mob1[0].style.border;
+          saveWidth = mob2[0].style.width;
+          for (let i = 0; i < mob1.length; i++) {
+            mob1[i].style.display = 'flex';
+            mob1[i].style.border = '1px black solid';
+            mob2[i].style.width = '120px';
+          }
+          coverRef.current.style.width = '100vw';
+          elementRef.current.style.width = '1450px';
+          toPng(elementRef.current).then((image2) => {
+            realDownloadRef.current.children[0].src = image2;
+            realDownloadRef.current.children[0].width = 800;
+            realDownloadRef.current.children[0].addEventListener('load', () => {
+              setTimeout(() => {
+                toPng(realDownloadRef.current.children[0]).then((image3) => {
+                  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                  let canvas = document.createElement('canvas');
+                  let img1 = new Image();
+                  img1.src = image3;
+                  img1.onload = () => {
+                    canvas.width = realDownloadRef.current.children[0].width;
+                    canvas.height = realDownloadRef.current.children[0].height;
+                    canvas
+                      .getContext('2d')
+                      .drawImage(
+                        img1,
+                        0,
+                        0,
+                        realDownloadRef.current.children[0].width,
+                        realDownloadRef.current.children[0].height,
+                      );
+                    var dataURL = canvas.toDataURL('image/png');
+                    const a = document.createElement('a');
+                    a.href = dataURL;
+                    a.download = 'tierlist.png';
+                    a.click();
+                    elementRef.current.style.width = '90vw';
+                    for (let i = 0; i < matches.length; i++) {
+                      matches[i].style.visibility = 'visible';
+                    }
+                    for (let i = 0; i < mob1.length; i++) {
+                      mob1[i].style.display = saveDisplay;
+                      mob1[i].style.border = saveBorder;
+                      mob2[i].style.width = saveWidth;
+                    }
+                    realDownloadRef.current.style.display = 'none';
+                    realDownloadRef.current.children[0].src = '';
+                    coverRef.current.style.width = 'auto';
+                    coverRef.current.style.display = 'none';
+                    previewRef.current.src = '';
+                  };
+                });
+              }, 1000);
+            });
           });
         });
       }
@@ -785,6 +870,42 @@ const Tiermaker = () => {
     setGuideLang(lang);
   };
 
+  const downloadTXT = (e) => {
+    let file = localStorage.getItem(e.value);
+    const blob = new Blob([file], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.download = e.value;
+    a.href = url;
+    a.click();
+    setTimeout(() => {
+      window.URL.revokeObjectURL(url);
+    }, 100);
+  };
+
+  const uploadTXT = () => {
+    try {
+      let file = document.createElement('input');
+      file.type = 'file';
+      file.addEventListener('change', () => {
+        if (file.files[0].type !== 'text/plain') {
+          alert('txt 파일만 올릴 수 있습니다 \nYou can only upload txt file');
+          return;
+        }
+        const READER = new FileReader();
+        READER.readAsText(file.files[0], 'UTF-8');
+        let str = '';
+        READER.onload = (e) => {
+          try {
+            str = e.target.result;
+            setTierList(JSON.parse(str));
+          } catch (e) {}
+        };
+      });
+      file.click();
+    } catch (e) {}
+  };
+
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
 
@@ -825,17 +946,36 @@ const Tiermaker = () => {
         <div
           style={{
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
+            justifyContent: 'end',
             padding: '5px',
             fontSize: '20px',
             cursor: 'pointer',
             position: 'relative',
+            textAlign: 'start',
           }}
           onClick={() => {
             setQuestion(!question);
           }}
         >
-          <FaRegQuestionCircle />
+          <$GuidePlace>
+            <FaRegQuestionCircle />
+            <$MailLink href="mailto:boyosagrance@gmail.com">
+              <MdOutlineEmail
+                style={{
+                  fontSize: '10px',
+                }}
+              />{' '}
+              <span
+                style={{
+                  fontSize: '10px',
+                }}
+              >
+                boyosagrance@gmail.com
+              </span>
+            </$MailLink>
+          </$GuidePlace>
           {question && (
             <$Guide
               onClick={(e) => {
@@ -899,6 +1039,18 @@ const Tiermaker = () => {
                 {guideLang == 'korean' ? '데이터 삭제' : 'Delete data'}
               </$GuideEachLine>
               <$GuideEachLine>
+                <GrDocumentTxt /> :{' '}
+                {guideLang == 'korean'
+                  ? '티어표 데이터 txt 다운로드'
+                  : 'Download Tierlist txt file'}
+              </$GuideEachLine>
+              <$GuideEachLine>
+                <GrDocumentUpload /> :{' '}
+                {guideLang == 'korean'
+                  ? '티어표 데이터 txt 불러오기'
+                  : 'Open Tierlist by txt file'}
+              </$GuideEachLine>
+              <$GuideEachLine>
                 <FontAwesomeIcon icon={faPlus} /> :{' '}
                 {guideLang == 'korean' ? '티어라인 추가' : 'Add tierline'}
               </$GuideEachLine>
@@ -925,53 +1077,86 @@ const Tiermaker = () => {
             </$Guide>
           )}
         </div>
-        <div style={{ width: '300px', display: 'flex' }}>
-          <$CustomButton
-            style={{ width: '33%', minWidth: '80px' }}
-            onClick={saveData}
-          >
-            <FontAwesomeIcon icon={faSave} />
-          </$CustomButton>
-          <$Select2
-            styles={{
-              //   width: '33%',
-              control: (baseStyles) => ({
-                ...baseStyles,
-                border: '2px solid black',
-                borderRadius: '10px',
-                fontSize: '10px',
-              }),
-              placeholder: (baseStyles) => ({
-                ...baseStyles,
-                color: 'black',
-                fontSize: '20px',
-              }),
-            }}
-            placeholder={<RiFileSearchLine />}
-            options={loadDatas}
-            onChange={loadData}
-          />
-          <$Select2
-            styles={{
-              //   width: '33%',
-              control: (baseStyles) => ({
-                ...baseStyles,
-                border: '2px solid black',
-                borderRadius: '10px',
-                fontSize: '10px',
-              }),
-              placeholder: (baseStyles) => ({
-                ...baseStyles,
-                color: 'black',
-                fontSize: '20px',
-              }),
-            }}
-            value=""
-            placeholder={<TbHttpDelete />}
-            options={loadDatas}
-            onChange={deleteData}
-          />
-        </div>
+        <$UpbarBottonPlace>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <$CustomButton
+              style={{
+                width: '33%',
+                //  minWidth: '80px'
+              }}
+              onClick={saveData}
+            >
+              <FontAwesomeIcon icon={faSave} />
+            </$CustomButton>
+            <$Select2
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  border: '2px solid black',
+                  borderRadius: '10px',
+                  fontSize: '10px',
+                }),
+                placeholder: (baseStyles) => ({
+                  ...baseStyles,
+                  color: 'black',
+                  fontSize: '20px',
+                }),
+              }}
+              placeholder={<RiFileSearchLine />}
+              options={loadDatas}
+              onChange={loadData}
+            />
+            <$Select2
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  border: '2px solid black',
+                  borderRadius: '10px',
+                  fontSize: '10px',
+                }),
+                placeholder: (baseStyles) => ({
+                  ...baseStyles,
+                  color: 'black',
+                  fontSize: '20px',
+                }),
+              }}
+              value=""
+              placeholder={<TbHttpDelete />}
+              options={loadDatas}
+              onChange={deleteData}
+            />
+          </div>
+          <div style={{ display: 'flex' }}>
+            <$Select3
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  border: '2px solid black',
+                  borderRadius: '10px',
+                  fontSize: '10px',
+                }),
+                placeholder: (baseStyles) => ({
+                  ...baseStyles,
+                  color: 'black',
+                  fontSize: '20px',
+                }),
+              }}
+              value=""
+              placeholder={<GrDocumentTxt />}
+              options={loadDatas}
+              onChange={downloadTXT}
+            />
+            <$CustomButton
+              style={{
+                width: '50%',
+                //  minWidth: '80px'
+              }}
+              onClick={uploadTXT}
+            >
+              <GrDocumentUpload />
+            </$CustomButton>
+          </div>
+        </$UpbarBottonPlace>
       </$UpBar>
       <$TierContainer>
         <div
@@ -1159,7 +1344,7 @@ const Tiermaker = () => {
                 options={option}
                 placeholder={<AiOutlineOrderedList />}
               />
-              <$CustomButton onClick={exportElementAsPNG}>
+              <$CustomButton onClick={exportElementAsPNG2}>
                 <IoDownloadOutline />
               </$CustomButton>
             </$ButtonSpace>
@@ -1269,6 +1454,23 @@ const Tiermaker = () => {
   );
 };
 
+const $MailLink = styled.a`
+  margin: 0;
+  color: #ccc;
+  text-decoration: none;
+  width: 100%;
+  @media (max-width: 500px) {
+    width: 140px;
+  }
+`;
+
+const $UpbarBottonPlace = styled.div`
+  width: 240px;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+`;
+
 const $GuideEachLine = styled.p`
   margin: 0;
   margin-bottom: 4px;
@@ -1281,7 +1483,8 @@ const $Guide = styled.div`
   border-radius: 5px;
   min-width: 200px;
   font-size: 12px;
-  margin-left: 30px;
+  margin-left: 80px;
+  margin-bottom: -100px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-use-select: none;
@@ -1291,6 +1494,9 @@ const $Guide = styled.div`
   flex-direction: column;
   align-items: start;
   cursor: default;
+  @media (max-width: 500px) {
+    margin-left: -30px;
+  }
 `;
 
 const $UpBar = styled.div`
@@ -1298,6 +1504,9 @@ const $UpBar = styled.div`
   width: 92%;
   justify-content: space-between;
   margin-bottom: 5px;
+  @media (max-width: 500px) {
+    display: block;
+  }
 `;
 
 const $MoveUp = styled(IoIosArrowUp)`
@@ -1319,6 +1528,10 @@ const $Select2 = styled(Select)`
   width: 33%;
   min-width: 80px;
 `;
+const $Select3 = styled(Select)`
+  width: 50%;
+  min-width: 80px;
+`;
 
 const $SearchBar = styled.input`
   width: 93vw;
@@ -1336,10 +1549,15 @@ const $ButtonSpace = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 2px;
+  width: 90vw;
 `;
 
 const $BottomBar = styled.div`
   position: fixed;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
   bottom: 10px;
   max-width: 95vw;
 `;
@@ -1407,6 +1625,7 @@ const $TierBox = styled.div`
 const $TierThread = styled.div`
   display: flex;
   height: 154px;
+  width: 100vw;
   border: 2px black solid;
   border-radius: 5px;
   overflow-x: auto;
@@ -1494,6 +1713,17 @@ const $CustomButton = styled.button`
   cursor: pointer;
   &:hover {
     background-color: #ebb3d4;
+  }
+`;
+
+const $GuidePlace = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  @media (max-width: 500px) {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
   }
 `;
 

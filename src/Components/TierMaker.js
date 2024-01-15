@@ -718,7 +718,10 @@ const Tiermaker = () => {
           break;
         }
       }
-      namedb.push(prompt);
+      //   namedb.push(prompt);
+      if (!namedb.includes(prompt)) {
+        namedb.push(prompt);
+      }
       localStorage.setItem('namedb', JSON.stringify(namedb));
       if (localStorage.getItem(prompt)) {
         localStorage.removeItem(prompt);

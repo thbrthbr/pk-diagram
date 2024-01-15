@@ -82,6 +82,7 @@ const Tiermaker = () => {
   const coverRef = useRef(null);
   const previewRef = useRef(null);
   const realDownloadRef = useRef(null);
+  const searchRef = useRef(null);
 
   const addTier = () => {
     setTierList([...tierList, { id: ':' + Date.now(), contentArr: [] }]);
@@ -556,6 +557,9 @@ const Tiermaker = () => {
 
   const searchOne = (e) => {
     if (e.key == 'Enter') {
+      if (searchRef.current) {
+        searchRef.current.blur();
+      }
       let flag = false;
       let searchedList = [];
       for (let i = 0; i < imgSet.length; i++) {
@@ -1160,6 +1164,7 @@ const Tiermaker = () => {
               </$CustomButton>
             </$ButtonSpace>
             <$SearchBar
+              ref={searchRef}
               placeholder="Search..."
               value={search}
               onChange={(e) => {

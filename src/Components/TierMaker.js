@@ -74,11 +74,13 @@ const Tiermaker = () => {
   const [currentTextArea, setCurrentTextArea] = useState('0');
   const [question, setQuestion] = useState(false);
   const [guideLang, setGuideLang] = useState('korean');
+  const [uploadHandler, setUploadHandler] = useState(false);
 
   const belowRef = useRef(null);
   const threadRef = useRef(null);
   const isMounted = useRef(false);
   const isMounted2 = useRef(false);
+  const isMounted3 = useRef(false);
   const draggingItemIndex = useRef(null);
   const draggingOverItemIndex = useRef(null);
   const elementRef = useRef(null);
@@ -94,29 +96,32 @@ const Tiermaker = () => {
 
   const subTier = (key) => {
     if (tierList.length <= 1) {
-      alert('최소 한 칸은 존재해야 합니다');
+      alert('최소 한 칸은 존재해야 합니다 \nAt least one line is required');
       return;
     }
-    const copy = [];
-    let dyingList = [];
-    for (let i = 0; i < tierList.length; i++) {
-      if (i !== key) copy.push(tierList[i]);
-      else {
-        for (let j = 0; j < tierList[i].contentArr.length; j++) {
-          dyingList.push(tierList[i].contentArr[j]);
+    let willyou = window.confirm('티어라인을 삭제하시겠습니까? \nDelete line?');
+    if (willyou) {
+      const copy = [];
+      let dyingList = [];
+      for (let i = 0; i < tierList.length; i++) {
+        if (i !== key) copy.push(tierList[i]);
+        else {
+          for (let j = 0; j < tierList[i].contentArr.length; j++) {
+            dyingList.push(tierList[i].contentArr[j]);
+          }
         }
       }
+      const saver = [];
+      for (let i = 0; i < dyingList.length; i++) {
+        saver.push({
+          img: dyingList[i].img,
+          id: dyingList[i].id,
+          name: dyingList[i].name,
+        });
+      }
+      setImgSet([...saver, ...imgSet]);
+      setTierList(copy);
     }
-    const saver = [];
-    for (let i = 0; i < dyingList.length; i++) {
-      saver.push({
-        img: dyingList[i].img,
-        id: dyingList[i].id,
-        name: dyingList[i].name,
-      });
-    }
-    setImgSet([...saver, ...imgSet]);
-    setTierList(copy);
   };
 
   const sorter = () => {
@@ -898,7 +903,20 @@ const Tiermaker = () => {
         READER.onload = (e) => {
           try {
             str = e.target.result;
+            let pasteData = JSON.parse(str);
             setTierList(JSON.parse(str));
+            let copy = dbSet.slice();
+            let renew = [];
+            let used = [];
+            for (let i = 0; i < pasteData.length; i++) {
+              for (let j = 0; j < pasteData[i].contentArr.length; j++) {
+                used.push(pasteData[i].contentArr[j].name);
+              }
+            }
+            for (let i = 0; i < 1342; i++) {
+              if (!used.includes(copy[i].name)) renew.push(copy[i]);
+            }
+            setImgSet(renew);
           } catch (e) {}
         };
       });
@@ -951,16 +969,17 @@ const Tiermaker = () => {
             justifyContent: 'end',
             padding: '5px',
             fontSize: '20px',
-            cursor: 'pointer',
             position: 'relative',
             textAlign: 'start',
           }}
-          onClick={() => {
-            setQuestion(!question);
-          }}
         >
           <$GuidePlace>
-            <FaRegQuestionCircle />
+            <FaRegQuestionCircle
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setQuestion(!question);
+              }}
+            />
             <$MailLink href="mailto:boyosagrance@gmail.com">
               <MdOutlineEmail
                 style={{
@@ -1217,12 +1236,30 @@ const Tiermaker = () => {
                     color={i}
                     className="forMob2"
                   >
-                    <$MoveUp
-                      className="toggle"
-                      onClick={() => {
-                        move(x.id, 'up');
+                    <div
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
                       }}
-                    />
+                    >
+                      <$Subtier style={{ cursor: 'default', opacity: 0 }}>
+                        <FontAwesomeIcon icon={faTrash} />
+                      </$Subtier>
+                      <$MoveUp
+                        className="toggle"
+                        onClick={() => {
+                          move(x.id, 'up');
+                        }}
+                      />
+                      <$Subtier
+                        tabIndex={-1}
+                        className="toggle"
+                        onClick={() => subTier(i)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </$Subtier>
+                    </div>
                     <br></br>
                     <$EachLine
                       id={i}
@@ -1241,13 +1278,6 @@ const Tiermaker = () => {
                         e.stopPropagation();
                       }}
                     ></$EachLine>
-                    <$Subtier
-                      tabIndex={-1}
-                      className="toggle"
-                      onClick={() => subTier(i)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </$Subtier>
                     <br></br>
                     <$MoveDown
                       className="toggle"

@@ -5,21 +5,18 @@ import { Tiermaker } from './Components/TierMaker';
 import { Main } from './Components/Main';
 
 function App() {
-    return (
-        <div className="App">
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Main />}>
-                        <Route
-                            path="prefer"
-                            element={<PreferDiagram />}
-                        ></Route>
-                        <Route path="tiermaker" element={<Tiermaker />}></Route>
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-        </div>
-    );
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />}>
+            <Route path="prefer" element={<PreferDiagram />}></Route>
+            <Route path="tier" element={<Tiermaker />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;

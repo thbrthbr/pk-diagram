@@ -36,7 +36,7 @@ const Main = () => {
           </$GenerateButton>
         </Link>
         <div style={{ width: '5px' }}></div>
-        <Link to="tiermaker">
+        <Link to="tier">
           <$GenerateButton ref={buttonRef2} onClick={buttonAnimation2}>
             TierGenerator
           </$GenerateButton>

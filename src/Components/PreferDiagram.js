@@ -8,6 +8,7 @@ import { FaLanguage } from 'react-icons/fa';
 import Select from 'react-select';
 import Logo from '../Logo/PK-DIAGRAM.png';
 import { FaArrowUp } from 'react-icons/fa';
+import { Header } from './Header';
 
 const imageContext = require.context(
   '../icon',
@@ -389,9 +390,7 @@ const PreferDiagram = () => {
   };
 
   const goUp = () => {
-    if (logoRef.current) {
-      logoRef.current.scrollIntoView();
-    }
+    window.scrollTo(0, 0);
   };
 
   const themeChanger = (color) => {
@@ -402,16 +401,7 @@ const PreferDiagram = () => {
   };
 
   return (
-    <$Area>
-      <$Logo
-        ref={logoRef}
-        onClick={() => {
-          window.location.reload();
-        }}
-      >
-        <img src={Logo}></img>
-        <div>PK-DIAGRAM</div>
-      </$Logo>
+    <>
       <$DownloadImage
         ref={TestRef}
         bgColor={themeColor}
@@ -600,7 +590,7 @@ const PreferDiagram = () => {
       <$GoUp onClick={goUp}>
         <FaArrowUp />
       </$GoUp>
-    </$Area>
+    </>
   );
 };
 const $MailLink = styled.a`

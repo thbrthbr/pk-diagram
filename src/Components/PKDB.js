@@ -1212,7 +1212,7 @@ let db = [
   },
   {
     name: 'Jynx',
-    nameKo: '루쥬라',
+    nameKo: '루주라',
     code: '',
     type: ['ice', 'psychic'],
     url: '',

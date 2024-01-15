@@ -129,16 +129,6 @@ const Tiermaker = () => {
     setImgSet(sorted);
   };
 
-  const convertForMobile = () => {
-    let mob1 = document.getElementsByClassName('forMob1');
-    let mob2 = document.getElementsByClassName('forMob2');
-    for (let i = 0; i < mob1.length; i++) {
-      mob1[i].style.display = 'flex';
-      mob1[i].style.border = '1px black solid';
-      mob2[i].style.width = '120px';
-    }
-  };
-
   const exportElementAsPNG = () => {
     if (coverRef.current && realDownloadRef.current) {
       coverRef.current.style.display = 'flex';
@@ -720,7 +710,7 @@ const Tiermaker = () => {
         if (namedb[i] == prompt) {
           while (prompt == namedb[i]) {
             prompt = window.prompt(
-              '이미 같은 이름의 세이브 데이터가 존재합니다 \nSame name of data already exsist',
+              '같은 이름의 세이브 데이터에 덮어 씌우겠습니까? \n Override on same name data?',
             );
           }
           if (!prompt) return;
@@ -729,6 +719,9 @@ const Tiermaker = () => {
       }
       namedb.push(prompt);
       localStorage.setItem('namedb', JSON.stringify(namedb));
+      if (localStorage.getItem(prompt)) {
+        localStorage.removeItem(prompt);
+      }
       localStorage.setItem(prompt, JSON.stringify(tierList));
     } else {
       let namedb = [prompt];

@@ -711,7 +711,7 @@ const Tiermaker = () => {
           let howyoudo;
           if (prompt == namedb[i]) {
             howyoudo = window.confirm(
-              '같은 이름의 세이브 데이터에 덮어 씌우겠습니까? \n Override on same name data?',
+              '같은 이름의 세이브 데이터에 덮어 씌우겠습니까? \nOverride on same name data?',
             );
           }
           if (!howyoudo) return;

@@ -546,13 +546,17 @@ const Tiermaker = () => {
       if (!e.classList.contains('onlyhere')) return;
       if (e.classList.contains('thread')) {
         backEmptyMobile(e);
+        setSelectedItem('');
         return;
       }
       if (e.classList.contains('threadImg')) {
         backMobile(e.id);
+        setSelectedItem('');
         return;
       }
       if (selectedItem) {
+        console.log(selectedItem);
+        console.log(e);
         let newData = tierList.slice(0);
         let set = [];
         let changed = false;
@@ -1297,13 +1301,27 @@ const Tiermaker = () => {
                       e.preventDefault();
                       e.stopPropagation();
                     }}
-                    onTouchStart={(e) => {}}
+                    onTouchStart={(e) => {
+                      console.log(
+                        document.elementFromPoint(
+                          e.changedTouches[0].clientX,
+                          e.changedTouches[0].clientY,
+                        ),
+                      );
+                    }}
                     onTouchMove={(e) => {
+                      console.log(5);
                       const { clientX, clientY } = e.touches[0];
                       setOffsetX(clientX);
                       setOffsetY(clientY);
                     }}
                     onTouchEnd={(e) => {
+                      console.log(
+                        document.elementFromPoint(
+                          e.changedTouches[0].clientX,
+                          e.changedTouches[0].clientY,
+                        ),
+                      );
                       dropMobile(
                         document.elementFromPoint(
                           e.changedTouches[0].clientX,
@@ -1442,6 +1460,7 @@ const Tiermaker = () => {
                         e.stopPropagation();
                       }}
                       onTouchStart={(e) => {
+                        console.log('1');
                         setSelectedItem({
                           id: x.id,
                           img: x.img,
@@ -1451,6 +1470,7 @@ const Tiermaker = () => {
                         return false;
                       }}
                       onTouchMove={(e) => {
+                        console.log('2');
                         if (threadRef.current) {
                           threadRef.current.style.overflowX = 'hidden';
                         }
@@ -1462,6 +1482,7 @@ const Tiermaker = () => {
                         return false;
                       }}
                       onTouchEnd={(e) => {
+                        console.log('3');
                         dropMobile(
                           document.elementFromPoint(
                             e.changedTouches[0].clientX,

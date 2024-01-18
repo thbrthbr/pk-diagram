@@ -21,6 +21,7 @@ import { RiFileSearchLine } from 'react-icons/ri';
 import { TbHttpDelete } from 'react-icons/tb';
 import { GrDocumentTxt } from 'react-icons/gr';
 import { GrDocumentUpload } from 'react-icons/gr';
+import { PropagateLoader } from 'react-spinners';
 
 const Tiermaker = () => {
   let option = [
@@ -75,6 +76,7 @@ const Tiermaker = () => {
   const [question, setQuestion] = useState(false);
   const [guideLang, setGuideLang] = useState('korean');
   const [uploadHandler, setUploadHandler] = useState(false);
+  const [coverHeight, setCoverHeight] = useState(0);
 
   const belowRef = useRef(null);
   const threadRef = useRef(null);
@@ -85,7 +87,6 @@ const Tiermaker = () => {
   const draggingOverItemIndex = useRef(null);
   const elementRef = useRef(null);
   const coverRef = useRef(null);
-  const previewRef = useRef(null);
   const realDownloadRef = useRef(null);
   const searchRef = useRef(null);
 
@@ -138,44 +139,58 @@ const Tiermaker = () => {
     setImgSet(sorted);
   };
 
-  const exportElementAsPNG = () => {
+  const exportElementAsPNG2 = () => {
+    window.scrollTo(0, 0);
     if (coverRef.current && realDownloadRef.current) {
-      coverRef.current.style.display = 'flex';
-      realDownloadRef.current.style.display = 'block';
-      let saveDisplay = '';
-      let saveBorder = '';
-      let saveWidth = '';
       if (elementRef.current) {
-        toPng(elementRef.current).then((image1) => {
-          if (previewRef.current) {
-            previewRef.current.src = image1;
-          }
-          var matches = document.getElementsByClassName('toggle');
-          for (let i = 0; i < matches.length; i++) {
-            matches[i].style.visibility = 'hidden';
-          }
-          let mob1 = document.getElementsByClassName('forMob1');
-          let mob2 = document.getElementsByClassName('forMob2');
-          saveDisplay = mob1[0].style.display;
-          saveBorder = mob1[0].style.border;
-          saveWidth = mob2[0].style.width;
-          for (let i = 0; i < mob1.length; i++) {
-            mob1[i].style.display = 'flex';
-            mob1[i].style.border = '1px black solid';
-            mob2[i].style.width = '120px';
-          }
-          coverRef.current.style.width = '100vw';
-          elementRef.current.style.width = '1450px';
-          toPng(elementRef.current).then((image2) => {
-            realDownloadRef.current.children[0].src = image2;
-            realDownloadRef.current.children[0].width = 800;
-            realDownloadRef.current.children[0].addEventListener('load', () => {
-              setTimeout(() => {
-                toPng(realDownloadRef.current.children[0]).then((image3) => {
-                  const link = window.document.createElement('a');
-                  link.download = 'tierlist.png';
-                  link.href = image3;
-                  link.click();
+        coverRef.current.style.height = coverHeight + 'px';
+        coverRef.current.style.display = 'flex';
+        realDownloadRef.current.style.display = 'block';
+        let saveDisplay = '';
+        let saveBorder = '';
+        let saveWidth = '';
+        var matches = document.getElementsByClassName('toggle');
+        for (let i = 0; i < matches.length; i++) {
+          matches[i].style.visibility = 'hidden';
+        }
+        let mob1 = document.getElementsByClassName('forMob1');
+        let mob2 = document.getElementsByClassName('forMob2');
+        saveDisplay = mob1[0].style.display;
+        saveBorder = mob1[0].style.border;
+        saveWidth = mob2[0].style.width;
+        for (let i = 0; i < mob1.length; i++) {
+          mob1[i].style.display = 'flex';
+          mob1[i].style.border = '1px black solid';
+          mob2[i].style.width = '120px';
+        }
+        coverRef.current.style.width = '100vw';
+        elementRef.current.style.width = '1450px';
+        toPng(elementRef.current).then((image2) => {
+          realDownloadRef.current.children[0].src = image2;
+          realDownloadRef.current.children[0].width = 800;
+          realDownloadRef.current.children[0].addEventListener('load', () => {
+            setTimeout(() => {
+              toPng(realDownloadRef.current.children[0]).then((image3) => {
+                let canvas = document.createElement('canvas');
+                let img1 = new Image();
+                img1.src = image3;
+                img1.onload = () => {
+                  canvas.width = realDownloadRef.current.children[0].width;
+                  canvas.height = realDownloadRef.current.children[0].height;
+                  canvas
+                    .getContext('2d')
+                    .drawImage(
+                      img1,
+                      0,
+                      0,
+                      realDownloadRef.current.children[0].width,
+                      realDownloadRef.current.children[0].height,
+                    );
+                  var dataURL = canvas.toDataURL('image/png');
+                  const a = document.createElement('a');
+                  a.href = dataURL;
+                  a.download = 'tierlist.png';
+                  a.click();
                   elementRef.current.style.width = '90vw';
                   for (let i = 0; i < matches.length; i++) {
                     matches[i].style.visibility = 'visible';
@@ -189,89 +204,9 @@ const Tiermaker = () => {
                   realDownloadRef.current.children[0].src = '';
                   coverRef.current.style.width = 'auto';
                   coverRef.current.style.display = 'none';
-                  previewRef.current.src = '';
-                });
-              }, 1000);
-            });
-          });
-        });
-      }
-    }
-  };
-
-  const exportElementAsPNG2 = () => {
-    if (coverRef.current && realDownloadRef.current) {
-      coverRef.current.style.display = 'flex';
-      realDownloadRef.current.style.display = 'block';
-      let saveDisplay = '';
-      let saveBorder = '';
-      let saveWidth = '';
-      if (elementRef.current) {
-        toPng(elementRef.current).then((image1) => {
-          if (previewRef.current) {
-            previewRef.current.src = image1;
-          }
-          var matches = document.getElementsByClassName('toggle');
-          for (let i = 0; i < matches.length; i++) {
-            matches[i].style.visibility = 'hidden';
-          }
-          let mob1 = document.getElementsByClassName('forMob1');
-          let mob2 = document.getElementsByClassName('forMob2');
-          saveDisplay = mob1[0].style.display;
-          saveBorder = mob1[0].style.border;
-          saveWidth = mob2[0].style.width;
-          for (let i = 0; i < mob1.length; i++) {
-            mob1[i].style.display = 'flex';
-            mob1[i].style.border = '1px black solid';
-            mob2[i].style.width = '120px';
-          }
-          coverRef.current.style.width = '100vw';
-          elementRef.current.style.width = '1450px';
-          toPng(elementRef.current).then((image2) => {
-            realDownloadRef.current.children[0].src = image2;
-            realDownloadRef.current.children[0].width = 800;
-            realDownloadRef.current.children[0].addEventListener('load', () => {
-              setTimeout(() => {
-                toPng(realDownloadRef.current.children[0]).then((image3) => {
-                  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                  let canvas = document.createElement('canvas');
-                  let img1 = new Image();
-                  img1.src = image3;
-                  img1.onload = () => {
-                    canvas.width = realDownloadRef.current.children[0].width;
-                    canvas.height = realDownloadRef.current.children[0].height;
-                    canvas
-                      .getContext('2d')
-                      .drawImage(
-                        img1,
-                        0,
-                        0,
-                        realDownloadRef.current.children[0].width,
-                        realDownloadRef.current.children[0].height,
-                      );
-                    var dataURL = canvas.toDataURL('image/png');
-                    const a = document.createElement('a');
-                    a.href = dataURL;
-                    a.download = 'tierlist.png';
-                    a.click();
-                    elementRef.current.style.width = '90vw';
-                    for (let i = 0; i < matches.length; i++) {
-                      matches[i].style.visibility = 'visible';
-                    }
-                    for (let i = 0; i < mob1.length; i++) {
-                      mob1[i].style.display = saveDisplay;
-                      mob1[i].style.border = saveBorder;
-                      mob2[i].style.width = saveWidth;
-                    }
-                    realDownloadRef.current.style.display = 'none';
-                    realDownloadRef.current.children[0].src = '';
-                    coverRef.current.style.width = 'auto';
-                    coverRef.current.style.display = 'none';
-                    previewRef.current.src = '';
-                  };
-                });
-              }, 1000);
-            });
+                };
+              });
+            }, 1000);
           });
         });
       }
@@ -959,6 +894,13 @@ const Tiermaker = () => {
     }
   }, [currentTextArea]);
 
+  useEffect(() => {
+    if (elementRef.current) {
+      console.log(elementRef.current.offsetHeight);
+      setCoverHeight(elementRef.current.offsetHeight);
+    }
+  }, [tierList]);
+
   return (
     <$AllArea>
       <br></br>
@@ -1205,13 +1147,32 @@ const Tiermaker = () => {
             display: 'none',
             position: 'absolute',
             width: '91vw',
-            zIndex: 3,
+            height: '100vh',
+            zIndex: 2,
+            flexDirection: 'column',
             backgroundColor: 'aliceblue',
-            justifyContent: 'center',
+            justifyContent: 'start',
             alignItems: 'start',
           }}
         >
-          <img style={{ width: '90vw' }} ref={previewRef} src={''} />
+          <div
+            style={{
+              width: '100%',
+              marginLeft: '-10px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <br></br>
+            <br></br>
+            <PropagateLoader color="#EFBEF1" />
+          </div>
+          <div
+            style={{ width: '100%', marginTop: '10px', textAlign: 'center' }}
+          >
+            Please wait...
+          </div>
           <br></br>
         </div>
         <$TierBox>
@@ -1592,6 +1553,7 @@ const $BottomBar = styled.div`
   align-items: center;
   bottom: 10px;
   max-width: 95vw;
+  z-index: 5;
 `;
 
 const $AllArea = styled.div`

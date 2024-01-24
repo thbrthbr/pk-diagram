@@ -448,6 +448,7 @@ const LeagueTemplate = () => {
       for (let i = 0; i < sorted.length; i++) {
         let start = false;
         let nameOfPK = '';
+        let firstList = [];
         if (sorted[i].includes('(')) {
           for (let j = 0; j < sorted[i].length; j++) {
             if (sorted[i][j] == '(') {
@@ -461,7 +462,8 @@ const LeagueTemplate = () => {
                 } else if (nameOfPK == 'F') {
                   nameOfPK = sorted[i].split(' ')[0] + 'emale';
                 }
-                break;
+                firstList.push(nameOfPK);
+                nameOfPK = '';
               } else {
                 nameOfPK += sorted[i][j];
               }
@@ -473,41 +475,44 @@ const LeagueTemplate = () => {
               if (sorted[i][j] == '@') break;
               nameOfPK += sorted[i][j];
             }
+            firstList.push(nameOfPK);
           } else {
             if (!sorted[i].includes(':')) {
               nameOfPK = sorted[i];
+              firstList.push(nameOfPK);
             }
           }
         }
-        if (nameOfPK[nameOfPK.length - 1] == 'F') {
-          nameOfPK += 'emale';
+        for (let a = 0; a < firstList.length; a++) {
+          if (firstList[a][firstList[a].length - 1] == 'F') {
+            firstList[a] += 'emale';
+          }
+          firstList[a] = firstList[a].trim();
         }
 
-        if (nameOfPK.length > 0) {
-          list.push(nameOfPK.trim());
+        if (firstList.length > 0) {
+          list = list.concat(firstList);
+          console.log(list);
         }
       }
-      console.log(list);
       let srcList = [];
-      for (let i = 0; i < db.length; i++) {
-        if (list.includes(db[i].name)) {
-          srcList.push(db[i].url);
+      for (let b = 0; b < db.length; b++) {
+        if (list.includes(db[b].name)) {
+          srcList.push(db[b].url);
         }
       }
-      console.log(srcList);
       if (srcList.length < 12) {
         let temp = srcList.length;
-        for (let i = 0; i < 12 - temp; i++) {
+        for (let d = 0; d < 12 - temp; d++) {
           srcList.push('');
         }
       }
-      console.log(srcList);
       let copy = eachSide.slice();
-      for (let i = 0; i < copy.length; i++) {
-        for (let j = 0; j < copy[i].players.length; j++) {
-          if (copy[i].players[j].playerId == selectedPlayer) {
-            for (let a = 0; a < copy[i].players[j].entry.length; a++) {
-              copy[i].players[j].entry[a].src = srcList[a];
+      for (let k = 0; k < copy.length; k++) {
+        for (let j = 0; j < copy[k].players.length; j++) {
+          if (copy[k].players[j].playerId == selectedPlayer) {
+            for (let a = 0; a < copy[k].players[j].entry.length; a++) {
+              copy[k].players[j].entry[a].src = srcList[a];
             }
           }
         }

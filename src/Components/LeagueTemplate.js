@@ -484,19 +484,62 @@ const LeagueTemplate = () => {
           }
         }
         for (let a = 0; a < firstList.length; a++) {
+          firstList[a] = firstList[a].trim();
           if (firstList[a][firstList[a].length - 1] == 'F') {
             firstList[a] += 'emale';
           }
-          firstList[a] = firstList[a].trim();
+          // 여기서 이름 예외들 다 거르자
+          if (firstList[a] == 'Maushold') {
+            firstList[a] = 'Maushold-Three';
+          }
+          if (firstList[a] == 'Urshifu-Rapid-Strike') {
+            firstList[a] = 'Urshifu-RapidStrikeStyle';
+          }
+          if (firstList[a] == 'Urshifu') {
+            firstList[a] = 'Urshifu-SingleStrikeStyle';
+          }
+          if (firstList[a] == 'Dudunsparce-Three-Segment') {
+            firstList[a] = 'Dudunsparce';
+          }
+          if (firstList[a] == 'Gastrodon') {
+            firstList[a] = 'Gastrodon-West';
+          }
+          if (firstList[a] == 'Basculegion') {
+            firstList[a] = 'Basculegion-Male';
+          }
+          if (firstList[a] == 'Indeedee') {
+            firstList[a] = 'Indeedee-Male';
+          }
+          if (firstList[a] == 'Jellicent') {
+            firstList[a] = 'Jellicent-Male';
+          }
+          if (firstList[a] == 'Oricorio') {
+            firstList[a] = 'Oricorio-Baile';
+          }
+          if (
+            firstList[a] == 'Landorus' ||
+            firstList[a] == 'Thundurus' ||
+            firstList[a] == 'Tornadus' ||
+            firstList[a] == 'Enamorus'
+          ) {
+            firstList[a] += '-Incarnate';
+          }
         }
 
         if (firstList.length > 0) {
           list = list.concat(firstList);
-          console.log(list);
         }
       }
+      console.log(list);
       let srcList = [];
       for (let b = 0; b < db.length; b++) {
+        if (db[b].name.includes('Male')) {
+          let temp = db[b].name.split('-')[0];
+          if (list.includes(temp)) {
+            srcList.push(db[b].url);
+          }
+          continue;
+        }
         if (list.includes(db[b].name)) {
           srcList.push(db[b].url);
         }

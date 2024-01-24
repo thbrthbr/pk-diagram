@@ -456,6 +456,11 @@ const LeagueTemplate = () => {
             }
             if (start) {
               if (sorted[i][j] == ')') {
+                if (nameOfPK == 'M') {
+                  nameOfPK = sorted[i].split(' ')[0] + '-Male';
+                } else if (nameOfPK == 'F') {
+                  nameOfPK = sorted[i].split(' ')[0] + 'emale';
+                }
                 break;
               } else {
                 nameOfPK += sorted[i][j];
@@ -469,14 +474,20 @@ const LeagueTemplate = () => {
               nameOfPK += sorted[i][j];
             }
           } else {
-            nameOfPK = sorted[i];
+            if (!sorted[i].includes(':')) {
+              nameOfPK = sorted[i];
+            }
           }
+        }
+        if (nameOfPK[nameOfPK.length - 1] == 'F') {
+          nameOfPK += 'emale';
         }
 
         if (nameOfPK.length > 0) {
           list.push(nameOfPK.trim());
         }
       }
+      console.log(list);
       let srcList = [];
       for (let i = 0; i < db.length; i++) {
         if (list.includes(db[i].name)) {

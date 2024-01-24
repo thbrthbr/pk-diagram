@@ -945,14 +945,14 @@ let db = [
     url: '',
   },
   {
-    name: 'Genger',
+    name: 'Gengar',
     nameKo: '팬텀',
     code: '',
     type: ['ghost', 'poison'],
     url: '',
   },
   {
-    name: 'Genger-Mega',
+    name: 'Gengar-Mega',
     nameKo: '메가팬텀',
     code: '',
     type: ['ghost', 'poison'],

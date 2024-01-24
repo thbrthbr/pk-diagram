@@ -463,9 +463,13 @@ const LeagueTemplate = () => {
             }
           }
         } else {
-          for (let j = 0; j < sorted[i].length; j++) {
-            if (sorted[i][j] == '@') break;
-            nameOfPK += sorted[i][j];
+          if (sorted[i].includes('@')) {
+            for (let j = 0; j < sorted[i].length; j++) {
+              if (sorted[i][j] == '@') break;
+              nameOfPK += sorted[i][j];
+            }
+          } else {
+            nameOfPK = sorted[i];
           }
         }
 

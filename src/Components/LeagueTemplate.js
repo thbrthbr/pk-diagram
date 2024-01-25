@@ -22,11 +22,13 @@ const categoryData = imageContext.keys().map(imageContext);
 
 const LeagueTemplate = () => {
   let option = [];
+  let tempDB = {};
   for (let i = 0; i < db.length; i++) {
     option.push({
-      value: db[i].url,
+      value: '',
       label: db[i].nameKo,
     });
+    tempDB[db[i].nameKo] = db[i].url;
   }
 
   let option2 = [];
@@ -457,10 +459,33 @@ const LeagueTemplate = () => {
             }
             if (start) {
               if (sorted[i][j] == ')') {
+                if (nameOfPK == 'Glastrier' || nameOfPK == 'Spectrier') {
+                  if (sorted[i].includes('Ability: As One')) {
+                    nameOfPK = '';
+                  }
+                }
                 if (nameOfPK == 'M') {
-                  nameOfPK = sorted[i].split(' ')[0] + '-Male';
+                  if (
+                    sorted[i].split(' ')[0] == 'Unfezant' ||
+                    sorted[i].split(' ')[0] == 'Pyroar' ||
+                    sorted[i].split(' ')[0] == 'Jellicent' ||
+                    sorted[i].split(' ')[0] == 'Frillish'
+                  ) {
+                    nameOfPK = sorted[i].split(' ')[0] + '-Male';
+                  } else {
+                    nameOfPK = sorted[i].split(' ')[0];
+                  }
                 } else if (nameOfPK == 'F') {
-                  nameOfPK = sorted[i].split(' ')[0] + 'emale';
+                  if (
+                    sorted[i].split(' ')[0] == 'Unfezant' ||
+                    sorted[i].split(' ')[0] == 'Pyroar' ||
+                    sorted[i].split(' ')[0] == 'Jellicent' ||
+                    sorted[i].split(' ')[0] == 'Frillish'
+                  ) {
+                    nameOfPK = sorted[i].split(' ')[0] + '-Female';
+                  } else {
+                    nameOfPK = sorted[i].split(' ')[0];
+                  }
                 }
                 firstList.push(nameOfPK);
                 nameOfPK = '';
@@ -489,8 +514,104 @@ const LeagueTemplate = () => {
             firstList[a] += 'emale';
           }
           // 여기서 이름 예외들 다 거르자
+          if (
+            firstList[a] == 'Calyrex-Ice' ||
+            firstList[a] == 'Calyrex-Shadow'
+          ) {
+            firstList[a] += 'Rider';
+          }
+          if (firstList[a] == 'Koraidon') {
+            firstList[a] = 'Koraidon-ApexBuild';
+          }
+          if (firstList[a] == 'Miraidon') {
+            firstList[a] = 'Miraidon-UltimateMode';
+          }
+          if (firstList[a] == 'Gimmighoul') {
+            firstList[a] = 'Gimmighoul-Chest';
+          }
+          if (firstList[a] == 'Tatsugiri') {
+            firstList[a] = 'Tatsugiri-Curly';
+          }
+          if (firstList[a] == 'Palafin') {
+            firstList[a] = 'Palafin-Zero';
+          }
+          if (firstList[a] == 'Zamazenta') {
+            firstList[a] = 'Zamazenta-HeroOfManyBattles';
+          }
+          if (firstList[a] == 'Zacian') {
+            firstList[a] = 'Zacian-HeroOfManyBattles';
+          }
+          if (firstList[a] == 'Squawkabilly') {
+            firstList[a] = 'Squawkabilly-Green';
+          }
+          if (firstList[a].includes('Squawkabilly')) {
+            firstList[a] += 'Plumage';
+          }
+          if (firstList[a] == 'Morpeko') {
+            firstList[a] = 'Morpeko-FullBelly';
+          }
+          if (firstList[a] == 'Alcremie') {
+            firstList[a] = 'Alcremie-Vanilla-Cream';
+          }
+          if (firstList[a] == 'Toxtricity') {
+            firstList[a] = 'Toxtricity-Amped';
+          }
+          if (firstList[a] == 'Wishiwashi') {
+            firstList[a] = 'Wishiwashi-Solo';
+          }
+          if (firstList[a] == 'Hoopa') {
+            firstList[a] = 'Hoopa-Confined';
+          }
+          if (firstList[a] == 'Zygarde') {
+            firstList[a] = 'Zygarde-50%';
+          }
+          if (firstList[a] == 'Pumpkaboo') {
+            firstList[a] = 'Pumpkaboo-Average';
+          }
+          if (firstList[a] == 'Gourgeist') {
+            firstList[a] = 'Gourgeist-Average';
+          }
+          if (firstList[a] == 'Cherrim') {
+            firstList[a] = 'Cherrim-Overcast';
+          }
+          if (firstList[a] == 'Flabébé') {
+            firstList[a] = 'Flabébé-Red';
+          }
+          if (firstList[a] == 'Floette') {
+            firstList[a] = 'Floette-Red';
+          }
+          if (firstList[a] == 'Florges') {
+            firstList[a] = 'Florges-Red';
+          }
           if (firstList[a] == 'Maushold') {
             firstList[a] = 'Maushold-Three';
+          }
+          if (firstList[a] == 'Vivillon-Icy Snow') {
+            firstList[a] = 'Vivillon-IcySnow';
+          }
+          if (firstList[a] == 'Burmy') {
+            firstList[a] = 'Burmy-Plant';
+          }
+          if (firstList[a] == 'Wormadam') {
+            firstList[a] = 'Wormadam-Plant';
+          }
+          if (firstList[a] == 'Unown') {
+            firstList[a] = 'Unown-A';
+          }
+          if (firstList[a] == 'Unown-Exclamation') {
+            firstList[a] = 'Unown-!';
+          }
+          if (firstList[a] == 'Unown-Question') {
+            firstList[a] = 'Unown-?';
+          }
+          if (firstList[a] == 'Meloetta') {
+            firstList[a] = 'Meloetta-Aria';
+          }
+          if (firstList[a] == 'Deerling') {
+            firstList[a] = 'Deerling-Spring';
+          }
+          if (firstList[a] == 'Sawsbuck') {
+            firstList[a] = 'Sawsbuck-Spring';
           }
           if (firstList[a] == 'Urshifu-Rapid-Strike') {
             firstList[a] = 'Urshifu-RapidStrikeStyle';
@@ -504,17 +625,51 @@ const LeagueTemplate = () => {
           if (firstList[a] == 'Gastrodon') {
             firstList[a] = 'Gastrodon-West';
           }
+          if (firstList[a] == 'Shellos') {
+            firstList[a] = 'Shellos-West';
+          }
           if (firstList[a] == 'Basculegion') {
             firstList[a] = 'Basculegion-Male';
+          }
+          if (firstList[a] == 'Oinkologne') {
+            firstList[a] = 'Oinkologne-Male';
+          }
+          if (firstList[a] == 'Basculin') {
+            firstList[a] = 'Basculin-RedStriped';
+          }
+          if (firstList[a] == 'Basculin-Blue-Striped') {
+            firstList[a] = 'Basculin-BlueStriped';
+          }
+          if (firstList[a] == 'Basculin-White-Striped') {
+            firstList[a] = 'Basculin-WhiteStriped';
           }
           if (firstList[a] == 'Indeedee') {
             firstList[a] = 'Indeedee-Male';
           }
+          //@@
           if (firstList[a] == 'Jellicent') {
             firstList[a] = 'Jellicent-Male';
           }
+          if (firstList[a] == 'Frillish') {
+            firstList[a] = 'Frillish-Male';
+          }
+          if (firstList[a] == 'Unfezant') {
+            firstList[a] = 'Unfezant-Male';
+          }
+          if (firstList[a] == 'Pyroar') {
+            firstList[a] = 'Pyroar-Male';
+          }
+          //@@
           if (firstList[a] == 'Oricorio') {
             firstList[a] = 'Oricorio-Baile';
+          }
+          if (firstList[a] == 'Lycanroc') {
+            firstList[a] += 'Midday';
+          }
+          if (firstList[a] == 'Eiscue') {
+            firstList[a] += '-IceFace';
+          } else if (firstList[a].includes('Eiscue-')) {
+            firstList[a] = 'Eiscue-NoiceFace';
           }
           if (
             firstList[a] == 'Landorus' ||
@@ -523,6 +678,26 @@ const LeagueTemplate = () => {
             firstList[a] == 'Enamorus'
           ) {
             firstList[a] += '-Incarnate';
+          }
+          if (firstList[a] == 'Minior') {
+            firstList[a] += '-RedCore';
+          } else if (firstList[a].includes('Minior-')) {
+            if (firstList[a].split('-')[1] !== 'Meteor') {
+              firstList[a] += 'Core';
+            }
+          }
+          if (firstList[a] == 'Aegislash') {
+            firstList[a] += '-ShieldForme';
+          } else if (firstList[a].includes('Aegislash-')) {
+            firstList[a] = 'Aegislash-BladeForme';
+          }
+          if (
+            firstList[a].includes('Sinistcha') ||
+            firstList[a].includes('Poltchageist') ||
+            firstList[a].includes('Polteageist') ||
+            firstList[a].includes('Sinistea')
+          ) {
+            firstList[a] = firstList[a].split('-')[0];
           }
         }
 
@@ -533,13 +708,6 @@ const LeagueTemplate = () => {
       console.log(list);
       let srcList = [];
       for (let b = 0; b < db.length; b++) {
-        if (db[b].name.includes('Male')) {
-          let temp = db[b].name.split('-')[0];
-          if (list.includes(temp)) {
-            srcList.push(db[b].url);
-          }
-          continue;
-        }
         if (list.includes(db[b].name)) {
           srcList.push(db[b].url);
         }
@@ -604,7 +772,7 @@ const LeagueTemplate = () => {
       for (let j = 0; j < copy[i].players.length; j++) {
         for (let a = 0; a < copy[i].players[j].entry.length; a++) {
           if (copy[i].players[j].entry[a].id == eachPK) {
-            copy[i].players[j].entry[a].src = e.value;
+            copy[i].players[j].entry[a].src = tempDB[e.label];
           }
         }
       }

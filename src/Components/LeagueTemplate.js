@@ -705,7 +705,7 @@ const LeagueTemplate = () => {
           list = list.concat(firstList);
         }
       }
-      console.log(list);
+      //   console.log(list);
       let srcList = [];
       for (let b = 0; b < db.length; b++) {
         if (list.includes(db[b].name)) {
@@ -766,7 +766,6 @@ const LeagueTemplate = () => {
   };
 
   const searchAndSet = (e) => {
-    console.log();
     let copy = eachSide.slice();
     for (let i = 0; i < copy.length; i++) {
       for (let j = 0; j < copy[i].players.length; j++) {
@@ -958,7 +957,6 @@ const LeagueTemplate = () => {
           document.getElementById(findit).getBoundingClientRect().width +
           document.body.offsetWidth / 10;
         let changeit = 'input:' + who.split(':')[0];
-        console.log(changed);
         let pxToVwed = pxToVw(changed) + 'vw';
         document.getElementById(changeit).style.width = pxToVwed;
         widthSetter(who.split(':')[0], pxToVwed);
@@ -1119,7 +1117,6 @@ const LeagueTemplate = () => {
                     <$TeamLogo
                       src={a.teamLogo}
                       onClick={() => {
-                        console.log(a.name);
                         pickLogo(a.name);
                       }}
                     ></$TeamLogo>

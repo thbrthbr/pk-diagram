@@ -949,6 +949,59 @@ const LeagueTemplate = () => {
     setEachSide(copy);
   };
 
+  const fiveSix = () => {
+    let copy = eachSide.slice();
+    if (copy[0].players.length == 6) {
+      copy[0].players.pop();
+      copy[1].players.pop();
+      setEachSide(copy);
+    } else {
+      copy[0].players.push({
+        playerName: '',
+        playerWidth: '5vw',
+        playerLabel: [],
+        playerId: 11,
+        playerAvatar: '',
+        entry: [
+          { src: '', id: 121 },
+          { src: '', id: 122 },
+          { src: '', id: 123 },
+          { src: '', id: 124 },
+          { src: '', id: 125 },
+          { src: '', id: 126 },
+          { src: '', id: 127 },
+          { src: '', id: 128 },
+          { src: '', id: 129 },
+          { src: '', id: 130 },
+          { src: '', id: 131 },
+          { src: '', id: 132 },
+        ],
+      });
+      copy[1].players.push({
+        playerName: '',
+        playerWidth: '5vw',
+        playerLabel: [],
+        playerId: 12,
+        playerAvatar: '',
+        entry: [
+          { src: '', id: 133 },
+          { src: '', id: 134 },
+          { src: '', id: 135 },
+          { src: '', id: 136 },
+          { src: '', id: 137 },
+          { src: '', id: 138 },
+          { src: '', id: 139 },
+          { src: '', id: 140 },
+          { src: '', id: 141 },
+          { src: '', id: 142 },
+          { src: '', id: 143 },
+          { src: '', id: 144 },
+        ],
+      });
+      setEachSide(copy);
+    }
+  };
+
   useEffect(() => {
     if (isMounted.current) {
       try {
@@ -1052,6 +1105,10 @@ const LeagueTemplate = () => {
               SDpicker(e.target);
             }}
           />
+        </div>
+        &nbsp; | &nbsp;
+        <div style={{ cursor: 'pointer' }} onClick={fiveSix}>
+          5인&lt;-&gt;6인
         </div>
         &nbsp; | &nbsp;
         <div onClick={manual} style={{ paddingTop: '3px', cursor: 'pointer' }}>

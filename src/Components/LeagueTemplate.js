@@ -862,11 +862,8 @@ const LeagueTemplate = () => {
     if (downloadRef.current) {
       let matches = document.getElementsByClassName('disappear');
       for (let i = 0; i < matches.length; i++) {
-        if (i == 1 || i == 7) {
-          matches[i].style.display = 'none';
-        } else {
-          matches[i].style.visibility = 'hidden';
-        }
+        matches[i].style.display = 'none';
+        matches[i].style.visibility = 'hidden';
       }
       if (downloadRef.current) {
         toPng(downloadRef.current).then((image2) => {
@@ -875,11 +872,12 @@ const LeagueTemplate = () => {
           a.download = 'league-diagram.png';
           a.click();
           for (let i = 0; i < matches.length; i++) {
-            if (i == 1 || i == 7) {
-              matches[i].style.display = 'block';
+            if (i == 0) {
+              matches[i].style.display = 'flex';
             } else {
-              matches[i].style.visibility = 'visible';
+              matches[i].style.display = 'block';
             }
+            matches[i].style.visibility = 'visible';
           }
         });
       }

@@ -1013,6 +1013,49 @@ const LeagueTemplate = () => {
     }
   };
 
+  const backup = () => {
+    try {
+      let prompt1 = window.prompt('파일의 이름을 정해주세요');
+      if (prompt1.trim()) {
+        const blob = new Blob([JSON.stringify(eachSide)], {
+          type: 'text/plain',
+        });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.download = prompt1;
+        a.href = url;
+        a.click();
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url);
+        }, 100);
+      }
+    } catch (e) {}
+  };
+
+  const loadSave = () => {
+    try {
+      let file = document.createElement('input');
+      file.type = 'file';
+      file.addEventListener('change', () => {
+        if (file.files[0].type !== 'text/plain') {
+          alert('txt 파일만 올릴 수 있습니다');
+          return;
+        }
+        const READER = new FileReader();
+        READER.readAsText(file.files[0], 'UTF-8');
+        let str = '';
+        READER.onload = (e) => {
+          try {
+            str = e.target.result;
+            let pasteData = JSON.parse(str);
+            setEachSide(pasteData);
+          } catch (e) {}
+        };
+      });
+      file.click();
+    } catch (e) {}
+  };
+
   useEffect(() => {
     if (isMounted.current) {
       try {
@@ -1087,7 +1130,7 @@ const LeagueTemplate = () => {
       {locked ? (
         <$AllArea>
           <div style={{ color: 'white' }}>
-            비밀번호를 입력해주세요
+            <div>비밀번호를 입력해주세요</div>
             <input
               type="password"
               value={PW}
@@ -1105,456 +1148,480 @@ const LeagueTemplate = () => {
           </div>
         </$AllArea>
       ) : (
-        <$AllArea>
-          {pasteInput && (
-            <$InputPlaceWrapper onClick={entryInput}>
-              <$InputPlace
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <$InputShowdownText
-                  value={pastedValue}
-                  onChange={(e) => {
-                    setPastedValue(e.target.value);
-                  }}
-                ></$InputShowdownText>
-                <button onClick={pasteRead}>적용</button>
-              </$InputPlace>
-            </$InputPlaceWrapper>
-          )}
+        <>
           <div
-            style={{ color: 'white', display: 'flex' }}
-            className="disappear"
+            style={{ width: '100vw', display: 'flex', justifyContent: 'end' }}
           >
-            <div
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                let copy = eachSide.slice();
-                copy[1].name = 'first';
-                copy[0].name = 'second';
-                for (let i = 0; i < copy[0].length; i++) {
-                  let temp = copy[0][i].playerWidth;
-                  copy[0][i].playerWidth = copy[1][i].playerWidth;
-                  copy[1][i].playerWidth = temp;
-                  let label1 = copy[0][i].playerLabel.slice();
-                  let label2 = copy[1][i].playerLabel.slice();
-                  copy[0][i].playerLabel = label2;
-                  copy[1][i].playerLabel = label1;
-                }
-                setEachSide([copy[1], copy[0]]);
-              }}
-            >
-              양측 교체
-            </div>
-            &nbsp; | &nbsp;
-            <div>
-              단독팀
-              <input
-                name="SD"
-                value="single"
-                type="radio"
-                onChange={(e) => {
-                  SDpicker(e.target);
-                }}
-              />
-            </div>
-            &nbsp;
-            <div>
-              VS
-              <input
-                name="SD"
-                value="double"
-                type="radio"
-                onChange={(e) => {
-                  SDpicker(e.target);
-                }}
-              />
-            </div>
-            &nbsp; | &nbsp;
-            <div style={{ cursor: 'pointer' }} onClick={fiveSix}>
-              5인&lt;-&gt;6인
-            </div>
-            &nbsp; | &nbsp;
-            <div
-              onClick={manual}
-              style={{ paddingTop: '3px', cursor: 'pointer' }}
-            >
-              <FaRegQuestionCircle />
-            </div>
+            <span>
+              <button style={{ cursor: 'pointer' }} onClick={backup}>
+                백업
+              </button>
+            </span>
+            <span>
+              <button style={{ cursor: 'pointer' }} onClick={loadSave}>
+                로드
+              </button>
+            </span>
           </div>
-          {locked == false && (
-            <$Template
-              ref={downloadRef}
-              state={SD}
-              onClick={(e) => {
-                for (
-                  let i = 0;
-                  i < document.getElementsByClassName('each-item').length;
-                  i++
-                ) {
-                  document.getElementsByClassName('each-item')[
-                    i
-                  ].children[0].style.border = 'none';
-                }
-                setEachPK('');
-                setNameSearcher(false);
-              }}
-            >
-              {nameSearcher && (
-                <$SearchEach
+          <$AllArea>
+            {pasteInput && (
+              <$InputPlaceWrapper onClick={entryInput}>
+                <$InputPlace
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
                 >
-                  <Select options={option} onChange={searchAndSet}></Select>
-                </$SearchEach>
-              )}
-              {eachSide.map((a) => {
-                return (
-                  <>
-                    <$Team
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    >
-                      <$TeamLogoWrapper>
-                        <$SelectWrapper className="disappear">
-                          <Select
-                            styles={{
-                              control: (baseStyles) => ({
-                                ...baseStyles,
-                                height: '2vw',
-                                width: '100px',
-                                borderRadius: '10px',
-                              }),
-                              placeholder: (baseStyles) => ({
-                                ...baseStyles,
-                                color: 'black',
-                              }),
+                  <$InputShowdownText
+                    value={pastedValue}
+                    onChange={(e) => {
+                      setPastedValue(e.target.value);
+                    }}
+                  ></$InputShowdownText>
+                  <button onClick={pasteRead}>적용</button>
+                </$InputPlace>
+              </$InputPlaceWrapper>
+            )}
+            <div
+              style={{ color: 'white', display: 'flex' }}
+              className="disappear"
+            >
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  let copy = eachSide.slice();
+                  copy[1].name = 'first';
+                  copy[0].name = 'second';
+                  for (let i = 0; i < copy[0].length; i++) {
+                    let temp = copy[0][i].playerWidth;
+                    copy[0][i].playerWidth = copy[1][i].playerWidth;
+                    copy[1][i].playerWidth = temp;
+                    let label1 = copy[0][i].playerLabel.slice();
+                    let label2 = copy[1][i].playerLabel.slice();
+                    copy[0][i].playerLabel = label2;
+                    copy[1][i].playerLabel = label1;
+                  }
+                  setEachSide([copy[1], copy[0]]);
+                }}
+              >
+                양측 교체
+              </div>
+              &nbsp; | &nbsp;
+              <div>
+                단독팀
+                <input
+                  name="SD"
+                  value="single"
+                  type="radio"
+                  onChange={(e) => {
+                    SDpicker(e.target);
+                  }}
+                />
+              </div>
+              &nbsp;
+              <div>
+                VS
+                <input
+                  name="SD"
+                  value="double"
+                  type="radio"
+                  onChange={(e) => {
+                    SDpicker(e.target);
+                  }}
+                />
+              </div>
+              &nbsp; | &nbsp;
+              <div style={{ cursor: 'pointer' }} onClick={fiveSix}>
+                5인&lt;-&gt;6인
+              </div>
+              &nbsp; | &nbsp;
+              <div
+                onClick={manual}
+                style={{ paddingTop: '3px', cursor: 'pointer' }}
+              >
+                <FaRegQuestionCircle />
+              </div>
+            </div>
+            {locked == false && (
+              <$Template
+                ref={downloadRef}
+                state={SD}
+                onClick={(e) => {
+                  for (
+                    let i = 0;
+                    i < document.getElementsByClassName('each-item').length;
+                    i++
+                  ) {
+                    document.getElementsByClassName('each-item')[
+                      i
+                    ].children[0].style.border = 'none';
+                  }
+                  setEachPK('');
+                  setNameSearcher(false);
+                }}
+              >
+                {nameSearcher && (
+                  <$SearchEach
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    <Select options={option} onChange={searchAndSet}></Select>
+                  </$SearchEach>
+                )}
+                {eachSide.map((a) => {
+                  return (
+                    <>
+                      <$Team
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <$TeamLogoWrapper>
+                          <$SelectWrapper className="disappear">
+                            <Select
+                              styles={{
+                                control: (baseStyles) => ({
+                                  ...baseStyles,
+                                  height: '2vw',
+                                  width: '100px',
+                                  borderRadius: '10px',
+                                }),
+                                placeholder: (baseStyles) => ({
+                                  ...baseStyles,
+                                  color: 'black',
+                                }),
+                              }}
+                              options={option2}
+                              onChange={(e) => {
+                                pickLogo2(e.label, e.value, a.name);
+                              }}
+                            ></Select>
+                          </$SelectWrapper>
+                          <$TeamLogo
+                            src={a.teamLogo}
+                            onClick={() => {
+                              pickLogo(a.name);
                             }}
-                            options={option2}
-                            onChange={(e) => {
-                              pickLogo2(e.label, e.value, a.name);
-                            }}
-                          ></Select>
-                        </$SelectWrapper>
-                        <$TeamLogo
-                          src={a.teamLogo}
-                          onClick={() => {
-                            pickLogo(a.name);
-                          }}
-                        ></$TeamLogo>
-                      </$TeamLogoWrapper>
-                      <$PlayerPlace>
-                        {a.players.map((x, idx) => {
-                          let inputId = 'input:' + x.playerId;
-                          let labelId = 'label:' + x.playerId;
-                          let triId = 'tri:' + x.playerId;
-                          return (
-                            <$Player>
-                              {a.name == 'first' ? (
-                                <$NameLine
-                                  id={labelId}
-                                  onContextMenu={(e) => {
-                                    e.preventDefault();
-                                    optionAdder(a.name, x.playerId);
-                                  }}
-                                >
-                                  <$PlayerName
-                                    style={{ backgroundColor: a.teamColor }}
-                                  >
-                                    <$NameInput
-                                      style={{ width: x.playerWidth }}
-                                      id={inputId}
-                                      value={x.playerName}
-                                      onChange={(e) => {
-                                        let pw = x.playerId + ':' + idx;
-                                        eachPlayerNameChange(
-                                          e.currentTarget.value,
-                                          x.playerId,
-                                          pw,
-                                        );
-                                      }}
-                                      type="text"
-                                    ></$NameInput>
-                                    <span
-                                      id={x.playerId + ':' + idx}
-                                      style={{
-                                        opacity: 0,
-                                        position: 'absolute',
-                                      }}
-                                    >
-                                      {x.playerName}
-                                    </span>
-                                  </$PlayerName>
-                                  <$NameTriangle
-                                    id={triId}
-                                    teamcolor={a.teamColor}
-                                  />
-                                  {x.playerLabel.length > 0 &&
-                                    x.playerLabel.map((item) => {
-                                      let url = '';
-                                      if (item.split(':')[0] == 'leader') {
-                                        url = leader2;
-                                      } else if (item.split(':')[0] == 'dice') {
-                                        url = dice2;
-                                      }
-                                      return (
-                                        <$Label
-                                          onClick={() => {
-                                            optionChanger(x.playerId, item);
-                                          }}
-                                          onContextMenu={(e) => {
-                                            e.stopPropagation();
-                                            e.preventDefault();
-                                            optionRemover(x.playerId, item);
-                                          }}
-                                          id={item}
-                                          src={url}
-                                        ></$Label>
-                                      );
-                                    })}
-                                </$NameLine>
-                              ) : (
-                                <$NameLine
-                                  id={labelId}
-                                  onContextMenu={(e) => {
-                                    e.preventDefault();
-                                    optionAdder(a.name, x.playerId);
-                                  }}
-                                  style={{ justifyContent: 'end' }}
-                                >
-                                  {x.playerLabel.length > 0 &&
-                                    x.playerLabel.map((item) => {
-                                      let url = '';
-                                      if (item.split(':')[0] == 'leader') {
-                                        url = leader;
-                                      } else if (item.split(':')[0] == 'dice') {
-                                        url = dice;
-                                      }
-                                      return (
-                                        <$Label2
-                                          onClick={() => {
-                                            optionChanger(x.playerId, item);
-                                          }}
-                                          onContextMenu={(e) => {
-                                            e.stopPropagation();
-                                            e.preventDefault();
-                                            optionRemover(x.playerId, item);
-                                          }}
-                                          id={item}
-                                          src={url}
-                                        ></$Label2>
-                                      );
-                                    })}
-                                  <$NameTriangle2
-                                    id={triId}
-                                    teamcolor={a.teamColor}
-                                  />
-                                  <$PlayerName
-                                    style={{ backgroundColor: a.teamColor }}
-                                  >
-                                    <$NameInput
-                                      style={{ width: x.playerWidth }}
-                                      id={inputId}
-                                      value={x.playerName}
-                                      onChange={(e) => {
-                                        let pw = x.playerId + ':' + idx;
-                                        eachPlayerNameChange(
-                                          e.currentTarget.value,
-                                          x.playerId,
-                                          pw,
-                                        );
-                                      }}
-                                      type="text"
-                                    ></$NameInput>
-                                    <span
-                                      id={x.playerId + ':' + idx}
-                                      style={{
-                                        opacity: 0,
-                                        position: 'absolute',
-                                      }}
-                                    >
-                                      {x.playerName}
-                                    </span>
-                                  </$PlayerName>
-                                </$NameLine>
-                              )}
-
-                              <$PlayerProfile>
+                          ></$TeamLogo>
+                        </$TeamLogoWrapper>
+                        <$PlayerPlace>
+                          {a.players.map((x, idx) => {
+                            let inputId = 'input:' + x.playerId;
+                            let labelId = 'label:' + x.playerId;
+                            let triId = 'tri:' + x.playerId;
+                            return (
+                              <$Player>
                                 {a.name == 'first' ? (
-                                  <>
-                                    {' '}
-                                    <$PlayerAvatarWrapper>
-                                      <$PlayerAvatar
-                                        onClick={() => {
-                                          pickAvatar(x.playerId);
+                                  <$NameLine
+                                    id={labelId}
+                                    onContextMenu={(e) => {
+                                      e.preventDefault();
+                                      optionAdder(a.name, x.playerId);
+                                    }}
+                                  >
+                                    <$PlayerName
+                                      style={{ backgroundColor: a.teamColor }}
+                                    >
+                                      <$NameInput
+                                        style={{ width: x.playerWidth }}
+                                        id={inputId}
+                                        value={x.playerName}
+                                        onChange={(e) => {
+                                          let pw = x.playerId + ':' + idx;
+                                          eachPlayerNameChange(
+                                            e.currentTarget.value,
+                                            x.playerId,
+                                            pw,
+                                          );
+                                        }}
+                                        type="text"
+                                      ></$NameInput>
+                                      <span
+                                        id={x.playerId + ':' + idx}
+                                        style={{
+                                          opacity: 0,
+                                          position: 'absolute',
                                         }}
                                       >
-                                        <img
-                                          style={{ width: '100%' }}
-                                          src={
-                                            x.playerAvatar
-                                              ? x.playerAvatar
-                                              : unknown
-                                          }
-                                        ></img>
-                                      </$PlayerAvatar>
-                                    </$PlayerAvatarWrapper>
-                                    <$PlayerEntry id={x.playerId}>
-                                      <$Blackbar></$Blackbar>
-                                      {x.entry.map((y) => {
-                                        const id = y.id + Date.now();
+                                        {x.playerName}
+                                      </span>
+                                    </$PlayerName>
+                                    <$NameTriangle
+                                      id={triId}
+                                      teamcolor={a.teamColor}
+                                    />
+                                    {x.playerLabel.length > 0 &&
+                                      x.playerLabel.map((item) => {
+                                        let url = '';
+                                        if (item.split(':')[0] == 'leader') {
+                                          url = leader2;
+                                        } else if (
+                                          item.split(':')[0] == 'dice'
+                                        ) {
+                                          url = dice2;
+                                        }
                                         return (
-                                          <$EachPokemonWrapper
-                                            className="each-item"
-                                            onClick={(e) => {
-                                              for (
-                                                let i = 0;
-                                                i <
-                                                document.getElementsByClassName(
-                                                  'each-item',
-                                                ).length;
-                                                i++
-                                              ) {
-                                                document.getElementsByClassName(
-                                                  'each-item',
-                                                )[i].children[0].style.border =
-                                                  'none';
-                                              }
-                                              e.target.style.border =
-                                                '1px solid blue';
-                                              setEachPK(y.id);
-                                              searchOn();
+                                          <$Label
+                                            onClick={() => {
+                                              optionChanger(x.playerId, item);
                                             }}
                                             onContextMenu={(e) => {
+                                              e.stopPropagation();
                                               e.preventDefault();
-                                              ban(id);
+                                              optionRemover(x.playerId, item);
                                             }}
-                                          >
-                                            <$Banned id={id}></$Banned>
-                                            <$EachPokemon
-                                              id={y.id}
-                                              src={y.src ? y.src : db[0].url}
-                                            ></$EachPokemon>
-                                          </$EachPokemonWrapper>
+                                            id={item}
+                                            src={url}
+                                          ></$Label>
                                         );
                                       })}
-                                    </$PlayerEntry>
-                                    <$EntryPaste className="disappear">
-                                      <$Util
-                                        onClick={() => {
-                                          entryInput(x.playerId);
-                                        }}
-                                      >
-                                        <BsFiletypeTxt />
-                                      </$Util>
-                                      <$Util
-                                        onClick={() => {
-                                          resetEntry(x.playerId);
-                                        }}
-                                      >
-                                        <GrPowerReset />
-                                      </$Util>
-                                    </$EntryPaste>
-                                  </>
+                                  </$NameLine>
                                 ) : (
-                                  <>
-                                    <$EntryPaste className="disappear">
-                                      <$Util
-                                        onClick={() => {
-                                          entryInput(x.playerId);
-                                        }}
-                                      >
-                                        <BsFiletypeTxt />
-                                      </$Util>
-                                      <$Util
-                                        onClick={() => {
-                                          resetEntry(x.playerId);
-                                        }}
-                                      >
-                                        <GrPowerReset />
-                                      </$Util>
-                                    </$EntryPaste>
-
-                                    <$PlayerEntry id={x.playerId}>
-                                      <$Blackbar></$Blackbar>
-                                      {x.entry.map((y) => {
-                                        const id = y.id + Date.now();
+                                  <$NameLine
+                                    id={labelId}
+                                    onContextMenu={(e) => {
+                                      e.preventDefault();
+                                      optionAdder(a.name, x.playerId);
+                                    }}
+                                    style={{ justifyContent: 'end' }}
+                                  >
+                                    {x.playerLabel.length > 0 &&
+                                      x.playerLabel.map((item) => {
+                                        let url = '';
+                                        if (item.split(':')[0] == 'leader') {
+                                          url = leader;
+                                        } else if (
+                                          item.split(':')[0] == 'dice'
+                                        ) {
+                                          url = dice;
+                                        }
                                         return (
-                                          <$EachPokemonWrapper
-                                            className="each-item"
-                                            onClick={(e) => {
-                                              for (
-                                                let i = 0;
-                                                i <
-                                                document.getElementsByClassName(
-                                                  'each-item',
-                                                ).length;
-                                                i++
-                                              ) {
-                                                document.getElementsByClassName(
-                                                  'each-item',
-                                                )[i].children[0].style.border =
-                                                  'none';
-                                              }
-                                              e.target.style.border =
-                                                '1px solid blue';
-                                              setEachPK(y.id);
-                                              searchOn();
+                                          <$Label2
+                                            onClick={() => {
+                                              optionChanger(x.playerId, item);
                                             }}
                                             onContextMenu={(e) => {
+                                              e.stopPropagation();
                                               e.preventDefault();
-                                              ban(id);
+                                              optionRemover(x.playerId, item);
                                             }}
-                                          >
-                                            <$Banned id={id}></$Banned>
-                                            <$EachPokemon
-                                              id={y.id}
-                                              src={y.src ? y.src : db[0].url}
-                                            ></$EachPokemon>
-                                          </$EachPokemonWrapper>
+                                            id={item}
+                                            src={url}
+                                          ></$Label2>
                                         );
                                       })}
-                                    </$PlayerEntry>
-                                    <$PlayerAvatarWrapper>
-                                      <$PlayerAvatar
-                                        onClick={() => {
-                                          pickAvatar(x.playerId);
+                                    <$NameTriangle2
+                                      id={triId}
+                                      teamcolor={a.teamColor}
+                                    />
+                                    <$PlayerName
+                                      style={{ backgroundColor: a.teamColor }}
+                                    >
+                                      <$NameInput
+                                        style={{ width: x.playerWidth }}
+                                        id={inputId}
+                                        value={x.playerName}
+                                        onChange={(e) => {
+                                          let pw = x.playerId + ':' + idx;
+                                          eachPlayerNameChange(
+                                            e.currentTarget.value,
+                                            x.playerId,
+                                            pw,
+                                          );
+                                        }}
+                                        type="text"
+                                      ></$NameInput>
+                                      <span
+                                        id={x.playerId + ':' + idx}
+                                        style={{
+                                          opacity: 0,
+                                          position: 'absolute',
                                         }}
                                       >
-                                        <img
-                                          style={{ width: '100%' }}
-                                          src={
-                                            x.playerAvatar
-                                              ? x.playerAvatar
-                                              : unknown
-                                          }
-                                        ></img>
-                                      </$PlayerAvatar>
-                                    </$PlayerAvatarWrapper>
-                                  </>
+                                        {x.playerName}
+                                      </span>
+                                    </$PlayerName>
+                                  </$NameLine>
                                 )}
-                              </$PlayerProfile>
-                              <br></br>
-                            </$Player>
-                          );
-                        })}
-                      </$PlayerPlace>
-                    </$Team>
-                    {a.name == 'first' && eachSide.length == 2 && (
-                      <$Versus>VS</$Versus>
-                    )}
-                  </>
-                );
-              })}
-            </$Template>
-          )}
-          <$GenerateButton ref={buttonRef} onClick={exportElementAsPNG2}>
-            DOWNLOAD
-          </$GenerateButton>
-        </$AllArea>
+
+                                <$PlayerProfile>
+                                  {a.name == 'first' ? (
+                                    <>
+                                      {' '}
+                                      <$PlayerAvatarWrapper>
+                                        <$PlayerAvatar
+                                          onClick={() => {
+                                            pickAvatar(x.playerId);
+                                          }}
+                                        >
+                                          <img
+                                            style={{ width: '100%' }}
+                                            src={
+                                              x.playerAvatar
+                                                ? x.playerAvatar
+                                                : unknown
+                                            }
+                                          ></img>
+                                        </$PlayerAvatar>
+                                      </$PlayerAvatarWrapper>
+                                      <$PlayerEntry id={x.playerId}>
+                                        <$Blackbar></$Blackbar>
+                                        {x.entry.map((y) => {
+                                          const id = y.id + Date.now();
+                                          return (
+                                            <$EachPokemonWrapper
+                                              className="each-item"
+                                              onClick={(e) => {
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  document.getElementsByClassName(
+                                                    'each-item',
+                                                  ).length;
+                                                  i++
+                                                ) {
+                                                  document.getElementsByClassName(
+                                                    'each-item',
+                                                  )[
+                                                    i
+                                                  ].children[0].style.border =
+                                                    'none';
+                                                }
+                                                e.target.style.border =
+                                                  '1px solid blue';
+                                                setEachPK(y.id);
+                                                searchOn();
+                                              }}
+                                              onContextMenu={(e) => {
+                                                e.preventDefault();
+                                                ban(id);
+                                              }}
+                                            >
+                                              <$Banned id={id}></$Banned>
+                                              <$EachPokemon
+                                                id={y.id}
+                                                src={y.src ? y.src : db[0].url}
+                                              ></$EachPokemon>
+                                            </$EachPokemonWrapper>
+                                          );
+                                        })}
+                                      </$PlayerEntry>
+                                      <$EntryPaste className="disappear">
+                                        <$Util
+                                          onClick={() => {
+                                            entryInput(x.playerId);
+                                          }}
+                                        >
+                                          <BsFiletypeTxt />
+                                        </$Util>
+                                        <$Util
+                                          onClick={() => {
+                                            resetEntry(x.playerId);
+                                          }}
+                                        >
+                                          <GrPowerReset />
+                                        </$Util>
+                                      </$EntryPaste>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <$EntryPaste className="disappear">
+                                        <$Util
+                                          onClick={() => {
+                                            entryInput(x.playerId);
+                                          }}
+                                        >
+                                          <BsFiletypeTxt />
+                                        </$Util>
+                                        <$Util
+                                          onClick={() => {
+                                            resetEntry(x.playerId);
+                                          }}
+                                        >
+                                          <GrPowerReset />
+                                        </$Util>
+                                      </$EntryPaste>
+
+                                      <$PlayerEntry id={x.playerId}>
+                                        <$Blackbar></$Blackbar>
+                                        {x.entry.map((y) => {
+                                          const id = y.id + Date.now();
+                                          return (
+                                            <$EachPokemonWrapper
+                                              className="each-item"
+                                              onClick={(e) => {
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  document.getElementsByClassName(
+                                                    'each-item',
+                                                  ).length;
+                                                  i++
+                                                ) {
+                                                  document.getElementsByClassName(
+                                                    'each-item',
+                                                  )[
+                                                    i
+                                                  ].children[0].style.border =
+                                                    'none';
+                                                }
+                                                e.target.style.border =
+                                                  '1px solid blue';
+                                                setEachPK(y.id);
+                                                searchOn();
+                                              }}
+                                              onContextMenu={(e) => {
+                                                e.preventDefault();
+                                                ban(id);
+                                              }}
+                                            >
+                                              <$Banned id={id}></$Banned>
+                                              <$EachPokemon
+                                                id={y.id}
+                                                src={y.src ? y.src : db[0].url}
+                                              ></$EachPokemon>
+                                            </$EachPokemonWrapper>
+                                          );
+                                        })}
+                                      </$PlayerEntry>
+                                      <$PlayerAvatarWrapper>
+                                        <$PlayerAvatar
+                                          onClick={() => {
+                                            pickAvatar(x.playerId);
+                                          }}
+                                        >
+                                          <img
+                                            style={{ width: '100%' }}
+                                            src={
+                                              x.playerAvatar
+                                                ? x.playerAvatar
+                                                : unknown
+                                            }
+                                          ></img>
+                                        </$PlayerAvatar>
+                                      </$PlayerAvatarWrapper>
+                                    </>
+                                  )}
+                                </$PlayerProfile>
+                                <br></br>
+                              </$Player>
+                            );
+                          })}
+                        </$PlayerPlace>
+                      </$Team>
+                      {a.name == 'first' && eachSide.length == 2 && (
+                        <$Versus>VS</$Versus>
+                      )}
+                    </>
+                  );
+                })}
+              </$Template>
+            )}
+            <$GenerateButton ref={buttonRef} onClick={exportElementAsPNG2}>
+              DOWNLOAD
+            </$GenerateButton>
+          </$AllArea>
+        </>
       )}
     </>
   );

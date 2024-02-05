@@ -1348,11 +1348,6 @@ const LeagueTemplate = () => {
                                         {x.playerName}
                                       </span>
                                     </$PlayerName>
-                                    {/* <$NameTriangle
-                                      id={triId}
-                                      teamcolor={a.teamColor}
-                                    /> */}
-                                    {/* <$Label src={t1} /> */}
                                     {x.playerLabel.length > 0 ? (
                                       x.playerLabel.map((item) => {
                                         let url = '';
@@ -1379,7 +1374,10 @@ const LeagueTemplate = () => {
                                         );
                                       })
                                     ) : (
-                                      <$Label src={t1} />
+                                      <$Label
+                                        style={{ width: '3vw' }}
+                                        src={t1}
+                                      />
                                     )}
                                   </$NameLine>
                                 ) : (
@@ -1417,12 +1415,11 @@ const LeagueTemplate = () => {
                                         );
                                       })
                                     ) : (
-                                      <$Label2 src={t2} />
+                                      <$Label2
+                                        style={{ width: '3vw' }}
+                                        src={t2}
+                                      />
                                     )}
-                                    {/* <$NameTriangle2
-                                      id={triId}
-                                      teamcolor={a.teamColor}
-                                    /> */}
                                     <$PlayerName
                                       style={{ backgroundColor: a.teamColor }}
                                     >

@@ -12,6 +12,8 @@ import dice2 from '../items/dice2.png';
 import leader2 from '../items/leader2.png';
 import dice from '../items/dice.png';
 import leader from '../items/leader.png';
+import t1 from '../items/1t.png';
+import t2 from '../items/2t.png';
 
 const imageContext = require.context(
   '../teamlogos',
@@ -1346,11 +1348,12 @@ const LeagueTemplate = () => {
                                         {x.playerName}
                                       </span>
                                     </$PlayerName>
-                                    <$NameTriangle
+                                    {/* <$NameTriangle
                                       id={triId}
                                       teamcolor={a.teamColor}
-                                    />
-                                    {x.playerLabel.length > 0 &&
+                                    /> */}
+                                    {/* <$Label src={t1} /> */}
+                                    {x.playerLabel.length > 0 ? (
                                       x.playerLabel.map((item) => {
                                         let url = '';
                                         if (item.split(':')[0] == 'leader') {
@@ -1374,7 +1377,10 @@ const LeagueTemplate = () => {
                                             src={url}
                                           ></$Label>
                                         );
-                                      })}
+                                      })
+                                    ) : (
+                                      <$Label src={t1} />
+                                    )}
                                   </$NameLine>
                                 ) : (
                                   <$NameLine
@@ -1385,7 +1391,7 @@ const LeagueTemplate = () => {
                                     }}
                                     style={{ justifyContent: 'end' }}
                                   >
-                                    {x.playerLabel.length > 0 &&
+                                    {x.playerLabel.length > 0 ? (
                                       x.playerLabel.map((item) => {
                                         let url = '';
                                         if (item.split(':')[0] == 'leader') {
@@ -1409,11 +1415,14 @@ const LeagueTemplate = () => {
                                             src={url}
                                           ></$Label2>
                                         );
-                                      })}
-                                    <$NameTriangle2
+                                      })
+                                    ) : (
+                                      <$Label2 src={t2} />
+                                    )}
+                                    {/* <$NameTriangle2
                                       id={triId}
                                       teamcolor={a.teamColor}
-                                    />
+                                    /> */}
                                     <$PlayerName
                                       style={{ backgroundColor: a.teamColor }}
                                     >
@@ -1635,6 +1644,7 @@ const $Label = styled.img`
 const $Label2 = styled.img`
   width: 6vw;
   margin-right: -2vw;
+  z-index: 2;
 `;
 
 const $Util = styled.div`

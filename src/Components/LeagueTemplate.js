@@ -1375,7 +1375,10 @@ const LeagueTemplate = () => {
                                       })
                                     ) : (
                                       <$Label
-                                        style={{ width: '3vw' }}
+                                        style={{
+                                          marginTop: '-0.1vw',
+                                          width: '3.2vw',
+                                        }}
                                         src={t1}
                                       />
                                     )}
@@ -1416,7 +1419,10 @@ const LeagueTemplate = () => {
                                       })
                                     ) : (
                                       <$Label2
-                                        style={{ width: '3vw' }}
+                                        style={{
+                                          marginTop: '-0.1vw',
+                                          width: '3.2vw',
+                                        }}
                                         src={t2}
                                       />
                                     )}

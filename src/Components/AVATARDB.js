@@ -1353,11 +1353,10 @@ let avatarName = [
 
 let atdb = [];
 for (let i = 0; i < avatarName.length; i++) {
-  let obj = {
+  atdb.push({
     name: avatarName[i],
     url: categoryData[i],
-  };
-  atdb.push(obj);
+  });
 }
 
 export { atdb };

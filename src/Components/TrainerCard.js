@@ -19,7 +19,7 @@ const TrainerCard = () => {
   }
   for (let i = 0; i < atdb.length; i++) {
     option2.push({
-      value: atdb[i].url,
+      value: atdb[i].name + ':' + atdb[i].url,
       label: (
         <div>
           {atdb[i].name} <img style={{ width: '30px' }} src={atdb[i].url}></img>
@@ -473,7 +473,9 @@ const TrainerCard = () => {
             <Select
               options={option2}
               onChange={(e) => {
-                setCurrentAvatar(e.value);
+                setCurrentAvatar(
+                  e.value.split(':')[1] + ':' + e.value.split(':')[2],
+                );
               }}
             />
           </div>

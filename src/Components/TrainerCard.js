@@ -207,7 +207,7 @@ const TrainerCard = () => {
   };
 
   const passwordPass = () => {
-    if (PW == key.key) {
+    if (PW == 'hengbengquatrobe') {
       setLocked(false);
     } else {
       alert('비밀번호를 확인해주세요');

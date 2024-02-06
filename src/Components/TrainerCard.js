@@ -11,21 +11,25 @@ import { toPng, toSvg, toJpeg } from 'html-to-image';
 const TrainerCard = () => {
   let option = [];
   let option2 = [];
+  let rawsetPK = [];
+  let rawsetAT = [];
   for (let i = 0; i < db.length; i++) {
     option.push({
-      value: db[i].url,
+      value: i,
       label: db[i].nameKo,
     });
+    rawsetPK.push(db[i].url);
   }
   for (let i = 0; i < atdb.length; i++) {
     option2.push({
-      value: atdb[i].name + ':' + atdb[i].url,
+      value: atdb[i].name + ':' + i,
       label: (
         <div>
           {atdb[i].name} <img style={{ width: '30px' }} src={atdb[i].url}></img>
         </div>
       ),
     });
+    rawsetAT.push(atdb[i].url);
   }
   let year = new Date();
   year = year.getFullYear();
@@ -154,7 +158,7 @@ const TrainerCard = () => {
     let copy2 = searchSwitch.slice();
     for (let i = 0; i < copy.length; i++) {
       if (i == idx) {
-        copy[i] = value;
+        copy[i] = rawsetPK[value];
         copy2[i] = !copy2[i];
       }
     }
@@ -473,9 +477,7 @@ const TrainerCard = () => {
             <Select
               options={option2}
               onChange={(e) => {
-                setCurrentAvatar(
-                  e.value.split(':')[1] + ':' + e.value.split(':')[2],
-                );
+                setCurrentAvatar(rawsetAT[e.value.split(':')[1]]);
               }}
             />
           </div>

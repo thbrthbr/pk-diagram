@@ -1,12 +1,24 @@
 import { atdb } from './AVATARDB';
 import { db } from './PKDB';
 import styled from 'styled-components';
-import bgimg from '../Logo/bgimg.png';
+import bgimg from '../Logo/ball3.png';
 import { useRef, useState } from 'react';
 import star from '../items/star.png';
 import star2 from '../items/star-red.png';
 import Select from 'react-select';
+import galaxy from '../items/galaxy.png';
+import hubo1 from '../items/hubo1.jpg';
+import hubo2 from '../items/hubo2.jpg';
+import hubo3 from '../items/hubo3.jpg';
+import hubo4 from '../items/hubo4.jpg';
+import hubo5 from '../items/hubo5.jpg';
+import hubo6 from '../items/hubo6.webp';
 import { toPng, toSvg, toJpeg } from 'html-to-image';
+import { RiShiningLine } from 'react-icons/ri';
+import { RiShiningFill } from 'react-icons/ri';
+import { FaCrown } from 'react-icons/fa';
+import { LuCrown } from 'react-icons/lu';
+import { LiaCrownSolid } from 'react-icons/lia';
 
 const TrainerCard = () => {
   let option = [];
@@ -65,6 +77,8 @@ const TrainerCard = () => {
   const [bColor, setBColor] = useState('#C1DFE2');
   const [starLevel, setStarLevel] = useState([star, '', '', '', '']);
   const [yearOnwer, setYearOwner] = useState(false);
+  const [legend, setLegend] = useState(false);
+  const [currentLevel, setCurrentLevel] = useState(-1);
   const buttonRef = useRef();
   const downloadRef2 = useRef();
 
@@ -80,8 +94,8 @@ const TrainerCard = () => {
     'Epic Card',
     'Master Card',
     'GrandMaster Card',
-    'Legend Card',
-    'YearOnwer Card',
+    'LEGEND CARD',
+    'YEAR-OWNER CARD',
   ];
 
   const levelTheme = [
@@ -102,7 +116,7 @@ const TrainerCard = () => {
       backColor: '#FFE616',
     },
     {
-      headerColor: '#1AD100',
+      headerColor: '#05803C',
       backColor: '#7ED18F',
     },
     {
@@ -167,42 +181,54 @@ const TrainerCard = () => {
   };
 
   const levelChanger = (lev) => {
+    setCurrentLevel(lev);
     setHColor(levelTheme[+lev - 1].headerColor);
     setBColor(levelTheme[+lev - 1].backColor);
     setTrainerStep(trainerLevel[lev - 1]);
     if (lev == 1) {
       setStarLevel([star, '', '', '', '']);
       setYearOwner(false);
+      setLegend(false);
     } else if (lev == 2) {
       setStarLevel([star, star, '', '', '']);
       setYearOwner(false);
+      setLegend(false);
     } else if (lev == 3) {
       setStarLevel([star, star, star, '', '']);
       setYearOwner(false);
+      setLegend(false);
     } else if (lev == 4) {
       setStarLevel([star, star, star, star, '']);
       setYearOwner(false);
+      setLegend(false);
     } else if (lev == 5) {
       setStarLevel([star, star, star, star, star]);
       setYearOwner(false);
+      setLegend(false);
     } else if (lev == 6) {
       setStarLevel([star2, star, star, star, star]);
       setYearOwner(false);
+      setLegend(false);
     } else if (lev == 7) {
       setStarLevel([star2, star2, star, star, star]);
       setYearOwner(false);
+      setLegend(false);
     } else if (lev == 8) {
       setStarLevel([star2, star2, star2, star, star]);
       setYearOwner(false);
+      setLegend(false);
     } else if (lev == 9) {
       setStarLevel([star2, star2, star2, star2, star]);
       setYearOwner(false);
+      setLegend(false);
     } else if (lev == 10) {
       setStarLevel([star2, star2, star2, star2, star2]);
       setYearOwner(false);
+      setLegend(true);
     } else if (lev == 11) {
       setStarLevel(['', '', '', '', '']);
       setYearOwner(true);
+      setLegend(false);
     }
   };
 
@@ -291,7 +317,9 @@ const TrainerCard = () => {
               img={bgimg}
               color={bColor}
               style={{
-                background: `url(${bgimg}), linear-gradient(350deg, ${hColor} 20%, ${bColor} 50%)`,
+                background: yearOnwer
+                  ? `url(${hubo1})`
+                  : `url(${bgimg}), linear-gradient(350deg, ${hColor} 20%, ${bColor} 50%)`,
                 // background: `url(${bgimg}), linear-gradient(330deg, ${hColor} 40%, white 47%, white 49%, ${bColor} 56%)`,
               }}
             >
@@ -299,11 +327,84 @@ const TrainerCard = () => {
                 color={hColor}
                 style={{
                   background: yearOnwer
-                    ? 'linear-gradient(to top, #FFC911, #F74E0D)'
+                    ? 'transparent'
                     : `linear-gradient(to right bottom, ${hColor}, ${bColor})`,
                 }}
               >
-                <div style={{ fontFamily: 'giants-bold' }}>{trainerStep}</div>
+                <div
+                  style={
+                    legend
+                      ? {
+                          fontFamily: 'giants-bold',
+                          backgroundImage:
+                            'linear-gradient(to bottom, orange, yellow, orange)',
+                          backgroundClip: 'text',
+                          WebkitBackgroundClip: 'text',
+                          color: 'transparent',
+                        }
+                      : {
+                          fontFamily: 'giants-bold',
+                          color: 'white',
+                        }
+                  }
+                >
+                  {/* {legend && (
+                    <FaCrown
+                      style={{
+                        color: 'yellow',
+                        // background:
+                        //   '-moz-linear-gradient(top, #e72c83 0%, #a742c6 100%)',
+                        // background:
+                        //   '-webkit-linear-gradient(top, #e72c83 0%, #a742c6 100%)',
+                        // background:
+                        //   'linear-gradient(to bottom, #e72c83 0%, #a742c6 100%)',
+                        // WebkitBackgroundClip: 'text',
+                        // MozBackgroundClip: 'text',
+                        // backgroundClip: 'text',
+                        // WebkitTextFillColor: 'transparent',
+                      }}
+                    />
+                  )} */}
+                  {trainerStep}
+                  {legend && (
+                    <FaCrown
+                      style={{
+                        marginLeft: '3px',
+                        color: '#FFDB00',
+                      }}
+                    />
+                  )}
+                  {currentLevel == 9 && (
+                    <>
+                      <RiShiningFill
+                        style={{
+                          marginLeft: '3px',
+                        }}
+                      />
+                      <RiShiningFill />
+                      <RiShiningFill />
+                    </>
+                  )}
+                  {currentLevel == 8 && (
+                    <>
+                      <RiShiningFill
+                        style={{
+                          marginLeft: '3px',
+                        }}
+                      />
+                      <RiShiningFill />
+                    </>
+                  )}
+                  {currentLevel == 7 && (
+                    <>
+                      <RiShiningFill
+                        style={{
+                          marginLeft: '3px',
+                        }}
+                      />
+                    </>
+                  )}
+                </div>
                 <$StarPlace>
                   {yearOnwer ? (
                     <$Year>{year}</$Year>
@@ -315,7 +416,16 @@ const TrainerCard = () => {
                 </$StarPlace>
               </$TitleLine>
               <$NameLine>
-                <$DescBalloon onClick={dateHandler}>
+                <$DescBalloon
+                  style={{
+                    backgroundColor:
+                      yearOnwer || currentLevel == 10
+                        ? 'rgba(0, 0, 0, 0.3)'
+                        : 'rgba(255, 255, 255, 0.6)',
+                    color: yearOnwer || currentLevel == 10 ? 'white' : 'black',
+                  }}
+                  onClick={dateHandler}
+                >
                   {currentDateSwitch == true ? (
                     <div style={{ width: '100%', textAlign: 'center' }}>
                       {currentDate ? currentDate : '날짜'}
@@ -337,7 +447,16 @@ const TrainerCard = () => {
                     ></input>
                   )}
                 </$DescBalloon>
-                <$DescBalloon onClick={nameHandler}>
+                <$DescBalloon
+                  style={{
+                    backgroundColor:
+                      yearOnwer || currentLevel == 10
+                        ? 'rgba(0, 0, 0, 0.3)'
+                        : 'rgba(255, 255, 255, 0.6)',
+                    color: yearOnwer || currentLevel == 10 ? 'white' : 'black',
+                  }}
+                  onClick={nameHandler}
+                >
                   {nameSwitch == true ? (
                     <div style={{ width: '100%', textAlign: 'center' }}>
                       {name ? name : '이름'}
@@ -395,7 +514,16 @@ const TrainerCard = () => {
                 </$AvatarPlace>
               </$ImgLine>
               <$BottomLine>
-                <$DescBalloon2 onClick={recordHandler}>
+                <$DescBalloon2
+                  style={{
+                    backgroundColor:
+                      yearOnwer || currentLevel == 10
+                        ? 'rgba(0, 0, 0, 0.3)'
+                        : 'rgba(255, 255, 255, 0.6)',
+                    color: yearOnwer || currentLevel == 10 ? 'white' : 'black',
+                  }}
+                  onClick={recordHandler}
+                >
                   {recordSwitch == true ? (
                     <div style={{ width: '100%', textAlign: 'center' }}>
                       {record ? record : '기록'}
@@ -417,7 +545,16 @@ const TrainerCard = () => {
                     ></input>
                   )}
                 </$DescBalloon2>
-                <$DescBalloon2 onClick={commentHandler}>
+                <$DescBalloon2
+                  style={{
+                    backgroundColor:
+                      yearOnwer || currentLevel == 10
+                        ? 'rgba(0, 0, 0, 0.3)'
+                        : 'rgba(255, 255, 255, 0.6)',
+                    color: yearOnwer || currentLevel == 10 ? 'white' : 'black',
+                  }}
+                  onClick={commentHandler}
+                >
                   {commentSwitch == true ? (
                     <div style={{ width: '100%', textAlign: 'center' }}>
                       {comment ? comment : '한마디'}
@@ -507,7 +644,7 @@ const $Year = styled.div`
   font-weight: 900;
   color: white;
   font-family: 'giants-inline';
-  font-size: 18px;
+  font-size: 24px;
 `;
 
 const $Star = styled.img`
@@ -536,6 +673,8 @@ const $Select = styled.div`
 
 const $BottomLine = styled.div`
   width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -586,7 +725,7 @@ const $ImgLine = styled.div`
 const $DescBalloon = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.5);
   border-radius: 15px;
   min-width: 45%;
   padding: 5px;
@@ -596,12 +735,13 @@ const $DescBalloon = styled.div`
 const $DescBalloon2 = styled.div`
   /* display: flex;
   justify-content: space-between; */
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.5);
   border-radius: 15px;
-  padding: 5px;
+  /* padding: 5px; */
   margin-bottom: 5px;
-  width: 95%;
+  width: 100%;
   font-size: 13px;
+  padding: 5px;
   text-align: center;
 `;
 
@@ -634,7 +774,7 @@ const $Card = styled.div`
 const $BaseArea = styled.div`
   display: flex;
   justify-content: center;
-  font-family: 'wehaven-regular';
+  font-family: 'wehaven-bold';
 `;
 
 const $NameTag = styled.div`

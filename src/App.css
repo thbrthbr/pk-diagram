@@ -60,3 +60,28 @@
   font-family: 'tenada';
   src: url('./font/Tenada.ttf');
 }
+
+@font-face {
+  font-family: 'giants-bold';
+  src: url('./font/Giants-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'giants-regular';
+  src: url('./font/Giants-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'giants-inline';
+  src: url('./font/Giants-Inline.ttf');
+}
+
+@font-face {
+  font-family: 'ppeace-bold';
+  src: url('./font/PyeongChangPeace-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'ppeace-light';
+  src: url('./font/PyeongChangPeace-Light.ttf');
+}

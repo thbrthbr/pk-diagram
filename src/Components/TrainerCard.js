@@ -290,26 +290,20 @@ const TrainerCard = () => {
               ref={downloadRef2}
               img={bgimg}
               color={bColor}
-              style={
-                yearOnwer
-                  ? {
-                      background:
-                        'linear-gradient(to top, #4E170E, #F3F3F3, #F7F234)',
-                    }
-                  : {
-                      backgroundImage: `url(${bgimg})`,
-                    }
-              }
+              style={{
+                background: `url(${bgimg}), linear-gradient(350deg, ${hColor} 20%, ${bColor} 50%)`,
+                // background: `url(${bgimg}), linear-gradient(330deg, ${hColor} 40%, white 47%, white 49%, ${bColor} 56%)`,
+              }}
             >
               <$TitleLine
                 color={hColor}
                 style={{
                   background: yearOnwer
                     ? 'linear-gradient(to top, #FFC911, #F74E0D)'
-                    : hColor,
+                    : `linear-gradient(to right bottom, ${hColor}, ${bColor})`,
                 }}
               >
-                <div>{trainerStep}</div>
+                <div style={{ fontFamily: 'giants-bold' }}>{trainerStep}</div>
                 <$StarPlace>
                   {yearOnwer ? (
                     <$Year>{year}</$Year>
@@ -512,6 +506,8 @@ const $AllArea = styled.div`
 const $Year = styled.div`
   font-weight: 900;
   color: white;
+  font-family: 'giants-inline';
+  font-size: 18px;
 `;
 
 const $Star = styled.img`
@@ -547,6 +543,7 @@ const $BottomLine = styled.div`
 
 const $AvatarImg = styled.img`
   width: 120px;
+  filter: brightness(120%);
 `;
 
 const $AvatarPlace = styled.div`
@@ -568,6 +565,7 @@ const $PKplacer = styled.div`
 const $eachPK = styled.img`
   /* border: 1px solid black; */
   max-width: 60px;
+  filter: drop-shadow(10px -3px 1px white);
 `;
 
 const $EntryPlace = styled.div`

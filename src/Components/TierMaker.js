@@ -279,6 +279,7 @@ const Tiermaker = () => {
       bigOne.push({ id: set[i].id, contentArr: smallOne });
     }
     setTierList(bigOne);
+    setSelectedItem('');
   };
 
   const backToEmpty = (e) => {
@@ -311,6 +312,7 @@ const Tiermaker = () => {
       bigOne.push({ id: set[i].id, contentArr: smallOne });
     }
     setTierList(bigOne);
+    setSelectedItem('');
   };
 
   const backMobile = (id) => {
@@ -899,7 +901,6 @@ const Tiermaker = () => {
 
   useEffect(() => {
     if (elementRef.current) {
-      console.log(tierList);
       // console.log(elementRef.current.offsetHeight);
       setCoverHeight(elementRef.current.offsetHeight);
     }
@@ -1257,6 +1258,11 @@ const Tiermaker = () => {
                     className="onlyhere"
                     key={i}
                     id={tierList[i].id}
+                    onDragStart={(e) => {
+                      e.stopPropagation();
+                      return false;
+                      // console.log('ㅇㅇ');
+                    }}
                     onDrop={(e) => {
                       drop(e);
                     }}

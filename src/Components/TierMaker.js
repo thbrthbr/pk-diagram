@@ -214,6 +214,7 @@ const Tiermaker = () => {
   };
 
   const back = (id) => {
+    if (!selectedItem) return;
     if (id == selectedItem.id) return;
     let isExsist = [];
     for (let i = 0; i < imgSet.length; i++) {
@@ -313,6 +314,7 @@ const Tiermaker = () => {
   };
 
   const backMobile = (id) => {
+    if (!selectedItem.id) return;
     if (id == selectedItem.id) return;
     let copy = tierList.slice();
     let isback = false;
@@ -384,6 +386,7 @@ const Tiermaker = () => {
   };
 
   const drop = (e) => {
+    if (!selectedItem) return;
     let newData = tierList.slice(0);
     let set = [];
     let changed = false;
@@ -896,7 +899,8 @@ const Tiermaker = () => {
 
   useEffect(() => {
     if (elementRef.current) {
-      console.log(elementRef.current.offsetHeight);
+      console.log(tierList);
+      // console.log(elementRef.current.offsetHeight);
       setCoverHeight(elementRef.current.offsetHeight);
     }
   }, [tierList]);
@@ -1567,6 +1571,10 @@ const $AllArea = styled.div`
 const $Img = styled.img`
   width: 128px;
   height: 128px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   cursor: pointer;
 `;
 

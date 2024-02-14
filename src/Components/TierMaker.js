@@ -78,6 +78,7 @@ const Tiermaker = () => {
   const [uploadHandler, setUploadHandler] = useState(false);
   const [coverHeight, setCoverHeight] = useState(0);
   const [resize, setResize] = useState(0);
+  const [nameChanged, setNameChanged] = useState(0);
 
   const belowRef = useRef(null);
   const threadRef = useRef(null);
@@ -123,6 +124,7 @@ const Tiermaker = () => {
       }
       setImgSet([...saver, ...imgSet]);
       setTierList(copy);
+      setNameChanged(Date.now());
     }
   };
 
@@ -930,14 +932,17 @@ const Tiermaker = () => {
     if (elementRef.current) {
       // console.log(elementRef.current.offsetHeight);
       setCoverHeight(elementRef.current.offsetHeight);
-      let changer = document.getElementsByClassName('nameLine');
-      for (let i = 0; i < changer.length; i++) {
-        let target = changer[i];
-        target.style.height = '1px';
-        target.style.height = target.scrollHeight + 'px';
-      }
     }
   }, [tierList]);
+
+  useEffect(() => {
+    let changer = document.getElementsByClassName('nameLine');
+    for (let i = 0; i < changer.length; i++) {
+      let target = changer[i];
+      target.style.height = '1px';
+      target.style.height = target.scrollHeight + 'px';
+    }
+  }, [nameChanged]);
 
   useEffect(() => {
     if (isMounted3.current) {

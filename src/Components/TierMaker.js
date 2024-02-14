@@ -930,6 +930,12 @@ const Tiermaker = () => {
     if (elementRef.current) {
       // console.log(elementRef.current.offsetHeight);
       setCoverHeight(elementRef.current.offsetHeight);
+      let changer = document.getElementsByClassName('nameLine');
+      for (let i = 0; i < changer.length; i++) {
+        let target = changer[i];
+        target.style.height = '1px';
+        target.style.height = target.scrollHeight + 'px';
+      }
     }
   }, [tierList]);
 

@@ -77,6 +77,7 @@ const Tiermaker = () => {
   const [guideLang, setGuideLang] = useState('korean');
   const [uploadHandler, setUploadHandler] = useState(false);
   const [coverHeight, setCoverHeight] = useState(0);
+  const [resize, setResize] = useState(0);
 
   const belowRef = useRef(null);
   const threadRef = useRef(null);
@@ -163,13 +164,21 @@ const Tiermaker = () => {
           mob1[i].style.border = '1px black solid';
           mob2[i].style.width = '120px';
         }
+        let changer = document.getElementsByClassName('nameLine');
+        for (let i = 0; i < changer.length; i++) {
+          let target = changer[i];
+          target.style.height = '1px';
+          target.style.height = target.scrollHeight + 'px';
+        }
         coverRef.current.style.width = '100vw';
         elementRef.current.style.width = '1450px';
         toPng(elementRef.current).then((image2) => {
           realDownloadRef.current.children[0].src = image2;
           realDownloadRef.current.children[0].width = 800;
-          realDownloadRef.current.children[0].addEventListener('load', () => {
-            setTimeout(() => {
+          realDownloadRef.current.children[0].addEventListener(
+            'load',
+            () => {
+              // setTimeout(() => {
               toPng(realDownloadRef.current.children[0]).then((image3) => {
                 let canvas = document.createElement('canvas');
                 let img1 = new Image();
@@ -204,10 +213,18 @@ const Tiermaker = () => {
                   realDownloadRef.current.children[0].src = '';
                   coverRef.current.style.width = 'auto';
                   coverRef.current.style.display = 'none';
+                  let changer = document.getElementsByClassName('nameLine');
+                  for (let i = 0; i < changer.length; i++) {
+                    let target = changer[i];
+                    target.style.height = '1px';
+                    target.style.height = target.scrollHeight + 'px';
+                  }
                 };
               });
-            }, 1000);
-          });
+              // }, 1000);
+            },
+            { once: true },
+          );
         });
       }
     }
@@ -887,6 +904,16 @@ const Tiermaker = () => {
     if (localStorage.getItem('namedb')) {
       dbloader();
     }
+    window.addEventListener('resize', () => {
+      setResize(window.innerWidth);
+      console.log(window.innerWidth);
+    });
+    return () => {
+      window.removeEventListener('resize', () => {
+        setResize(window.innerWidth);
+        console.log(window.innerWidth);
+      });
+    };
   }, []);
 
   useEffect(() => {
@@ -905,6 +932,19 @@ const Tiermaker = () => {
       setCoverHeight(elementRef.current.offsetHeight);
     }
   }, [tierList]);
+
+  useEffect(() => {
+    if (isMounted3.current) {
+      let changer = document.getElementsByClassName('nameLine');
+      for (let i = 0; i < changer.length; i++) {
+        let target = changer[i];
+        target.style.height = '1px';
+        target.style.height = target.scrollHeight + 'px';
+      }
+    } else {
+      isMounted3.current = true;
+    }
+  }, [resize]);
 
   return (
     <$AllArea>
@@ -1230,6 +1270,7 @@ const Tiermaker = () => {
                     </div>
                     <br></br>
                     <$EachLine
+                      className="nameLine"
                       id={i}
                       placeholder="new"
                       value={tierList[i].id.split(':')[0]}

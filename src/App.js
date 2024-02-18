@@ -5,10 +5,11 @@ import { Tiermaker } from './Components/TierMaker';
 import { Main } from './Components/Main';
 import { LeagueTemplate } from './Components/LeagueTemplate';
 import { TrainerCard } from './Components/TrainerCard';
+import styled from 'styled-components';
 
 function App() {
   return (
-    <div className="App">
+    <$APP className="App">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />}>
@@ -19,8 +20,13 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </div>
+    </$APP>
   );
 }
+
+const $APP = styled.div`
+  height: 100vh;
+  overflow: auto;
+`;
 
 export default App;

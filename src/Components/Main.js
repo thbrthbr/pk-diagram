@@ -85,5 +85,6 @@ const $Area = styled.div`
   align-items: center;
   background-color: aliceblue;
   position: relative;
+  /* top: 200px; */
 `;
 export { Main };

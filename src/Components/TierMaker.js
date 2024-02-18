@@ -498,7 +498,7 @@ const Tiermaker = () => {
   const dropMobile = (e) => {
     try {
       // const body = document.getElementsByTagName('body')[0];
-      const body = document.getElementsByClassName('App');
+      const body = document.getElementsByClassName('App')[0];
       body.style.overflow = 'auto';
       if (threadRef.current) {
         threadRef.current.style.overflowX = 'auto';
@@ -1364,7 +1364,8 @@ const Tiermaker = () => {
                           onTouchMove={(e) => {
                             // const body =
                             //   document.getElementsByTagName('body')[0];
-                            const body = document.getElementsByClassName('App');
+                            const body =
+                              document.getElementsByClassName('App')[0];
                             body.style.overflow = 'hidden';
                             return false;
                           }}
@@ -1482,7 +1483,8 @@ const Tiermaker = () => {
                           threadRef.current.style.overflowX = 'hidden';
                         }
                         // const body = document.getElementsByTagName('body')[0];
-                        const body = document.getElementsByClassName('App');
+                        const body = document.getElementsByClassName('App')[0];
+
                         body.style.overflow = 'hidden';
                         const { clientX, clientY } = e.touches[0];
                         setOffsetX(clientX);

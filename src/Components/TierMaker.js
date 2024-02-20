@@ -335,7 +335,13 @@ const Tiermaker = () => {
   };
 
   const backMobile = (id) => {
-    if (!selectedItem.id) return;
+    console.log(selectedItem);
+    if (!selectedItem.id) {
+      if (selectedItem.id !== 0) {
+        return;
+      }
+    }
+    console.log('?');
     if (id == selectedItem.id) return;
     let copy = tierList.slice();
     let isback = false;
@@ -1341,6 +1347,10 @@ const Tiermaker = () => {
                     {x.contentArr.map((itemId) => {
                       return (
                         <$Img
+                          onClick={(e) => {
+                            console.log(e.currentTarget);
+                            console.log(tierList);
+                          }}
                           className="onlyhere"
                           src={itemId.img}
                           id={itemId.id}
@@ -1451,6 +1461,9 @@ const Tiermaker = () => {
                       {i == 2 && 'Mobile : Swipe this line'}
                     </div>
                     <$Img
+                      onClick={(e) => {
+                        console.log(e.currentTarget);
+                      }}
                       className="onlyhere threadImg"
                       id={x.id}
                       src={x.img}

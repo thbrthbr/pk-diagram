@@ -1,14 +1,11 @@
 import styled from 'styled-components';
-import react, { useState, useRef, useEffect } from 'react';
-import { db, categoryData } from './PKDB';
+import { useState, useRef } from 'react';
+import { db } from './PKDB';
 import { toPng } from 'html-to-image';
-import { DataShow } from './DataShow';
 import { MdOutlineEmail } from 'react-icons/md';
 import { FaLanguage } from 'react-icons/fa';
 import Select from 'react-select';
-import Logo from '../Logo/PK-DIAGRAM.png';
 import { FaArrowUp } from 'react-icons/fa';
-import { Header } from './Header';
 
 const imageContext = require.context(
   '../icon',
@@ -18,10 +15,8 @@ const imageContext = require.context(
 const typeIcons = imageContext.keys().map(imageContext);
 
 const PreferDiagram = () => {
-  const elementRef = useRef();
   const TestRef = useRef();
   const buttonRef = useRef();
-  const logoRef = useRef();
 
   let option = [
     { value: 'korean', label: '한국어' },
@@ -35,7 +30,6 @@ const PreferDiagram = () => {
   const [themeTitleColor, setThemeTitleColor] = useState('black');
   const [themeBorderColor, setThemeBorderColor] = useState('aliceblue');
   const [themeDesc, setThemeDesc] = useState('');
-  const [toggler, setToggler] = useState(false);
   const [language, setLanguage] = useState('korean');
   const [grass, setGrass] = useState(db[0].url);
   const [water, setWater] = useState(db[0].url);
@@ -778,32 +772,6 @@ const $CardWrapper2 = styled.div`
   padding: 10px;
   flex-wrap: wrap;
   justify-content: center;
-`;
-
-const $Logo = styled.div`
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-use-select: none;
-  user-select: none;
-  font-family: 'monoton';
-  font-size: 30px;
-  color: #cb6ce6;
-  cursor: pointer;
-  & img {
-    width: 250px;
-  }
-  & div {
-    margin-top: -20px;
-  }
-`;
-
-const $Area = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: aliceblue;
-  position: relative;
 `;
 
 const $Container = styled.div`

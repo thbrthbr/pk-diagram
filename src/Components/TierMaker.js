@@ -335,13 +335,13 @@ const Tiermaker = () => {
   };
 
   const backMobile = (id) => {
-    console.log(selectedItem);
+    // console.log(selectedItem);
     if (!selectedItem.id) {
       if (selectedItem.id !== 0) {
         return;
       }
     }
-    console.log('?');
+    // console.log('?');
     if (id == selectedItem.id) return;
     let copy = tierList.slice();
     let isback = false;
@@ -808,7 +808,16 @@ const Tiermaker = () => {
     }
     let renew = [];
     for (let i = 0; i < imgSet.length; i++) {
-      if (!used.includes(imgSet[i].name)) renew.push(imgSet[i]);
+      if (!used.includes(imgSet[i].name)) {
+        if (
+          !used.includes(
+            imgSet[i].name.split(':')[0] +
+              'Form:' +
+              imgSet[i].name.split(':')[1],
+          )
+        )
+          renew.push(imgSet[i]);
+      }
     }
     setImgSet(renew);
     setTierList(JSON.parse(test));
@@ -915,12 +924,10 @@ const Tiermaker = () => {
     }
     window.addEventListener('resize', () => {
       setResize(window.innerWidth);
-      console.log(window.innerWidth);
     });
     return () => {
       window.removeEventListener('resize', () => {
         setResize(window.innerWidth);
-        console.log(window.innerWidth);
       });
     };
   }, []);
@@ -1348,8 +1355,8 @@ const Tiermaker = () => {
                       return (
                         <$Img
                           onClick={(e) => {
-                            console.log(e.currentTarget);
-                            console.log(tierList);
+                            // console.log(e.currentTarget);
+                            // console.log(tierList);
                           }}
                           className="onlyhere"
                           src={itemId.img}
@@ -1462,7 +1469,7 @@ const Tiermaker = () => {
                     </div>
                     <$Img
                       onClick={(e) => {
-                        console.log(e.currentTarget);
+                        // console.log(e.currentTarget);
                       }}
                       className="onlyhere threadImg"
                       id={x.id}

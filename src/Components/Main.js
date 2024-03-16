@@ -29,7 +29,7 @@ const Main = () => {
   return (
     <$Area id="logo">
       <Header logoRef={logoRef} />
-      {/* <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex' }}>
         <Link to="prefer">
           <$GenerateButton ref={buttonRef1} onClick={buttonAnimation1}>
             PreferDiagram
@@ -41,7 +41,7 @@ const Main = () => {
             TierGenerator
           </$GenerateButton>
         </Link>
-      </div> */}
+      </div>
       {whereAmI.pathname == '/' && <PreferDiagram />}
       <Outlet />
     </$Area>

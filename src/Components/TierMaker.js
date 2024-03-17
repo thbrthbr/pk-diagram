@@ -87,6 +87,7 @@ const Tiermaker = () => {
   const isMounted3 = useRef(false);
   const draggingItemIndex = useRef(null);
   const draggingOverItemIndex = useRef(null);
+  const topRef = useRef(null);
   const elementRef = useRef(null);
   const coverRef = useRef(null);
   const realDownloadRef = useRef(null);
@@ -143,7 +144,7 @@ const Tiermaker = () => {
   };
 
   const exportElementAsPNG2 = () => {
-    window.scrollTo(0, 0);
+    document.querySelector('#top').scrollIntoView();
     if (coverRef.current && realDownloadRef.current) {
       if (elementRef.current) {
         coverRef.current.style.height = coverHeight + 'px';
@@ -906,7 +907,7 @@ const Tiermaker = () => {
 
   useEffect(() => {
     if (isMounted.current) {
-      window.scrollTo(0, 99999);
+      belowRef.current.scrollIntoView();
     } else {
       isMounted.current = true;
     }
@@ -974,7 +975,7 @@ const Tiermaker = () => {
   return (
     <$AllArea>
       <br></br>
-      <$UpBar>
+      <$UpBar id="top">
         <div
           style={{
             display: 'flex',

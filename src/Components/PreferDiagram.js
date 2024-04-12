@@ -5,7 +5,7 @@ import { toPng } from 'html-to-image';
 import { MdOutlineEmail } from 'react-icons/md';
 import { FaLanguage } from 'react-icons/fa';
 import Select from 'react-select';
-import { FaArrowUp } from 'react-icons/fa';
+import { MdVerticalAlignTop } from 'react-icons/md';
 
 const imageContext = require.context(
   '../icon',
@@ -17,6 +17,7 @@ const typeIcons = imageContext.keys().map(imageContext);
 const PreferDiagram = () => {
   const TestRef = useRef();
   const buttonRef = useRef();
+  const topRef = useRef();
 
   let option = [
     { value: 'korean', label: '한국어' },
@@ -384,7 +385,9 @@ const PreferDiagram = () => {
   };
 
   const goUp = () => {
-    window.scrollTo(0, 0);
+    if (topRef.current) {
+      topRef.current.scrollIntoView();
+    }
   };
 
   const themeChanger = (color) => {
@@ -448,7 +451,7 @@ const PreferDiagram = () => {
           })}
         </$CardWrapper>
       </$DownloadImage>
-      <$SelectWrapper>
+      <$SelectWrapper ref={topRef}>
         <Select
           options={option}
           onChange={languageChanger}
@@ -582,7 +585,7 @@ const PreferDiagram = () => {
       </$Footer>
       <br></br>
       <$GoUp onClick={goUp}>
-        <FaArrowUp />
+        <MdVerticalAlignTop />
       </$GoUp>
     </>
   );
@@ -699,6 +702,7 @@ const $GoUp = styled.div`
   cursor: pointer;
   right: 3%;
   bottom: 3%;
+  font-size: 30px;
   @media (max-width: 280px) {
     right: 10%;
   }

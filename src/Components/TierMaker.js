@@ -3,6 +3,7 @@ import react, { useEffect, useState, useRef } from 'react';
 import { toPng, toSvg, toJpeg } from 'html-to-image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { MdKeyboardDoubleArrowUp } from 'react-icons/md';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { IoDownloadOutline } from 'react-icons/io5';
@@ -22,6 +23,8 @@ import { TbHttpDelete } from 'react-icons/tb';
 import { GrDocumentTxt } from 'react-icons/gr';
 import { GrDocumentUpload } from 'react-icons/gr';
 import { PropagateLoader } from 'react-spinners';
+import { FaArrowUp } from 'react-icons/fa';
+import { MdVerticalAlignTop } from 'react-icons/md';
 
 const Tiermaker = () => {
   let option = [
@@ -902,6 +905,11 @@ const Tiermaker = () => {
     } catch (e) {}
   };
 
+  const goUp = () => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView();
+    }
+  };
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
 
@@ -974,8 +982,11 @@ const Tiermaker = () => {
 
   return (
     <$AllArea>
+      <$ArrowWrapper onClick={goUp}>
+        <MdVerticalAlignTop style={{ color: 'white' }} />
+      </$ArrowWrapper>
       <br></br>
-      <$UpBar id="top">
+      <$UpBar id="top" ref={topRef}>
         <div
           style={{
             display: 'flex',
@@ -1328,7 +1339,6 @@ const Tiermaker = () => {
                     onDragStart={(e) => {
                       e.stopPropagation();
                       return false;
-                      // console.log('ㅇㅇ');
                     }}
                     onDrop={(e) => {
                       drop(e);
@@ -1396,6 +1406,7 @@ const Tiermaker = () => {
             })}
           </div>
           <div ref={belowRef} style={{ height: '210px' }}></div>
+
           <$BottomBar>
             <$ButtonSpace>
               <$CustomButton onClick={addTier}>
@@ -1534,6 +1545,26 @@ const Tiermaker = () => {
     </$AllArea>
   );
 };
+
+const $ArrowWrapper = styled.div`
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.3);
+  /* background-color: black;
+  opacity: 30%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 20px;
+  position: fixed;
+  bottom: 240px;
+  right: 5px;
+  z-index: 17;
+  font-size: 30px;
+`;
 
 const $MailLink = styled.a`
   margin: 0;

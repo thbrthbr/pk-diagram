@@ -1405,7 +1405,7 @@ const Tiermaker = () => {
               );
             })}
           </div>
-          <div ref={belowRef} style={{ height: '210px' }}></div>
+          <div ref={belowRef} style={{ height: '225px' }}></div>
 
           <$BottomBar>
             <$ButtonSpace>
@@ -1469,15 +1469,18 @@ const Tiermaker = () => {
                   <div>
                     <div
                       style={{
-                        height: '25px',
+                        height: '40px',
                         width: '100%',
                         backgroundColor: '#282828',
                         color: 'white',
                         fontSize: '12px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}
                     >
-                      {i == 0 && 'PC : Shift + Scroll'}
-                      {i == 2 && 'Mobile : Swipe this line'}
+                      {i == 0 && <span>PC : Shift + Scroll</span>}
+                      {i == 2 && <span>Mobile : Swipe this line</span>}
                     </div>
                     <$Img
                       onClick={(e) => {
@@ -1560,7 +1563,7 @@ const $ArrowWrapper = styled.div`
   cursor: pointer;
   margin: 20px;
   position: fixed;
-  bottom: 240px;
+  bottom: 255px;
   right: 5px;
   z-index: 17;
   font-size: 30px;
@@ -1741,7 +1744,7 @@ const $TierBox = styled.div`
 
 const $TierThread = styled.div`
   display: flex;
-  height: 154px;
+  height: 170px;
   width: 100vw;
   border: 2px black solid;
   border-radius: 5px;

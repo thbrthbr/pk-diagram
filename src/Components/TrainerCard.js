@@ -53,19 +53,44 @@ const TrainerCard = () => {
     db[0].url,
     db[0].url,
   ]);
+  const [party2, setParty2] = useState([
+    db[0].url,
+    db[0].url,
+    db[0].url,
+    db[0].url,
+    db[0].url,
+    db[0].url,
+  ]);
   const [PW, setPW] = useState('');
   const [locked, setLocked] = useState(true);
   const [trainerStep, setTrainerStep] = useState('Iron Card');
   const [currentDate, setCurrentDate] = useState('');
   const [currentDateSwitch, setCurrentDateSwitch] = useState(true);
+  const [currentDate2, setCurrentDate2] = useState('');
+  const [currentDateSwitch2, setCurrentDateSwitch2] = useState(true);
   const [name, setName] = useState('');
   const [nameSwitch, setNameSwitch] = useState(true);
+  const [name2, setName2] = useState('');
+  const [nameSwitch2, setNameSwitch2] = useState(true);
   const [comment, setComment] = useState('');
   const [commentSwitch, setCommentSwitch] = useState(true);
   const [record, setRecord] = useState('');
   const [recordSwitch, setRecordSwitch] = useState(true);
+  const [comment2, setComment2] = useState('');
+  const [commentSwitch2, setCommentSwitch2] = useState(true);
+  const [record2, setRecord2] = useState('');
+  const [recordSwitch2, setRecordSwitch2] = useState(true);
   const [currentAvatar, setCurrentAvatar] = useState('');
+  const [currentAvatar2, setCurrentAvatar2] = useState('');
   const [searchSwitch, setSearchSwitch] = useState([
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+  ]);
+  const [searchSwitch2, setSearchSwitch2] = useState([
     true,
     true,
     true,
@@ -76,11 +101,19 @@ const TrainerCard = () => {
   const [hColor, setHColor] = useState('#81BCCE');
   const [bColor, setBColor] = useState('#C1DFE2');
   const [starLevel, setStarLevel] = useState([star, '', '', '', '']);
-  const [yearOnwer, setYearOwner] = useState(false);
+  const [yearOwner, setYearOwner] = useState(false);
+  const [imageInserted, setImageInserted] = useState(false);
+  const [imageInsertedSrc, setImageInsertedSrc] = useState('');
   const [legend, setLegend] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(-1);
+  const [specialLevel, setSpecialLevel] = useState(0);
+  const [specialLevelSwitch, setSpecialLevelSwitch] = useState(true);
+  const [specialWeek, setSpecialWeek] = useState('Special Rule');
+  const [specialWeekSwitch, setSpecialWeekSwitch] = useState(true);
   const buttonRef = useRef();
+  const buttonRef2 = useRef();
   const downloadRef2 = useRef();
+  const downloadRef3 = useRef();
 
   const level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
@@ -148,14 +181,32 @@ const TrainerCard = () => {
   const dateHandler = () => {
     setCurrentDateSwitch(!nameSwitch);
   };
+  const dateHandler2 = () => {
+    setCurrentDateSwitch2(!nameSwitch);
+  };
   const nameHandler = () => {
     setNameSwitch(!nameSwitch);
+  };
+  const nameHandler2 = () => {
+    setNameSwitch2(!nameSwitch2);
   };
   const commentHandler = () => {
     setCommentSwitch(!commentSwitch);
   };
   const recordHandler = () => {
     setRecordSwitch(!recordSwitch);
+  };
+  const commentHandler2 = () => {
+    setCommentSwitch2(!commentSwitch2);
+  };
+  const recordHandler2 = () => {
+    setRecordSwitch2(!recordSwitch2);
+  };
+  const levelHandler = () => {
+    setSpecialLevelSwitch(!specialLevelSwitch);
+  };
+  const specialWeekHandler = () => {
+    setSpecialWeekSwitch(!specialWeekSwitch);
   };
   const searchPK = (idx) => {
     let copy = searchSwitch.slice();
@@ -165,6 +216,15 @@ const TrainerCard = () => {
       }
     }
     setSearchSwitch(copy);
+  };
+  const searchPK2 = (idx) => {
+    let copy = searchSwitch2.slice();
+    for (let i = 0; i < copy.length; i++) {
+      if (i == idx) {
+        copy[i] = !copy[i];
+      }
+    }
+    setSearchSwitch2(copy);
   };
 
   const changePK = (idx, value) => {
@@ -178,6 +238,18 @@ const TrainerCard = () => {
     }
     setSearchSwitch(copy2);
     setParty(copy);
+  };
+  const changePK2 = (idx, value) => {
+    let copy = party2.slice();
+    let copy2 = searchSwitch2.slice();
+    for (let i = 0; i < copy.length; i++) {
+      if (i == idx) {
+        copy[i] = rawsetPK[value];
+        copy2[i] = !copy2[i];
+      }
+    }
+    setSearchSwitch2(copy2);
+    setParty2(copy);
   };
 
   const levelChanger = (lev) => {
@@ -252,6 +324,14 @@ const TrainerCard = () => {
       }, 510);
     }
   };
+  const buttonAnimation2 = () => {
+    if (buttonRef2.current) {
+      buttonRef2.current.style.animation = 'jelly 0.5s linear';
+      setTimeout(() => {
+        buttonRef2.current.style.animation = 'none';
+      }, 510);
+    }
+  };
 
   const exportElementAsPNG = async () => {
     buttonAnimation();
@@ -266,6 +346,30 @@ const TrainerCard = () => {
     } catch (e) {
       console.log(e);
     }
+  };
+  const exportElementAsPNG2 = async () => {
+    buttonAnimation2();
+    try {
+      if (downloadRef3.current) {
+        let image = await toPng(downloadRef3.current);
+        const a = window.document.createElement('a');
+        a.href = image;
+        a.download = 'trainer-card.png';
+        a.click();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const backgroundHandler = (e) => {
+    console.log(e.target.files[0]);
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      console.log(reader.result);
+      setImageInsertedSrc(reader.result);
+    };
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   return (
@@ -290,347 +394,709 @@ const TrainerCard = () => {
           </div>
         </$AllArea>
       ) : (
-        <$BaseArea
-          onContextMenu={(e) => {
-            e.preventDefault();
-            if (nameSwitch) {
-            } else {
-              setNameSwitch(!nameSwitch);
-            }
-            if (currentDateSwitch) {
-            } else {
-              setCurrentDateSwitch(!currentDateSwitch);
-            }
-            if (recordSwitch) {
-            } else {
-              setRecordSwitch(!recordSwitch);
-            }
-            if (commentSwitch) {
-            } else {
-              setCommentSwitch(!commentSwitch);
-            }
-          }}
-        >
-          <div>
-            <$Card
-              ref={downloadRef2}
-              img={bgimg}
-              color={bColor}
-              style={{
-                background: yearOnwer
-                  ? `url(${hubo1})`
-                  : `url(${bgimg}), linear-gradient(350deg, ${hColor} 20%, ${bColor} 50%)`,
-                // background: `url(${bgimg}), linear-gradient(330deg, ${hColor} 40%, white 47%, white 49%, ${bColor} 56%)`,
-              }}
-            >
-              <$TitleLine
-                color={hColor}
-                style={{
-                  background: yearOnwer
-                    ? 'transparent'
-                    : `linear-gradient(to right bottom, ${hColor}, ${bColor})`,
-                }}
-              >
-                <div
-                  style={
-                    legend
-                      ? {
-                          fontFamily: 'giants-bold',
-                          backgroundImage:
-                            'linear-gradient(to bottom, orange, yellow, orange)',
-                          backgroundClip: 'text',
-                          WebkitBackgroundClip: 'text',
-                          color: 'transparent',
-                        }
-                      : {
-                          fontFamily: 'giants-bold',
-                          color: 'white',
-                        }
-                  }
-                >
-                  {/* {legend && (
-                    <FaCrown
-                      style={{
-                        color: 'yellow',
-                        // background:
-                        //   '-moz-linear-gradient(top, #e72c83 0%, #a742c6 100%)',
-                        // background:
-                        //   '-webkit-linear-gradient(top, #e72c83 0%, #a742c6 100%)',
-                        // background:
-                        //   'linear-gradient(to bottom, #e72c83 0%, #a742c6 100%)',
-                        // WebkitBackgroundClip: 'text',
-                        // MozBackgroundClip: 'text',
-                        // backgroundClip: 'text',
-                        // WebkitTextFillColor: 'transparent',
-                      }}
-                    />
-                  )} */}
-                  {trainerStep}
-                  {legend && (
-                    <FaCrown
-                      style={{
-                        marginLeft: '3px',
-                        color: '#FFDB00',
-                      }}
-                    />
-                  )}
-                  {currentLevel == 9 && (
-                    <>
-                      <RiShiningFill
-                        style={{
-                          marginLeft: '3px',
-                        }}
-                      />
-                      <RiShiningFill />
-                      <RiShiningFill />
-                    </>
-                  )}
-                  {currentLevel == 8 && (
-                    <>
-                      <RiShiningFill
-                        style={{
-                          marginLeft: '3px',
-                        }}
-                      />
-                      <RiShiningFill />
-                    </>
-                  )}
-                  {currentLevel == 7 && (
-                    <>
-                      <RiShiningFill
-                        style={{
-                          marginLeft: '3px',
-                        }}
-                      />
-                    </>
-                  )}
-                </div>
-                <$StarPlace>
-                  {yearOnwer ? (
-                    <$Year>{year}</$Year>
-                  ) : (
-                    starLevel.map((x) => {
-                      return <>{x && <$Star src={x} />}</>;
-                    })
-                  )}
-                </$StarPlace>
-              </$TitleLine>
-              <$NameLine>
-                <$DescBalloon
-                  style={{
-                    backgroundColor:
-                      yearOnwer || currentLevel == 10
-                        ? 'rgba(0, 0, 0, 0.3)'
-                        : 'rgba(255, 255, 255, 0.6)',
-                    color: yearOnwer || currentLevel == 10 ? 'white' : 'black',
-                  }}
-                  onClick={dateHandler}
-                >
-                  {currentDateSwitch == true ? (
-                    <div style={{ width: '100%', textAlign: 'center' }}>
-                      {currentDate ? currentDate : '날짜'}
-                    </div>
-                  ) : (
-                    <input
-                      onKeyUp={(e) => {
-                        if (e.key == 'Enter') {
-                          setCurrentDateSwitch(!currentDateSwitch);
-                        }
-                      }}
-                      value={currentDate}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      onChange={(e) => {
-                        setCurrentDate(e.target.value);
-                      }}
-                    ></input>
-                  )}
-                </$DescBalloon>
-                <$DescBalloon
-                  style={{
-                    backgroundColor:
-                      yearOnwer || currentLevel == 10
-                        ? 'rgba(0, 0, 0, 0.3)'
-                        : 'rgba(255, 255, 255, 0.6)',
-                    color: yearOnwer || currentLevel == 10 ? 'white' : 'black',
-                  }}
-                  onClick={nameHandler}
-                >
-                  {nameSwitch == true ? (
-                    <div style={{ width: '100%', textAlign: 'center' }}>
-                      {name ? name : '이름'}
-                    </div>
-                  ) : (
-                    <input
-                      onKeyUp={(e) => {
-                        if (e.key == 'Enter') {
-                          setNameSwitch(!nameSwitch);
-                        }
-                      }}
-                      value={name}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      onChange={(e) => {
-                        setName(e.target.value);
-                      }}
-                    ></input>
-                  )}
-                </$DescBalloon>
-              </$NameLine>
-              <$ImgLine>
-                <$EntryPlace>
-                  {party.map((x, i) => {
-                    return (
-                      <$PKplacer
-                        onClick={() => {
-                          searchPK(i);
-                        }}
-                      >
-                        <$eachPK src={x}></$eachPK>
-                        {searchSwitch[i] == false && (
-                          <$Select
-                            onClick={(e) => {
-                              e.stopPropagation();
-                            }}
-                          >
-                            <Select
-                              options={option}
-                              onChange={(e) => {
-                                changePK(i, e.value);
-                              }}
-                            />
-                          </$Select>
-                        )}
-                      </$PKplacer>
-                    );
-                  })}
-                </$EntryPlace>
-                <$AvatarPlace>
-                  <$AvatarImg
-                    src={currentAvatar ? currentAvatar : atdb[1247].url}
-                  ></$AvatarImg>
-                </$AvatarPlace>
-              </$ImgLine>
-              <$BottomLine>
-                <$DescBalloon2
-                  style={{
-                    backgroundColor:
-                      yearOnwer || currentLevel == 10
-                        ? 'rgba(0, 0, 0, 0.3)'
-                        : 'rgba(255, 255, 255, 0.6)',
-                    color: yearOnwer || currentLevel == 10 ? 'white' : 'black',
-                  }}
-                  onClick={recordHandler}
-                >
-                  {recordSwitch == true ? (
-                    <div style={{ width: '100%', textAlign: 'center' }}>
-                      {record ? record : '기록'}
-                    </div>
-                  ) : (
-                    <input
-                      onKeyUp={(e) => {
-                        if (e.key == 'Enter') {
-                          setRecordSwitch(!recordSwitch);
-                        }
-                      }}
-                      value={record}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      onChange={(e) => {
-                        setRecord(e.target.value);
-                      }}
-                    ></input>
-                  )}
-                </$DescBalloon2>
-                <$DescBalloon2
-                  style={{
-                    backgroundColor:
-                      yearOnwer || currentLevel == 10
-                        ? 'rgba(0, 0, 0, 0.3)'
-                        : 'rgba(255, 255, 255, 0.6)',
-                    color: yearOnwer || currentLevel == 10 ? 'white' : 'black',
-                  }}
-                  onClick={commentHandler}
-                >
-                  {commentSwitch == true ? (
-                    <div style={{ width: '100%', textAlign: 'center' }}>
-                      {comment ? comment : '한마디'}
-                    </div>
-                  ) : (
-                    <input
-                      onKeyUp={(e) => {
-                        if (e.key == 'Enter') {
-                          setCommentSwitch(!commentSwitch);
-                        }
-                      }}
-                      value={comment}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      onChange={(e) => {
-                        setComment(e.target.value);
-                      }}
-                    ></input>
-                  )}
-                </$DescBalloon2>
-              </$BottomLine>
-            </$Card>
-            <$LevelSetter>
-              {level.map((x) => {
-                return (
-                  <$EachLevel
-                    onClick={() => {
-                      levelChanger(x);
-                    }}
-                  >
-                    {x}
-                  </$EachLevel>
-                );
-              })}
-            </$LevelSetter>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'start',
-              alignItems: 'start',
-              alignContent: 'start',
-              height: '400px',
+        <div>
+          <br></br>
+          <$Kind>~정규~</$Kind>
+          <$BaseArea
+            onContextMenu={(e) => {
+              e.preventDefault();
+              if (nameSwitch) {
+              } else {
+                setNameSwitch(!nameSwitch);
+              }
+              if (currentDateSwitch) {
+              } else {
+                setCurrentDateSwitch(!currentDateSwitch);
+              }
+              if (recordSwitch) {
+              } else {
+                setRecordSwitch(!recordSwitch);
+              }
+              if (commentSwitch) {
+              } else {
+                setCommentSwitch(!commentSwitch);
+              }
             }}
           >
-            <$GenerateButton ref={buttonRef} onClick={exportElementAsPNG}>
-              DOWNLOAD
-            </$GenerateButton>
-            <Select
-              options={option2}
-              onChange={(e) => {
-                setCurrentAvatar(rawsetAT[e.value.split(':')[1]]);
-              }}
-            />
-          </div>
-          {/* <$AreaWrapper>
-        {atdb.map((x, i) => {
-          return (
-            <$Avatar
-              onClick={() => {
-                setCurrentAvatar(x.url);
+            <div>
+              <$Card
+                ref={downloadRef2}
+                img={bgimg}
+                color={bColor}
+                style={{
+                  background: yearOwner
+                    ? `url(${hubo1})`
+                    : `url(${bgimg}), linear-gradient(350deg, ${hColor} 20%, ${bColor} 50%)`,
+                  // background: `url(${bgimg}), linear-gradient(330deg, ${hColor} 40%, white 47%, white 49%, ${bColor} 56%)`,
+                }}
+              >
+                <$TitleLine
+                  color={hColor}
+                  style={{
+                    background: yearOwner
+                      ? 'transparent'
+                      : `linear-gradient(to right bottom, ${hColor}, ${bColor})`,
+                  }}
+                >
+                  <div
+                    style={
+                      legend
+                        ? {
+                            fontFamily: 'giants-bold',
+                            backgroundImage:
+                              'linear-gradient(to bottom, orange, yellow, orange)',
+                            backgroundClip: 'text',
+                            WebkitBackgroundClip: 'text',
+                            color: 'transparent',
+                          }
+                        : {
+                            fontFamily: 'giants-bold',
+                            color: 'white',
+                          }
+                    }
+                  >
+                    {/* {legend && (
+                      <FaCrown
+                        style={{
+                          color: 'yellow',
+                          // background:
+                          //   '-moz-linear-gradient(top, #e72c83 0%, #a742c6 100%)',
+                          // background:
+                          //   '-webkit-linear-gradient(top, #e72c83 0%, #a742c6 100%)',
+                          // background:
+                          //   'linear-gradient(to bottom, #e72c83 0%, #a742c6 100%)',
+                          // WebkitBackgroundClip: 'text',
+                          // MozBackgroundClip: 'text',
+                          // backgroundClip: 'text',
+                          // WebkitTextFillColor: 'transparent',
+                        }}
+                      />
+                    )} */}
+                    {trainerStep}
+                    {legend && (
+                      <FaCrown
+                        style={{
+                          marginLeft: '3px',
+                          color: '#FFDB00',
+                        }}
+                      />
+                    )}
+                    {currentLevel == 9 && (
+                      <>
+                        <RiShiningFill
+                          style={{
+                            marginLeft: '3px',
+                          }}
+                        />
+                        <RiShiningFill />
+                        <RiShiningFill />
+                      </>
+                    )}
+                    {currentLevel == 8 && (
+                      <>
+                        <RiShiningFill
+                          style={{
+                            marginLeft: '3px',
+                          }}
+                        />
+                        <RiShiningFill />
+                      </>
+                    )}
+                    {currentLevel == 7 && (
+                      <>
+                        <RiShiningFill
+                          style={{
+                            marginLeft: '3px',
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+                  <$StarPlace>
+                    {yearOwner ? (
+                      <$Year>{year}</$Year>
+                    ) : (
+                      starLevel.map((x) => {
+                        return <>{x && <$Star src={x} />}</>;
+                      })
+                    )}
+                  </$StarPlace>
+                </$TitleLine>
+                <$NameLine>
+                  <$DescBalloon
+                    style={{
+                      backgroundColor:
+                        yearOwner || currentLevel == 10
+                          ? 'rgba(0, 0, 0, 0.3)'
+                          : 'rgba(255, 255, 255, 0.6)',
+                      color:
+                        yearOwner || currentLevel == 10 ? 'white' : 'black',
+                    }}
+                    onClick={dateHandler}
+                  >
+                    {currentDateSwitch == true ? (
+                      <div style={{ width: '100%', textAlign: 'center' }}>
+                        {currentDate ? currentDate : '날짜'}
+                      </div>
+                    ) : (
+                      <input
+                        onKeyUp={(e) => {
+                          if (e.key == 'Enter') {
+                            setCurrentDateSwitch(!currentDateSwitch);
+                          }
+                        }}
+                        value={currentDate}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          setCurrentDate(e.target.value);
+                        }}
+                      ></input>
+                    )}
+                  </$DescBalloon>
+                  <$DescBalloon
+                    style={{
+                      backgroundColor:
+                        yearOwner || currentLevel == 10
+                          ? 'rgba(0, 0, 0, 0.3)'
+                          : 'rgba(255, 255, 255, 0.6)',
+                      color:
+                        yearOwner || currentLevel == 10 ? 'white' : 'black',
+                    }}
+                    onClick={nameHandler}
+                  >
+                    {nameSwitch == true ? (
+                      <div style={{ width: '100%', textAlign: 'center' }}>
+                        {name ? name : '이름'}
+                      </div>
+                    ) : (
+                      <input
+                        onKeyUp={(e) => {
+                          if (e.key == 'Enter') {
+                            setNameSwitch(!nameSwitch);
+                          }
+                        }}
+                        value={name}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          setName(e.target.value);
+                        }}
+                      ></input>
+                    )}
+                  </$DescBalloon>
+                </$NameLine>
+                <$ImgLine>
+                  <$EntryPlace>
+                    {party.map((x, i) => {
+                      return (
+                        <$PKplacer
+                          onClick={() => {
+                            searchPK(i);
+                          }}
+                        >
+                          <$eachPK src={x}></$eachPK>
+                          {searchSwitch[i] == false && (
+                            <$Select
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                            >
+                              <Select
+                                options={option}
+                                onChange={(e) => {
+                                  changePK(i, e.value);
+                                }}
+                              />
+                            </$Select>
+                          )}
+                        </$PKplacer>
+                      );
+                    })}
+                  </$EntryPlace>
+                  <$AvatarPlace>
+                    <$AvatarImg
+                      src={currentAvatar ? currentAvatar : atdb[1247].url}
+                    ></$AvatarImg>
+                  </$AvatarPlace>
+                </$ImgLine>
+                <$BottomLine>
+                  <$DescBalloon2
+                    style={{
+                      backgroundColor:
+                        yearOwner || currentLevel == 10
+                          ? 'rgba(0, 0, 0, 0.3)'
+                          : 'rgba(255, 255, 255, 0.6)',
+                      color:
+                        yearOwner || currentLevel == 10 ? 'white' : 'black',
+                    }}
+                    onClick={recordHandler}
+                  >
+                    {recordSwitch == true ? (
+                      <div style={{ width: '100%', textAlign: 'center' }}>
+                        {record ? record : '기록'}
+                      </div>
+                    ) : (
+                      <input
+                        onKeyUp={(e) => {
+                          if (e.key == 'Enter') {
+                            setRecordSwitch(!recordSwitch);
+                          }
+                        }}
+                        value={record}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          setRecord(e.target.value);
+                        }}
+                      ></input>
+                    )}
+                  </$DescBalloon2>
+                  <$DescBalloon2
+                    style={{
+                      backgroundColor:
+                        yearOwner || currentLevel == 10
+                          ? 'rgba(0, 0, 0, 0.3)'
+                          : 'rgba(255, 255, 255, 0.6)',
+                      color:
+                        yearOwner || currentLevel == 10 ? 'white' : 'black',
+                    }}
+                    onClick={commentHandler}
+                  >
+                    {commentSwitch == true ? (
+                      <div style={{ width: '100%', textAlign: 'center' }}>
+                        {comment ? comment : '한마디'}
+                      </div>
+                    ) : (
+                      <input
+                        onKeyUp={(e) => {
+                          if (e.key == 'Enter') {
+                            setCommentSwitch(!commentSwitch);
+                          }
+                        }}
+                        value={comment}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          setComment(e.target.value);
+                        }}
+                      ></input>
+                    )}
+                  </$DescBalloon2>
+                </$BottomLine>
+              </$Card>
+              <$LevelSetter>
+                {level.map((x) => {
+                  return (
+                    <$EachLevel
+                      onClick={() => {
+                        levelChanger(x);
+                      }}
+                    >
+                      {x}
+                    </$EachLevel>
+                  );
+                })}
+              </$LevelSetter>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'start',
+                alignItems: 'start',
+                alignContent: 'start',
+                height: '400px',
               }}
             >
-              <img src={x.url}></img>
-              <$NameTag>{x.name}</$NameTag>
-            </$Avatar>
-          );
-        })}
-      </$AreaWrapper> */}
-        </$BaseArea>
+              <$GenerateButton ref={buttonRef} onClick={exportElementAsPNG}>
+                DOWNLOAD
+              </$GenerateButton>
+              <Select
+                options={option2}
+                onChange={(e) => {
+                  setCurrentAvatar(rawsetAT[e.value.split(':')[1]]);
+                }}
+              />
+            </div>
+            {/* <$AreaWrapper>
+          {atdb.map((x, i) => {
+            return (
+              <$Avatar
+                onClick={() => {
+                  setCurrentAvatar(x.url);
+                }}
+              >
+                <img src={x.url}></img>
+                <$NameTag>{x.name}</$NameTag>
+              </$Avatar>
+            );
+          })}
+                </$AreaWrapper> */}
+          </$BaseArea>
+          <$Kind>~특수~</$Kind>
+          <$BaseArea
+            onContextMenu={(e) => {
+              e.preventDefault();
+              if (!nameSwitch2) setNameSwitch2(!nameSwitch2);
+              if (!specialWeekSwitch) setSpecialWeekSwitch(!specialWeekSwitch);
+              if (!specialLevelSwitch)
+                setSpecialLevelSwitch(!specialLevelSwitch);
+              if (!currentDateSwitch2)
+                setCurrentDateSwitch2(!currentDateSwitch2);
+              if (!recordSwitch2) setRecordSwitch2(!recordSwitch2);
+              if (!commentSwitch2) setCommentSwitch2(!commentSwitch2);
+            }}
+          >
+            <div>
+              <$Card
+                ref={downloadRef3}
+                img={bgimg}
+                color={bColor}
+                style={{
+                  backgroundImage: imageInsertedSrc
+                    ? `url(${imageInsertedSrc})`
+                    : `none`,
+                  backgroundColor: imageInsertedSrc ? `black` : `cadetblue`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  // background: `url(${bgimg}), linear-gradient(330deg, ${hColor} 40%, white 47%, white 49%, ${bColor} 56%)`,
+                }}
+              >
+                <$TitleLine
+                  color={hColor}
+                  style={{
+                    background: 'transparent',
+                  }}
+                >
+                  <div
+                    style={
+                      imageInserted
+                        ? {
+                            fontFamily: 'giants-bold',
+                            color: 'white',
+                          }
+                        : {
+                            fontFamily: 'giants-bold',
+                            color: 'black',
+                          }
+                    }
+                    onClick={levelHandler}
+                  >
+                    LV{' '}
+                    {specialLevelSwitch ? (
+                      <span>{specialLevel}</span>
+                    ) : (
+                      <input
+                        value={specialLevel}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          setSpecialLevel(e.target.value);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key == 'Enter') levelHandler();
+                        }}
+                      ></input>
+                    )}
+                  </div>
+                  <div onClick={specialWeekHandler}>
+                    {specialWeekSwitch ? (
+                      <span
+                        style={
+                          imageInserted
+                            ? {
+                                fontFamily: 'giants-bold',
+                                color: 'white',
+                              }
+                            : {
+                                fontFamily: 'giants-bold',
+                                color: 'black',
+                              }
+                        }
+                      >
+                        {specialWeek}
+                      </span>
+                    ) : (
+                      <input
+                        value={specialWeek}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key == 'Enter') specialWeekHandler();
+                        }}
+                        onChange={(e) => {
+                          setSpecialWeek(e.target.value);
+                        }}
+                      ></input>
+                    )}
+                  </div>
+                </$TitleLine>
+                <$NameLine>
+                  <$DescBalloon
+                    style={{
+                      backgroundColor:
+                        imageInserted || currentLevel == 10
+                          ? 'rgba(0, 0, 0, 0.3)'
+                          : 'rgba(255, 255, 255, 0.6)',
+                      color:
+                        imageInserted || currentLevel == 10 ? 'white' : 'black',
+                    }}
+                    onClick={dateHandler2}
+                  >
+                    {currentDateSwitch2 == true ? (
+                      <div style={{ width: '100%', textAlign: 'center' }}>
+                        {currentDate2 ? currentDate2 : '날짜'}
+                      </div>
+                    ) : (
+                      <input
+                        onKeyUp={(e) => {
+                          if (e.key == 'Enter') {
+                            setCurrentDateSwitch2(!currentDateSwitch2);
+                          }
+                        }}
+                        value={currentDate2}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          setCurrentDate2(e.target.value);
+                        }}
+                      ></input>
+                    )}
+                  </$DescBalloon>
+                  <$DescBalloon
+                    style={{
+                      backgroundColor:
+                        imageInserted || currentLevel == 10
+                          ? 'rgba(0, 0, 0, 0.3)'
+                          : 'rgba(255, 255, 255, 0.6)',
+                      color:
+                        imageInserted || currentLevel == 10 ? 'white' : 'black',
+                    }}
+                    onClick={nameHandler2}
+                  >
+                    {nameSwitch2 == true ? (
+                      <div style={{ width: '100%', textAlign: 'center' }}>
+                        {name2 ? name2 : '이름'}
+                      </div>
+                    ) : (
+                      <input
+                        onKeyUp={(e) => {
+                          if (e.key == 'Enter') {
+                            setNameSwitch2(!nameSwitch2);
+                          }
+                        }}
+                        value={name2}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          setName2(e.target.value);
+                        }}
+                      ></input>
+                    )}
+                  </$DescBalloon>
+                </$NameLine>
+                <$ImgLine>
+                  <$EntryPlace>
+                    {party2.map((x, i) => {
+                      return (
+                        <$PKplacer
+                          onClick={() => {
+                            searchPK2(i);
+                          }}
+                        >
+                          <$eachPK src={x}></$eachPK>
+                          {searchSwitch2[i] == false && (
+                            <$Select
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                            >
+                              <Select
+                                options={option}
+                                onChange={(e) => {
+                                  changePK2(i, e.value);
+                                }}
+                              />
+                            </$Select>
+                          )}
+                        </$PKplacer>
+                      );
+                    })}
+                  </$EntryPlace>
+                  <$AvatarPlace>
+                    <$AvatarImg
+                      src={currentAvatar2 ? currentAvatar2 : atdb[1247].url}
+                    ></$AvatarImg>
+                  </$AvatarPlace>
+                </$ImgLine>
+                <$BottomLine>
+                  <$DescBalloon2
+                    style={{
+                      backgroundColor:
+                        imageInserted || currentLevel == 10
+                          ? 'rgba(0, 0, 0, 0.3)'
+                          : 'rgba(255, 255, 255, 0.6)',
+                      color:
+                        imageInserted || currentLevel == 10 ? 'white' : 'black',
+                    }}
+                    onClick={recordHandler2}
+                  >
+                    {recordSwitch2 == true ? (
+                      <div style={{ width: '100%', textAlign: 'center' }}>
+                        {record2 ? record2 : '기록'}
+                      </div>
+                    ) : (
+                      <input
+                        onKeyUp={(e) => {
+                          if (e.key == 'Enter') {
+                            setRecordSwitch2(!recordSwitch2);
+                          }
+                        }}
+                        value={record2}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          setRecord2(e.target.value);
+                        }}
+                      ></input>
+                    )}
+                  </$DescBalloon2>
+                  <$DescBalloon2
+                    style={{
+                      backgroundColor:
+                        imageInserted || currentLevel == 10
+                          ? 'rgba(0, 0, 0, 0.3)'
+                          : 'rgba(255, 255, 255, 0.6)',
+                      color:
+                        imageInserted || currentLevel == 10 ? 'white' : 'black',
+                    }}
+                    onClick={commentHandler2}
+                  >
+                    {commentSwitch2 == true ? (
+                      <div style={{ width: '100%', textAlign: 'center' }}>
+                        {comment2 ? comment2 : '한마디'}
+                      </div>
+                    ) : (
+                      <input
+                        onKeyUp={(e) => {
+                          if (e.key == 'Enter') {
+                            setCommentSwitch2(!commentSwitch2);
+                          }
+                        }}
+                        value={comment2}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          setComment2(e.target.value);
+                        }}
+                      ></input>
+                    )}
+                  </$DescBalloon2>
+                </$BottomLine>
+              </$Card>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'start',
+                alignItems: 'start',
+                alignContent: 'start',
+                height: '400px',
+              }}
+            >
+              <$GenerateButton ref={buttonRef2} onClick={exportElementAsPNG2}>
+                DOWNLOAD
+              </$GenerateButton>
+              <Select
+                options={option2}
+                onChange={(e) => {
+                  setCurrentAvatar2(rawsetAT[e.value.split(':')[1]]);
+                }}
+              />
+              <input
+                style={{ display: 'none' }}
+                name="forLabel"
+                id="forLabel"
+                type="file"
+                onChange={backgroundHandler}
+              ></input>
+              <label for="forLabel">
+                <$InsertButton>이미지삽입</$InsertButton>
+              </label>
+              <$InsertButton2
+                onClick={() => {
+                  setImageInserted(!imageInserted);
+                }}
+              >
+                반전
+              </$InsertButton2>
+              <$InsertButton2
+                onClick={() => {
+                  setImageInsertedSrc('');
+                }}
+              >
+                리셋
+              </$InsertButton2>
+              <$InsertButton2
+                onClick={() => {
+                  if (downloadRef3.current) {
+                    if (downloadRef3.current.style.backgroundSize == 'cover')
+                      downloadRef3.current.style.backgroundSize = 'contain';
+                    else downloadRef3.current.style.backgroundSize = 'cover';
+                  }
+                }}
+              >
+                배경사이즈
+              </$InsertButton2>
+            </div>
+          </$BaseArea>
+        </div>
       )}
     </>
   );
 };
+
+const $Kind = styled.div`
+  font-family: 'wehaven-bold';
+  font-size: 32px;
+  margin: 10px;
+`;
+
+const $InsertButton = styled.div`
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 2px;
+  padding: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: pink;
+  }
+`;
+const $InsertButton2 = styled.button`
+  border: 1px solid black;
+  background-color: white;
+  font-family: 'wehaven-bold';
+  font-size: 16px;
+  border-radius: 2px;
+  padding: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: pink;
+  }
+`;
 
 const $AllArea = styled.div`
   background-color: #333333;

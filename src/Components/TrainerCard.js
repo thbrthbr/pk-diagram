@@ -2,7 +2,7 @@ import { atdb } from './AVATARDB';
 import { db } from './PKDB';
 import styled from 'styled-components';
 import bgimg from '../Logo/ball3.png';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import star from '../items/star-new2.png';
 import star2 from '../items/star-new3.png';
 import Select from 'react-select';
@@ -110,10 +110,22 @@ const TrainerCard = () => {
   const [specialLevelSwitch, setSpecialLevelSwitch] = useState(true);
   const [specialWeek, setSpecialWeek] = useState('Special Rule');
   const [specialWeekSwitch, setSpecialWeekSwitch] = useState(true);
+  const [fontSize, setFontSize] = useState({
+    rc1: 14,
+    rc2: 14,
+    c1: 14,
+    c2: 14,
+  });
+
   const buttonRef = useRef();
   const buttonRef2 = useRef();
   const downloadRef2 = useRef();
   const downloadRef3 = useRef();
+
+  const rc1Ref = useRef();
+  const rc2Ref = useRef();
+  const c1Ref = useRef();
+  const c2Ref = useRef();
 
   const level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
@@ -371,6 +383,78 @@ const TrainerCard = () => {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
+
+  useEffect(() => {
+    if (record.length > 46) {
+      setFontSize({
+        ...fontSize,
+        rc1: 8,
+      });
+    } else {
+      setFontSize({
+        ...fontSize,
+        rc1: 14,
+      });
+    }
+  }, [record]);
+
+  // useEffect(() => {
+  //   if (recordSwitch) {
+  //     if (window.getComputedStyle(rc1Ref.current).height !== '17.6px') {
+  //       setFontSize({
+  //         ...fontSize,
+  //         rc1: 8,
+  //       });
+  //     } else {
+  //       setFontSize({
+  //         ...fontSize,
+  //         rc1: 14,
+  //       });
+  //     }
+  //   }
+  // }, [recordSwitch]);
+
+  useEffect(() => {
+    if (record2.length > 46) {
+      setFontSize({
+        ...fontSize,
+        rc2: 8,
+      });
+    } else if (record2.length <= 46) {
+      setFontSize({
+        ...fontSize,
+        rc2: 14,
+      });
+    }
+  }, [record2]);
+
+  useEffect(() => {
+    if (comment.length > 46) {
+      setFontSize({
+        ...fontSize,
+        c1: 8,
+      });
+    } else if (comment.length <= 46) {
+      setFontSize({
+        ...fontSize,
+        c1: 14,
+      });
+    }
+  }, [comment]);
+
+  useEffect(() => {
+    if (comment2.length > 46) {
+      setFontSize({
+        ...fontSize,
+        c2: 8,
+      });
+    } else if (comment2.length <= 46) {
+      setFontSize({
+        ...fontSize,
+        c2: 14,
+      });
+    }
+  }, [comment2]);
 
   return (
     <>
@@ -635,7 +719,16 @@ const TrainerCard = () => {
                     onClick={recordHandler}
                   >
                     {recordSwitch == true ? (
-                      <div style={{ width: '100%', textAlign: 'center' }}>
+                      <div
+                        ref={rc1Ref}
+                        style={{
+                          fontSize: `${fontSize.rc1}px`,
+                          // width: '100%',
+                          textAlign: 'center',
+                          width: '450px',
+                          wordBreak: 'break-all',
+                        }}
+                      >
                         {record ? record : '기록'}
                       </div>
                     ) : (
@@ -667,7 +760,15 @@ const TrainerCard = () => {
                     onClick={commentHandler}
                   >
                     {commentSwitch == true ? (
-                      <div style={{ width: '100%', textAlign: 'center' }}>
+                      <div
+                        ref={c2Ref}
+                        style={{
+                          fontSize: `${fontSize.c1}px`,
+                          width: '450px',
+                          wordBreak: 'break-all',
+                          textAlign: 'center',
+                        }}
+                      >
                         {comment ? comment : '한마디'}
                       </div>
                     ) : (
@@ -952,7 +1053,15 @@ const TrainerCard = () => {
                     onClick={recordHandler2}
                   >
                     {recordSwitch2 == true ? (
-                      <div style={{ width: '100%', textAlign: 'center' }}>
+                      <div
+                        ref={rc2Ref}
+                        style={{
+                          fontSize: `${fontSize.rc2}px`,
+                          width: '450px',
+                          wordBreak: 'break-all',
+                          textAlign: 'center',
+                        }}
+                      >
                         {record2 ? record2 : '기록'}
                       </div>
                     ) : (
@@ -984,7 +1093,15 @@ const TrainerCard = () => {
                     onClick={commentHandler2}
                   >
                     {commentSwitch2 == true ? (
-                      <div style={{ width: '100%', textAlign: 'center' }}>
+                      <div
+                        ref={c1Ref}
+                        style={{
+                          fontSize: `${fontSize.c2}px`,
+                          width: '450px',
+                          wordBreak: 'break-all',
+                          textAlign: 'center',
+                        }}
+                      >
                         {comment2 ? comment2 : '한마디'}
                       </div>
                     ) : (
@@ -1199,11 +1316,8 @@ const $DescBalloon = styled.div`
 `;
 
 const $DescBalloon2 = styled.div`
-  /* display: flex;
-  justify-content: space-between; */
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 15px;
-  /* padding: 5px; */
   margin-bottom: 5px;
   width: 100%;
   font-size: 13px;

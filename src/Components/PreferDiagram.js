@@ -59,10 +59,10 @@ const PreferDiagram = () => {
       desc: language == 'korean' ? '기본' : 'Standard',
     },
     {
-      color: 'indigo',
+      color: '#181677',
       titleColor: 'white',
-      borderColor: 'indigo',
-      desc: language == 'korean' ? '군청' : 'Indigo',
+      borderColor: '#181677',
+      desc: language == 'korean' ? '군청' : 'Navy',
     },
     {
       color: 'black',

@@ -4,10 +4,11 @@ const imageContext = require.context(
   /\.(jpg|jpeg|png|webp)$/,
 );
 let hello = imageContext.keys().sort(function (a, b) {
-  var numA = parseInt(a.match(/124844_(\d+)/)[1], 10);
-  var numB = parseInt(b.match(/124844_(\d+)/)[1], 10);
+  var numA = parseInt(a.match(/010451_(\d+)/)[1], 10);
+  var numB = parseInt(b.match(/010451_(\d+)/)[1], 10);
   return numA - numB;
 });
+// 이거 업데이트 할 때 마다 match 뒤에 숫자 바뀌니까 바꿔줘야함
 const categoryData = hello.map(imageContext);
 let avatarName = [
   'aaron',

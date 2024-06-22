@@ -7,6 +7,7 @@ import star from '../items/star-new2.png';
 import star2 from '../items/star-new3.png';
 import Select from 'react-select';
 import galaxy from '../items/galaxy.png';
+import unknown from '../trainer/unknown.png';
 import hubo1 from '../items/hubo1.jpg';
 import hubo2 from '../items/hubo2.jpg';
 import hubo3 from '../items/hubo3.jpg';
@@ -702,7 +703,7 @@ const TrainerCard = () => {
                   </$EntryPlace>
                   <$AvatarPlace>
                     <$AvatarImg
-                      src={currentAvatar ? currentAvatar : atdb[1247].url}
+                      src={currentAvatar ? currentAvatar : unknown}
                     ></$AvatarImg>
                   </$AvatarPlace>
                 </$ImgLine>
@@ -1036,7 +1037,7 @@ const TrainerCard = () => {
                   </$EntryPlace>
                   <$AvatarPlace>
                     <$AvatarImg
-                      src={currentAvatar2 ? currentAvatar2 : atdb[1247].url}
+                      src={currentAvatar2 ? currentAvatar2 : unknown}
                     ></$AvatarImg>
                   </$AvatarPlace>
                 </$ImgLine>

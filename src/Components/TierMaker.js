@@ -943,7 +943,10 @@ const Tiermaker = () => {
 
   useEffect(() => {
     if (isMounted2.current) {
-      let target = document.getElementById(currentTextArea.split(':')[0]);
+      console.log(currentTextArea);
+      let target = document.getElementById(
+        currentTextArea.split(':')[0] + ':Line',
+      );
       target.style.height = '1px';
       target.style.height = target.scrollHeight + 'px';
     } else {
@@ -960,8 +963,11 @@ const Tiermaker = () => {
 
   useEffect(() => {
     let changer = document.getElementsByClassName('nameLine');
+    console.log(changer);
     for (let i = 0; i < changer.length; i++) {
       let target = changer[i];
+      console.log(target.style.height);
+      console.log(target.scrollHeight);
       target.style.height = '1px';
       target.style.height = target.scrollHeight + 'px';
     }
@@ -1267,7 +1273,13 @@ const Tiermaker = () => {
             ref={elementRef}
           >
             <$TierHeader>
-              <$SiteLabel>PK-DIAGRAM</$SiteLabel>
+              <$SiteLabel
+                onClick={() => {
+                  console.log(tierList);
+                }}
+              >
+                PK-DIAGRAM
+              </$SiteLabel>
               <FontAwesomeIcon
                 style={{ color: 'white', marginLeft: '5px', paddingTop: '6px' }}
                 icon={faChartSimple}
@@ -1308,7 +1320,7 @@ const Tiermaker = () => {
                     <br></br>
                     <$EachLine
                       className="nameLine"
-                      id={i}
+                      id={`${i}:Line`}
                       placeholder="new"
                       value={tierList[i].id.split(':')[0]}
                       onChange={(e) => {

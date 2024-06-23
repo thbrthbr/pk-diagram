@@ -943,7 +943,6 @@ const Tiermaker = () => {
 
   useEffect(() => {
     if (isMounted2.current) {
-      console.log(currentTextArea);
       let target = document.getElementById(
         currentTextArea.split(':')[0] + ':Line',
       );
@@ -963,11 +962,8 @@ const Tiermaker = () => {
 
   useEffect(() => {
     let changer = document.getElementsByClassName('nameLine');
-    console.log(changer);
     for (let i = 0; i < changer.length; i++) {
       let target = changer[i];
-      console.log(target.style.height);
-      console.log(target.scrollHeight);
       target.style.height = '1px';
       target.style.height = target.scrollHeight + 'px';
     }

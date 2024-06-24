@@ -507,13 +507,21 @@ const Tiermaker = () => {
 
   const dropMobile = (e) => {
     try {
+      if (e == null) {
+        setSelectedItem('');
+        return;
+      }
+      console.log(e);
       // const body = document.getElementsByTagName('body')[0];
       const body = document.getElementsByClassName('App')[0];
       body.style.overflow = 'auto';
       if (threadRef.current) {
         threadRef.current.style.overflowX = 'auto';
       }
-      if (!e.classList.contains('onlyhere')) return;
+      if (!e.classList.contains('onlyhere')) {
+        setSelectedItem('');
+        return;
+      }
       if (e.classList.contains('thread')) {
         backEmptyMobile(e);
         setSelectedItem('');
@@ -1476,6 +1484,7 @@ const Tiermaker = () => {
                 return (
                   <div>
                     <div
+                      className="unput"
                       style={{
                         height: '40px',
                         width: '100%',

@@ -732,8 +732,8 @@ const Tiermaker = () => {
         if (direction == 'up') {
           if (i == 0) return;
           let another = i - 1;
-          let target = document.getElementById('' + i);
-          let target2 = document.getElementById('' + another);
+          let target = document.getElementById(`${i}:Line`);
+          let target2 = document.getElementById(`${another}:Line`);
           let temp2 = target.style.height;
           copy[i] = copy[i - 1];
           copy[i - 1] = temp;
@@ -742,8 +742,8 @@ const Tiermaker = () => {
         } else {
           if (i + 1 == copy.length) return;
           let another = i + 1;
-          let target = document.getElementById('' + i);
-          let target2 = document.getElementById('' + another);
+          let target = document.getElementById(`${i}:Line`);
+          let target2 = document.getElementById(`${another}:Line`);
           let temp2 = target.style.height;
           copy[i] = copy[i + 1];
           copy[i + 1] = temp;

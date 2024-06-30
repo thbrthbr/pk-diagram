@@ -511,7 +511,7 @@ const Tiermaker = () => {
         setSelectedItem('');
         return;
       }
-      console.log(e);
+      // console.log(e);
       // const body = document.getElementsByTagName('body')[0];
       const body = document.getElementsByClassName('App')[0];
       body.style.overflow = 'auto';
@@ -756,6 +756,14 @@ const Tiermaker = () => {
     setTierList(copy);
   };
 
+  const nameInputSizer = () => {
+    for (let i = 0; i < tierList.length; i++) {
+      let target = document.getElementById(`${i}:Line`);
+      target.style.height = '1px';
+      target.style.height = target.scrollHeight + 'px';
+    }
+  };
+
   const dbloader = () => {
     if (localStorage.getItem('namedb')) {
       let tierDatas = JSON.parse(localStorage.getItem('namedb'));
@@ -965,6 +973,7 @@ const Tiermaker = () => {
     if (elementRef.current) {
       // console.log(elementRef.current.offsetHeight);
       setCoverHeight(elementRef.current.offsetHeight);
+      nameInputSizer();
     }
   }, [tierList]);
 

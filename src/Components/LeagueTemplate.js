@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { db } from './PKDB';
+import { atdb } from './AVATARDB';
 import { createElement, useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
 import unknown from '../trainer/unknown.png';
@@ -24,6 +25,8 @@ const categoryData = imageContext.keys().map(imageContext);
 
 const LeagueTemplate = () => {
   let option = [];
+  let option3 = [];
+  let rawsetAT = [];
   let tempDB = {};
   for (let i = 0; i < db.length; i++) {
     option.push({
@@ -31,6 +34,17 @@ const LeagueTemplate = () => {
       label: db[i].nameKo,
     });
     tempDB[db[i].nameKo] = db[i].url;
+  }
+  for (let i = 0; i < atdb.length; i++) {
+    option3.push({
+      value: atdb[i].name + ':' + i,
+      label: (
+        <div>
+          {atdb[i].name} <img style={{ width: '30px' }} src={atdb[i].url}></img>
+        </div>
+      ),
+    });
+    rawsetAT.push(atdb[i].url);
   }
 
   let option2 = [];
@@ -69,6 +83,7 @@ const LeagueTemplate = () => {
   const [selectedPlayer, setSelectedPlayer] = useState('');
   const [nameSearcher, setNameSearcher] = useState(false);
   const [who, setWho] = useState('');
+  const [avatarSelect, setAvatarSelect] = useState('');
   const [searchingOne, setSearchingOne] = useState('');
   const [eachPK, setEachPK] = useState('');
   const [SD, setSD] = useState('double');
@@ -782,26 +797,40 @@ const LeagueTemplate = () => {
     setEachSide(copy);
   };
 
-  const pickAvatar = (id) => {
-    let temp = document.createElement('input');
-    temp.type = 'file';
-    temp.addEventListener('change', () => {
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        let copy = eachSide.slice();
-        for (let i = 0; i < copy.length; i++) {
-          for (let j = 0; j < copy[i].players.length; j++) {
-            if (id == copy[i].players[j].playerId) {
-              copy[i].players[j].playerAvatar = reader.result;
-              break;
-            }
-          }
+  // const pickAvatar = (id) => {
+  //   let temp = document.createElement('input');
+  //   temp.type = 'file';
+  //   temp.addEventListener('change', () => {
+  //     let reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       let copy = eachSide.slice();
+  //       for (let i = 0; i < copy.length; i++) {
+  //         for (let j = 0; j < copy[i].players.length; j++) {
+  //           if (id == copy[i].players[j].playerId) {
+  //             copy[i].players[j].playerAvatar = reader.result;
+  //             break;
+  //           }
+  //         }
+  //       }
+  //       setEachSide(copy);
+  //     };
+  //     reader.readAsDataURL(temp.files[0]);
+  //   });
+  //   temp.click();
+  // };
+
+  const pickAvatar2 = (id, url) => {
+    let copy = eachSide.slice();
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < copy[i].players.length; j++) {
+        if (id == copy[i].players[j].playerId) {
+          copy[i].players[j].playerAvatar = url;
+          break;
         }
-        setEachSide(copy);
-      };
-      reader.readAsDataURL(temp.files[0]);
-    });
-    temp.click();
+      }
+    }
+    setEachSide(copy);
+    setAvatarSelect('');
   };
 
   const pickLogo = (id) => {
@@ -1058,6 +1087,19 @@ const LeagueTemplate = () => {
     } catch (e) {}
   };
 
+  const closeSearchPK = (e) => {
+    for (
+      let i = 0;
+      i < document.getElementsByClassName('each-item').length;
+      i++
+    ) {
+      document.getElementsByClassName('each-item')[i].children[0].style.border =
+        'none';
+    }
+    setEachPK('');
+    setNameSearcher(false);
+  };
+
   useEffect(() => {
     if (isMounted.current) {
       try {
@@ -1137,7 +1179,6 @@ const LeagueTemplate = () => {
               type="password"
               value={PW}
               onChange={(e) => {
-                console.log(e.target.value);
                 setPW(e.target.value);
               }}
               onKeyUp={(e) => {
@@ -1244,30 +1285,14 @@ const LeagueTemplate = () => {
               </div>
             </div>
             {locked == false && (
-              <$Template
-                ref={downloadRef}
-                state={SD}
-                onClick={(e) => {
-                  for (
-                    let i = 0;
-                    i < document.getElementsByClassName('each-item').length;
-                    i++
-                  ) {
-                    document.getElementsByClassName('each-item')[
-                      i
-                    ].children[0].style.border = 'none';
-                  }
-                  setEachPK('');
-                  setNameSearcher(false);
-                }}
-              >
+              <$Template ref={downloadRef} state={SD} onClick={closeSearchPK}>
                 {nameSearcher && (
                   <$SearchEach
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
                   >
-                    <Select options={option} onChange={searchAndSet}></Select>
+                    <$Select options={option} onChange={searchAndSet}></$Select>
                   </$SearchEach>
                 )}
                 {eachSide.map((a) => {
@@ -1280,7 +1305,7 @@ const LeagueTemplate = () => {
                       >
                         <$TeamLogoWrapper>
                           <$SelectWrapper className="disappear">
-                            <Select
+                            <$Select
                               styles={{
                                 control: (baseStyles) => ({
                                   ...baseStyles,
@@ -1297,7 +1322,7 @@ const LeagueTemplate = () => {
                               onChange={(e) => {
                                 pickLogo2(e.label, e.value, a.name);
                               }}
-                            ></Select>
+                            ></$Select>
                           </$SelectWrapper>
                           <$TeamLogo
                             src={a.teamLogo}
@@ -1461,11 +1486,20 @@ const LeagueTemplate = () => {
                                     <>
                                       {' '}
                                       <$PlayerAvatarWrapper>
-                                        <$PlayerAvatar
-                                          onClick={() => {
-                                            pickAvatar(x.playerId);
-                                          }}
-                                        >
+                                        <$PlayerAvatar id={`avatar:${idx}`}>
+                                          {avatarSelect == x.playerId && (
+                                            <$Select
+                                              options={option3}
+                                              onChange={(e) => {
+                                                pickAvatar2(
+                                                  x.playerId,
+                                                  rawsetAT[
+                                                    e.value.split(':')[1]
+                                                  ],
+                                                );
+                                              }}
+                                            />
+                                          )}
                                           <img
                                             style={{ width: '100%' }}
                                             src={
@@ -1473,6 +1507,15 @@ const LeagueTemplate = () => {
                                                 ? x.playerAvatar
                                                 : unknown
                                             }
+                                            onClick={(e) => {
+                                              if (e.target == e.currentTarget) {
+                                                if (avatarSelect == '') {
+                                                  setAvatarSelect(x.playerId);
+                                                } else {
+                                                  setAvatarSelect('');
+                                                }
+                                              }
+                                            }}
                                           ></img>
                                         </$PlayerAvatar>
                                       </$PlayerAvatarWrapper>
@@ -1484,6 +1527,10 @@ const LeagueTemplate = () => {
                                             <$EachPokemonWrapper
                                               className="each-item"
                                               onClick={(e) => {
+                                                if (eachPK == y.id) {
+                                                  closeSearchPK();
+                                                  return;
+                                                }
                                                 for (
                                                   let i = 0;
                                                   i <
@@ -1562,6 +1609,10 @@ const LeagueTemplate = () => {
                                             <$EachPokemonWrapper
                                               className="each-item"
                                               onClick={(e) => {
+                                                if (eachPK == y.id) {
+                                                  closeSearchPK();
+                                                  return;
+                                                }
                                                 for (
                                                   let i = 0;
                                                   i <
@@ -1597,11 +1648,21 @@ const LeagueTemplate = () => {
                                         })}
                                       </$PlayerEntry>
                                       <$PlayerAvatarWrapper>
-                                        <$PlayerAvatar
-                                          onClick={() => {
-                                            pickAvatar(x.playerId);
-                                          }}
-                                        >
+                                        <$PlayerAvatar id={`avatar:${idx}`}>
+                                          {avatarSelect == x.playerId && (
+                                            <$Select
+                                              options={option3}
+                                              onChange={(e) => {
+                                                pickAvatar2(
+                                                  x.playerId,
+                                                  rawsetAT[
+                                                    e.value.split(':')[1]
+                                                  ],
+                                                );
+                                              }}
+                                            />
+                                          )}
+
                                           <img
                                             style={{ width: '100%' }}
                                             src={
@@ -1609,6 +1670,15 @@ const LeagueTemplate = () => {
                                                 ? x.playerAvatar
                                                 : unknown
                                             }
+                                            onClick={(e) => {
+                                              if (e.target == e.currentTarget) {
+                                                if (avatarSelect == '') {
+                                                  setAvatarSelect(x.playerId);
+                                                } else {
+                                                  setAvatarSelect('');
+                                                }
+                                              }
+                                            }}
                                           ></img>
                                         </$PlayerAvatar>
                                       </$PlayerAvatarWrapper>
@@ -1671,6 +1741,10 @@ const $SelectWrapper = styled.div`
   position: absolute;
   top: 5px;
   right: 5px;
+`;
+
+const $Select = styled(Select)`
+  z-index: 4;
 `;
 
 const $Versus = styled.div`

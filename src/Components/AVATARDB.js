@@ -3,13 +3,25 @@ const imageContext = require.context(
   false,
   /\.(jpg|jpeg|png|webp)$/,
 );
-let hello = imageContext.keys().sort(function (a, b) {
+const imageContext2 = require.context(
+  '../customs',
+  false,
+  /\.(jpg|jpeg|png|webp)$/,
+);
+let avatar = imageContext.keys().sort(function (a, b) {
   var numA = parseInt(a.match(/010451_(\d+)/)[1], 10);
   var numB = parseInt(b.match(/010451_(\d+)/)[1], 10);
   return numA - numB;
 });
 // 이거 업데이트 할 때 마다 match 뒤에 숫자 바뀌니까 바꿔줘야함
-const categoryData = hello.map(imageContext);
+
+let custom = imageContext2.keys().sort(function (a, b) {
+  return a - b;
+});
+
+const avatarData = avatar.map(imageContext);
+const customData = custom.map(imageContext2);
+
 let avatarName = [
   'aaron',
   'aarune',
@@ -1420,8 +1432,14 @@ let atdb = [];
 for (let i = 0; i < avatarName.length; i++) {
   atdb.push({
     name: avatarName[i],
-    url: categoryData[i],
+    url: avatarData[i],
   });
 }
-
+for (let i = 0; i < custom.length; i++) {
+  atdb.push({
+    name: custom[i].split('-')[1].split('.')[0],
+    url: customData[i],
+  });
+}
+atdb = atdb.sort((x, y) => x.name.localeCompare(y.name));
 export { atdb };

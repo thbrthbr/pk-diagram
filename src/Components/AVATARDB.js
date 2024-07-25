@@ -9,8 +9,8 @@ const imageContext2 = require.context(
   /\.(jpg|jpeg|png|webp)$/,
 );
 let avatar = imageContext.keys().sort(function (a, b) {
-  var numA = parseInt(a.match(/010451_(\d+)/)[1], 10);
-  var numB = parseInt(b.match(/010451_(\d+)/)[1], 10);
+  var numA = parseInt(a.match(/155847_(\d+)/)[1], 10);
+  var numB = parseInt(b.match(/155847_(\d+)/)[1], 10);
   return numA - numB;
 });
 // 이거 업데이트 할 때 마다 match 뒤에 숫자 바뀌니까 바꿔줘야함
@@ -27,6 +27,7 @@ let avatarName = [
   'aarune',
   'acerola-masters',
   'acerola-masters2',
+  'acerola-masters3',
   'acerola',
   'acetrainer-gen1',
   'acetrainer-gen1rb',
@@ -162,6 +163,7 @@ let avatarName = [
   'beni-ninja',
   'beni',
   'bertha',
+  'bianca-masters',
   'bianca-pwt',
   'bianca',
   'biker-gen1',
@@ -311,6 +313,7 @@ let avatarName = [
   'chase',
   'chef',
   'cheren-gen5bw2',
+  'cheren-masters',
   'cheren',
   'cheryl',
   'chili',
@@ -498,6 +501,7 @@ let avatarName = [
   'gamer-gen3',
   'garcon',
   'gardener',
+  'gardenia-masters',
   'gardenia',
   'geeta',
   'gentleman-gen1',
@@ -1036,6 +1040,7 @@ let avatarName = [
   'red-gen2',
   'red-gen3',
   'red-gen7',
+  'red-lgpe',
   'red-masters',
   'red-masters2',
   'red-masters3',

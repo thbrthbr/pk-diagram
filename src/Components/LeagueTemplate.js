@@ -550,6 +550,11 @@ const LeagueTemplate = () => {
           if (firstList[a] == 'Tatsugiri') {
             firstList[a] = 'Tatsugiri-Curly';
           }
+          if (firstList[a].includes('-Gmax')) {
+            let tempName = firstList[a].split('-');
+            tempName.pop();
+            firstList[a] = tempName.join('-');
+          }
           if (firstList[a] == 'Palafin') {
             firstList[a] = 'Palafin-Zero';
           }

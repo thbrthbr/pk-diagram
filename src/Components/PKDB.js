@@ -1092,14 +1092,14 @@ let db = [
     url: '',
   },
   {
-    name: 'Koffing',
+    name: 'Weezing',
     nameKo: '또도가스',
     code: '',
     type: ['poison'],
     url: '',
   },
   {
-    name: 'Koffing-Galar',
+    name: 'Weezing-Galar',
     nameKo: '가라르또도가스',
     code: '',
     type: ['poison', 'fairy'],

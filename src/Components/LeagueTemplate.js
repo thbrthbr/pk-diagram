@@ -11,8 +11,10 @@ import { BsFiletypeTxt } from 'react-icons/bs';
 import { FaRegQuestionCircle } from 'react-icons/fa';
 import dice2 from '../items/dice2.png';
 import leader2 from '../items/leader2.png';
+import type2 from '../items/type2.png';
 import dice from '../items/dice.png';
 import leader from '../items/leader.png';
+import type1 from '../items/type.png';
 import t1 from '../items/1t.png';
 import t2 from '../items/2t.png';
 
@@ -528,10 +530,15 @@ const LeagueTemplate = () => {
         }
         for (let a = 0; a < firstList.length; a++) {
           firstList[a] = firstList[a].trim();
+          // 여기서 이름 예외들 다 거르자
           if (firstList[a][firstList[a].length - 1] == 'F') {
             firstList[a] += 'emale';
           }
-          // 여기서 이름 예외들 다 거르자
+          if (firstList[a].includes('-Gmax')) {
+            let tempName = firstList[a].split('-');
+            tempName.pop();
+            firstList[a] = tempName.join('-');
+          }
           if (
             firstList[a] == 'Calyrex-Ice' ||
             firstList[a] == 'Calyrex-Shadow'
@@ -549,11 +556,6 @@ const LeagueTemplate = () => {
           }
           if (firstList[a] == 'Tatsugiri') {
             firstList[a] = 'Tatsugiri-Curly';
-          }
-          if (firstList[a].includes('-Gmax')) {
-            let tempName = firstList[a].split('-');
-            tempName.pop();
-            firstList[a] = tempName.join('-');
           }
           if (firstList[a] == 'Palafin') {
             firstList[a] = 'Palafin-Zero';
@@ -970,6 +972,9 @@ const LeagueTemplate = () => {
               let temp = copy[i].players[j].playerLabel[a];
               if (temp.split(':')[0] == 'dice') {
                 copy[i].players[j].playerLabel[a] =
+                  'type:' + temp.split(':')[1];
+              } else if (temp.split(':')[0] == 'type') {
+                copy[i].players[j].playerLabel[a] =
                   'leader:' + temp.split(':')[1];
               } else if (temp.split(':')[0] == 'leader') {
                 copy[i].players[j].playerLabel[a] =
@@ -1381,12 +1386,16 @@ const LeagueTemplate = () => {
                                     {x.playerLabel.length > 0 ? (
                                       x.playerLabel.map((item) => {
                                         let url = '';
-                                        if (item.split(':')[0] == 'leader') {
-                                          url = leader2;
+                                        if (item.split(':')[0] == 'type') {
+                                          url = type2;
                                         } else if (
                                           item.split(':')[0] == 'dice'
                                         ) {
                                           url = dice2;
+                                        } else if (
+                                          item.split(':')[0] == 'leader'
+                                        ) {
+                                          url = leader2;
                                         }
                                         return (
                                           <$Label
@@ -1425,12 +1434,16 @@ const LeagueTemplate = () => {
                                     {x.playerLabel.length > 0 ? (
                                       x.playerLabel.map((item) => {
                                         let url = '';
-                                        if (item.split(':')[0] == 'leader') {
-                                          url = leader;
+                                        if (item.split(':')[0] == 'type') {
+                                          url = type1;
                                         } else if (
                                           item.split(':')[0] == 'dice'
                                         ) {
                                           url = dice;
+                                        } else if (
+                                          item.split(':')[0] == 'leader'
+                                        ) {
+                                          url = leader;
                                         }
                                         return (
                                           <$Label2
@@ -1754,6 +1767,7 @@ const $Select = styled(Select)`
 
 const $Versus = styled.div`
   margin-top: 25%;
+  padding: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1827,7 +1841,7 @@ const $InputPlaceWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 6;
 `;
 
 const $Template = styled.div`

@@ -554,6 +554,9 @@ const LeagueTemplate = () => {
           if (firstList[a] == 'Gimmighoul') {
             firstList[a] = 'Gimmighoul-Chest';
           }
+          if (firstList[a] == 'Ogerpon') {
+            firstList[a] = 'Ogerpon-Teal';
+          }
           if (firstList[a] == 'Tatsugiri') {
             firstList[a] = 'Tatsugiri-Curly';
           }

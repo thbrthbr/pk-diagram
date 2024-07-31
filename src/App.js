@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Tiermaker } from './Components/TierMaker';
 import { Main } from './Components/Main';
 import { LeagueTemplate } from './Components/LeagueTemplate';
+import { UserRecord } from './Components/UserRecord';
 import { TrainerCard } from './Components/TrainerCard';
 import styled from 'styled-components';
 
@@ -17,6 +18,7 @@ function App() {
             <Route path="tier" element={<Tiermaker />}></Route>
             <Route path="league" element={<LeagueTemplate />}></Route>
             <Route path="card" element={<TrainerCard />}></Route>
+            <Route path="record" element={<UserRecord />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

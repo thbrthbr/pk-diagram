@@ -18,6 +18,9 @@ import type1 from '../items/type.png';
 import t1 from '../items/1t.png';
 import t2 from '../items/2t.png';
 
+// 많이 귀찮아지면 각 포켓몬 객체 속성에 밴 속성도 하나 추가해서 그걸로 관리하기
+// 아마 사이트 옮길 때 이 부분 수정
+
 const imageContext = require.context(
   '../teamlogos',
   false,
@@ -74,19 +77,16 @@ const LeagueTemplate = () => {
   }
 
   const isMounted = useRef(null);
-  const isMounted2 = useRef(null);
   const downloadRef = useRef(null);
   const buttonRef = useRef(null);
   const [PW, setPW] = useState('');
   const [locked, setLocked] = useState(true);
-  const [activated, setActivated] = useState(false);
   const [pasteInput, setPasteInput] = useState(false);
   const [pastedValue, setPastedValue] = useState('');
   const [selectedPlayer, setSelectedPlayer] = useState('');
   const [nameSearcher, setNameSearcher] = useState(false);
   const [who, setWho] = useState('');
   const [avatarSelect, setAvatarSelect] = useState('');
-  const [searchingOne, setSearchingOne] = useState('');
   const [eachPK, setEachPK] = useState('');
   const [SD, setSD] = useState('double');
   const [tempSave, setTempSave] = useState({
@@ -1093,6 +1093,10 @@ const LeagueTemplate = () => {
             str = e.target.result;
             let pasteData = JSON.parse(str);
             setEachSide(pasteData);
+            let elements = document.getElementsByClassName('ban-cover');
+            for (let i = 0; i < elements.length; i++) {
+              elements[i].style.backgroundColor = 'rgba(0, 0, 0, 0)';
+            }
           } catch (e) {}
         };
       });
@@ -1577,7 +1581,10 @@ const LeagueTemplate = () => {
                                                 ban(id);
                                               }}
                                             >
-                                              <$Banned id={id}></$Banned>
+                                              <$Banned
+                                                className="ban-cover"
+                                                id={id}
+                                              ></$Banned>
                                               <$EachPokemon
                                                 id={y.id}
                                                 src={y.src ? y.src : db[0].url}
@@ -1659,7 +1666,10 @@ const LeagueTemplate = () => {
                                                 ban(id);
                                               }}
                                             >
-                                              <$Banned id={id}></$Banned>
+                                              <$Banned
+                                                className="ban-cover"
+                                                id={id}
+                                              ></$Banned>
                                               <$EachPokemon
                                                 id={y.id}
                                                 src={y.src ? y.src : db[0].url}
@@ -1939,7 +1949,6 @@ const $PlayerEntry = styled.div`
 const $EachPokemonWrapper = styled.div`
   width: 16%;
   background-color: transparent;
-  /* border: 2px solid grey; */
   box-sizing: border-box;
   aspect-ratio: 16 / 16;
   position: relative;
@@ -1948,7 +1957,6 @@ const $EachPokemonWrapper = styled.div`
 
 const $EachPokemon = styled.img`
   width: 100%;
-  /* height: auto; */
   aspect-ratio: 16 / 16;
 `;
 

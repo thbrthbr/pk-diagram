@@ -7,6 +7,7 @@ import { FaLanguage } from 'react-icons/fa';
 import Select from 'react-select';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { MdVerticalAlignTop } from 'react-icons/md';
+import { FaBan } from 'react-icons/fa';
 
 const imageContext = require.context(
   '../icon',
@@ -43,6 +44,18 @@ const UserRecord = () => {
   const [locked, setLocked] = useState(true);
 
   const addUsedList = () => {
+    if (!team) {
+      alert('팀 이름을 선택해주세요');
+      return;
+    }
+    if (!user) {
+      alert('선수 이름을 선택해주세요');
+      return;
+    }
+    if (!pokemon) {
+      alert('포켓몬을 선택해주세요');
+      return;
+    }
     let obj = list.slice(0);
     let check = false;
     for (let i = 0; i < obj.length; i++) {
@@ -170,10 +183,10 @@ const UserRecord = () => {
           </div>
           <br></br>
           <$PlayerPlace>
-            {option2.map((x) => {
+            {option2.map((x, idx) => {
               let teamName = x.label;
               return (
-                <div>
+                <div key={`team:${idx}`}>
                   <div
                     style={{
                       color: x.value,
@@ -184,27 +197,60 @@ const UserRecord = () => {
                     :::{teamName}:::
                   </div>
                   <$List>
-                    {list.map(([name, pknames, team]) => {
+                    {list.map(([name, pknames, team], idx2) => {
                       if (team == teamName) {
                         return (
-                          <$EachPlayer>
+                          <$EachPlayer key={`player:${idx2}`}>
                             <$PlayerName style={{ color: x.value }}>
                               &lt;{name}&gt;
                             </$PlayerName>
-                            {pknames.map((pkname) => {
+                            {pknames.map((pkname, idx3) => {
                               return (
-                                <$EachList>
-                                  <$Dot src={pkname[1]}></$Dot>
-                                  <span>
-                                    {pkname[0]}{' '}
-                                    <$DeleteButton
-                                      onClick={() => {
-                                        removePokemon(name, pkname[0]);
+                                <$EachList key={`each:${idx3}`}>
+                                  <div style={{ display: 'flex' }}>
+                                    <div
+                                      style={{
+                                        display: 'flex',
+                                        fontWeight: 900,
+                                        alignItems: 'center',
+                                        textDecoration: 'line-through',
+                                        // color: 'red',
+                                      }}
+                                      dangerouslySetInnerHTML={{
+                                        __html: pkname[0]
+                                          .split('-')
+                                          .join('<br/>'),
+                                      }}
+                                    ></div>
+                                    <div
+                                      style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        position: 'relative',
+                                        width: '40px',
+                                        height: '40px',
                                       }}
                                     >
-                                      <IoCloseCircleOutline />
-                                    </$DeleteButton>
-                                  </span>
+                                      <$Dot src={pkname[1]}></$Dot>
+                                      <FaBan
+                                        onClick={() => {
+                                          removePokemon(name, pkname[0]);
+                                        }}
+                                        style={{
+                                          color: 'red',
+                                          cursor: 'pointer',
+                                          fontSize: '30px',
+                                          position: 'absolute',
+                                          width: '100%',
+                                        }}
+                                      />
+                                      {/* <$DeleteButton
+                                        
+                                      >
+                                      </$DeleteButton> */}
+                                    </div>
+                                  </div>
                                 </$EachList>
                               );
                             })}
@@ -286,7 +332,7 @@ const $List = styled.div`
   width: 90vw;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   flex-wrap: wrap;
 `;
 
@@ -319,11 +365,16 @@ const $Select = styled(Select)`
 const $Dot = styled.img`
   width: 30px;
   height: auto;
+  position: relative;
 `;
 
-const $DeleteButton = styled.span`
+const $DeleteButton = styled.div`
+  position: absolute;
+  /* z-index: 3; */
   cursor: pointer;
-  font-size: 12px;
+  /* width: 100%; */
+  font-size: 16px;
+  /* justify-content: center; */
 `;
 
 const $AllArea = styled.div`

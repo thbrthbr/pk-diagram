@@ -5,6 +5,7 @@ import { Tiermaker } from './Components/TierMaker';
 import { Main } from './Components/Main';
 import { LeagueTemplate } from './Components/LeagueTemplate';
 import { UserRecord } from './Components/UserRecord';
+import { UserRecord2 } from './Components/UserRecord2';
 import { TrainerCard } from './Components/TrainerCard';
 import styled from 'styled-components';
 
@@ -19,6 +20,7 @@ function App() {
             <Route path="league" element={<LeagueTemplate />}></Route>
             <Route path="card" element={<TrainerCard />}></Route>
             <Route path="record" element={<UserRecord />}></Route>
+            <Route path="record2" element={<UserRecord2 />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

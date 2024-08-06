@@ -68,6 +68,7 @@ const UserRecord2 = () => {
   const [teamColor, setTeamColor] = useState('#EDEDED');
   const [PW, setPW] = useState('');
   const [locked, setLocked] = useState(true);
+  const [team, setTeam] = useState('');
 
   const belowRef = useRef(null);
   const threadRef = useRef(null);
@@ -104,15 +105,15 @@ const UserRecord2 = () => {
           }
         }
       }
-      const saver = [];
-      for (let i = 0; i < dyingList.length; i++) {
-        saver.push({
-          img: dyingList[i].img,
-          id: dyingList[i].id,
-          name: dyingList[i].name,
-        });
-      }
-      setImgSet([...saver, ...imgSet]);
+      //   const saver = [];
+      //   for (let i = 0; i < dyingList.length; i++) {
+      //     saver.push({
+      //       img: dyingList[i].img,
+      //       id: dyingList[i].id,
+      //       name: dyingList[i].name,
+      //     });
+      //   }
+      //   setImgSet([...saver, ...imgSet]);
       setTierList(copy);
       setNameChanged(Date.now());
     }
@@ -824,11 +825,23 @@ const UserRecord2 = () => {
       if (localStorage.getItem(prompt)) {
         localStorage.removeItem(prompt);
       }
-      localStorage.setItem(prompt, JSON.stringify(tierList));
+      let before = tierList.slice(0);
+      if (team) {
+        before.push(team);
+        localStorage.setItem(prompt, JSON.stringify(before));
+      } else {
+        localStorage.setItem(prompt, JSON.stringify(tierList));
+      }
     } else {
       let namedb = [prompt];
       localStorage.setItem('namedb', JSON.stringify(namedb));
-      localStorage.setItem(prompt, JSON.stringify(tierList));
+      let before = tierList.slice(0);
+      if (team) {
+        before.push(team);
+        localStorage.setItem(prompt, JSON.stringify(before));
+      } else {
+        localStorage.setItem(prompt, JSON.stringify(tierList));
+      }
     }
     dbloader();
   };
@@ -836,27 +849,36 @@ const UserRecord2 = () => {
   const loadData = (e) => {
     let test = localStorage.getItem(e.value);
     let sortedData = JSON.parse(test);
-    let used = [];
-    for (let i = 0; i < sortedData.length; i++) {
-      for (let j = 0; j < sortedData[i].contentArr.length; j++) {
-        used.push(sortedData[i].contentArr[j].name);
-      }
+    if (sortedData[sortedData.length - 1][0]) {
+      let teamNamed = sortedData.pop();
+      setTeam(teamNamed);
+      setTierList(sortedData);
+      teamMatcher2(teamNamed);
+    } else {
+      setTeam('');
+      setTierList(JSON.parse(test));
+      teamMatcher2('nope');
     }
-    let renew = [];
-    for (let i = 0; i < imgSet.length; i++) {
-      if (!used.includes(imgSet[i].name)) {
-        if (
-          !used.includes(
-            imgSet[i].name.split(':')[0] +
-              'Form:' +
-              imgSet[i].name.split(':')[1],
-          )
-        )
-          renew.push(imgSet[i]);
-      }
-    }
-    setImgSet(renew);
-    setTierList(JSON.parse(test));
+    // let used = [];
+    // for (let i = 0; i < sortedData.length; i++) {
+    //   for (let j = 0; j < sortedData[i].contentArr.length; j++) {
+    //     used.push(sortedData[i].contentArr[j].name);
+    //   }
+    // }
+    // let renew = [];
+    // for (let i = 0; i < imgSet.length; i++) {
+    //   if (!used.includes(imgSet[i].name)) {
+    //     if (
+    //       !used.includes(
+    //         imgSet[i].name.split(':')[0] +
+    //           'Form:' +
+    //           imgSet[i].name.split(':')[1],
+    //       )
+    //     )
+    //       renew.push(imgSet[i]);
+    //   }
+    // }
+    // setImgSet(renew);
   };
 
   const deleteData = (e) => {
@@ -916,20 +938,29 @@ const UserRecord2 = () => {
         READER.onload = (e) => {
           try {
             str = e.target.result;
-            let pasteData = JSON.parse(str);
-            setTierList(JSON.parse(str));
-            let copy = dbSet.slice();
-            let renew = [];
-            let used = [];
-            for (let i = 0; i < pasteData.length; i++) {
-              for (let j = 0; j < pasteData[i].contentArr.length; j++) {
-                used.push(pasteData[i].contentArr[j].name);
-              }
+            let sortedData = JSON.parse(str);
+            if (sortedData[sortedData.length - 1][0]) {
+              let teamNamed = sortedData.pop();
+              setTeam(teamNamed);
+              setTierList(sortedData);
+              teamMatcher2(teamNamed);
+            } else {
+              setTeam('');
+              setTierList(JSON.parse(test));
+              teamMatcher2('nope');
             }
-            for (let i = 0; i < 1342; i++) {
-              if (!used.includes(copy[i].name)) renew.push(copy[i]);
-            }
-            setImgSet(renew);
+            // let copy = dbSet.slice();
+            // let renew = [];
+            // let used = [];
+            // for (let i = 0; i < pasteData.length; i++) {
+            //   for (let j = 0; j < pasteData[i].contentArr.length; j++) {
+            //     used.push(pasteData[i].contentArr[j].name);
+            //   }
+            // }
+            // for (let i = 0; i < 1342; i++) {
+            //   if (!used.includes(copy[i].name)) renew.push(copy[i]);
+            // }
+            // setImgSet(renew);
           } catch (e) {}
         };
       });
@@ -977,7 +1008,28 @@ const UserRecord2 = () => {
     } else {
       setTeamColor('#EDEDED');
     }
+    setTeam(teamName);
   };
+
+  const teamMatcher2 = (name) => {
+    let teamName = name;
+    if (teamName.includes('무등')) {
+      setTeamColor('#4F3AC7');
+    } else if (teamName.includes('포갤')) {
+      setTeamColor('#04E1C1');
+    } else if (teamName.includes('대구')) {
+      setTeamColor('#FE4D00');
+    } else if (teamName.includes('시흥')) {
+      setTeamColor('#E7A101');
+    } else if (teamName.includes('신안')) {
+      setTeamColor('#7F746E');
+    } else if (teamName.includes('아이')) {
+      setTeamColor('#FE0267');
+    } else {
+      setTeamColor('#EDEDED');
+    }
+  };
+
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
 
@@ -1375,6 +1427,7 @@ const UserRecord2 = () => {
                     <$TitleLine
                       placeholder="팀이름을적어주세요"
                       spellCheck={false}
+                      value={team}
                       style={{ color: teamColor }}
                       onChange={teamMatcher}
                     ></$TitleLine>

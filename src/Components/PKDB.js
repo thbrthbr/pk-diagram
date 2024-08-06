@@ -2915,14 +2915,14 @@ let db = [
     url: '',
   },
   {
-    name: 'Mediticham',
+    name: 'Medicham',
     nameKo: '요가램',
     code: '',
     type: ['fighting', 'psychic'],
     url: '',
   },
   {
-    name: 'Mediticham-Mega',
+    name: 'Medicham-Mega',
     nameKo: '메가요가램',
     code: '',
     type: ['fighting', 'psychic'],

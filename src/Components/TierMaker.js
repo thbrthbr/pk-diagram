@@ -764,13 +764,28 @@ const Tiermaker = () => {
     }
   };
 
+  // const dbloader = () => {
+  //   if (localStorage.getItem('namedb')) {
+  //     let tierDatas = JSON.parse(localStorage.getItem('namedb'));
+  //     let record = [];
+  //     for (let i = 0; i < tierDatas.length; i++) {
+  //       let option = { value: tierDatas[i], label: tierDatas[i] };
+  //       record.push(option);
+  //     }
+  //     setLoadDatas(record);
+  //   }
+  // };
+
   const dbloader = () => {
     if (localStorage.getItem('namedb')) {
       let tierDatas = JSON.parse(localStorage.getItem('namedb'));
       let record = [];
       for (let i = 0; i < tierDatas.length; i++) {
-        let option = { value: tierDatas[i], label: tierDatas[i] };
-        record.push(option);
+        let check = JSON.parse(localStorage.getItem(tierDatas[i]));
+        if (!check[check.length - 1][0]) {
+          let option = { value: tierDatas[i], label: tierDatas[i] };
+          record.push(option);
+        }
       }
       setLoadDatas(record);
     }

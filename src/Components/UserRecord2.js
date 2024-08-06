@@ -786,8 +786,11 @@ const UserRecord2 = () => {
       let tierDatas = JSON.parse(localStorage.getItem('namedb'));
       let record = [];
       for (let i = 0; i < tierDatas.length; i++) {
-        let option = { value: tierDatas[i], label: tierDatas[i] };
-        record.push(option);
+        let check = JSON.parse(localStorage.getItem(tierDatas[i]));
+        if (check[check.length - 1][0]) {
+          let option = { value: tierDatas[i], label: tierDatas[i] };
+          record.push(option);
+        }
       }
       setLoadDatas(record);
     }
@@ -830,7 +833,8 @@ const UserRecord2 = () => {
         before.push(team);
         localStorage.setItem(prompt, JSON.stringify(before));
       } else {
-        localStorage.setItem(prompt, JSON.stringify(tierList));
+        before.push('제목없음');
+        localStorage.setItem(prompt, JSON.stringify(before));
       }
     } else {
       let namedb = [prompt];
@@ -840,7 +844,8 @@ const UserRecord2 = () => {
         before.push(team);
         localStorage.setItem(prompt, JSON.stringify(before));
       } else {
-        localStorage.setItem(prompt, JSON.stringify(tierList));
+        before.push('제목없음');
+        localStorage.setItem(prompt, JSON.stringify(before));
       }
     }
     dbloader();

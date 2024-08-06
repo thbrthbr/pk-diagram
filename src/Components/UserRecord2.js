@@ -1,3 +1,4 @@
+import logo from '../Logo/PK-DIAGRAM.png';
 import styled from 'styled-components';
 import react, { useEffect, useState, useRef } from 'react';
 import { toPng, toSvg, toJpeg } from 'html-to-image';
@@ -1476,6 +1477,7 @@ const UserRecord2 = () => {
                         {x.contentArr.map((itemId) => {
                           return (
                             <$Img
+                              style={{ filter: 'grayscale(80%)' }}
                               onClick={(e) => {
                                 // console.log(e.currentTarget);
                                 // console.log(tierList);
@@ -1818,7 +1820,9 @@ const $Img = styled.img`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  text-align: center;
   cursor: pointer;
+  position: relative;
 `;
 
 const $Subtier = styled.button`
@@ -1948,6 +1952,7 @@ const $SiteLabel = styled.p`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 80%;
 `;
 
 const $TierHead = styled.div`

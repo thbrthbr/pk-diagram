@@ -285,18 +285,16 @@ const UserRecord2 = () => {
     let set = tierList.slice(0);
     for (let i = 0; i < set.length; i++) {
       let smallOne = [];
-      console.log('개소리야또씨발', i);
       for (let j = 0; j < set[i].contentArr.length; j++) {
         if (
           set[i].contentArr[j].id !== selectedItem.id ||
           set[i].id !== tierline
         ) {
           smallOne.push(set[i].contentArr[j]);
-        } else {
-          //   smallOne.push(set[i].contentArr[j]);
-          console.log('아오씨발');
-          console.log(i);
         }
+        // else {
+        //   //   smallOne.push(set[i].contentArr[j]);
+        // }
       }
       bigOne.push({ id: set[i].id, contentArr: smallOne });
     }
@@ -344,8 +342,6 @@ const UserRecord2 = () => {
         return;
       }
     }
-    // console.log('?');
-    // if (id == selectedItem.id) return;
     let copy = tierList.slice();
     let isback = false;
     for (let i = 0; i < copy.length; i++) {
@@ -361,6 +357,7 @@ const UserRecord2 = () => {
       }
       if (isback) break;
     }
+    if (id == selectedItem.id) return;
     const index1 = imgSet.findIndex((obj) => obj.id == id);
     let index2;
     if (isback == false) {
@@ -391,8 +388,8 @@ const UserRecord2 = () => {
         }
       }
     }
-    setTierLine('');
     setImgSet(renew);
+    setTierLine('');
   };
 
   const backEmptyMobile = () => {
@@ -1425,9 +1422,9 @@ const UserRecord2 = () => {
               >
                 <$TierHeader>
                   <$SiteLabel
-                    onClick={() => {
-                      console.log(tierList);
-                    }}
+                  // onClick={() => {
+                  //   console.log(tierList);
+                  // }}
                   >
                     <$TitleLine
                       placeholder="팀이름을적어주세요"

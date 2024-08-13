@@ -9,6 +9,8 @@ import { GrPowerReset } from 'react-icons/gr';
 import { toPng, toSvg, toJpeg } from 'html-to-image';
 import { BsFiletypeTxt } from 'react-icons/bs';
 import { FaRegQuestionCircle } from 'react-icons/fa';
+import sub from '../items/substitute.png';
+import sub2 from '../items/substitute2.png';
 import dice2 from '../items/dice2.png';
 import leader2 from '../items/leader2.png';
 import type2 from '../items/type2.png';
@@ -980,6 +982,8 @@ const LeagueTemplate = () => {
                 copy[i].players[j].playerLabel[a] =
                   'leader:' + temp.split(':')[1];
               } else if (temp.split(':')[0] == 'leader') {
+                copy[i].players[j].playerLabel[a] = 'sub:' + temp.split(':')[1];
+              } else if (temp.split(':')[0] == 'sub') {
                 copy[i].players[j].playerLabel[a] =
                   'dice:' + temp.split(':')[1];
               }
@@ -1403,6 +1407,10 @@ const LeagueTemplate = () => {
                                           item.split(':')[0] == 'leader'
                                         ) {
                                           url = leader2;
+                                        } else if (
+                                          item.split(':')[0] == 'sub'
+                                        ) {
+                                          url = sub2;
                                         }
                                         return (
                                           <$Label
@@ -1451,6 +1459,10 @@ const LeagueTemplate = () => {
                                           item.split(':')[0] == 'leader'
                                         ) {
                                           url = leader;
+                                        } else if (
+                                          item.split(':')[0] == 'sub'
+                                        ) {
+                                          url = sub;
                                         }
                                         return (
                                           <$Label2

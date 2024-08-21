@@ -890,13 +890,6 @@ const LeagueTemplate = () => {
     setEachSide(copy);
   };
 
-  const pxToVw = (pxValue) => {
-    const viewportWidth =
-      window.innerWidth || document.documentElement.clientWidth;
-    const vwValue = (pxValue / viewportWidth) * 100;
-    return vwValue;
-  };
-
   const SDpicker = (e) => {
     setSD(e.value);
   };
@@ -1121,6 +1114,14 @@ const LeagueTemplate = () => {
     setNameSearcher(false);
   };
 
+  const pxToVw = (pxValue) => {
+    const viewportWidth =
+      window.innerWidth || document.documentElement.clientWidth;
+    const vwValue = (pxValue / viewportWidth) * 110;
+    // 가로로 넓은 화면에서 이름 밑칸 길이 길어지는 템포가 늦을 수 있는데 이 때 저 곱하는 숫자를 키우면 된다
+    return vwValue;
+  };
+
   useEffect(() => {
     if (isMounted.current) {
       try {
@@ -1139,15 +1140,23 @@ const LeagueTemplate = () => {
   }, [who]);
 
   // useEffect(() => {
-  //   let password = window.prompt('비밀번호를 입력해주세요');
-  //   if (password == 'igeu') {
-  //     setLocked(false);
+  //   if (isMounted.current) {
+  //     try {
+  //       let findit = who.split(':')[0] + ':' + who.split(':')[1];
+  //       let changed =
+  //         document.getElementById(findit).getBoundingClientRect().width +
+  //         document.body.offsetWidth / 3.5;
+  //       console.log(changed);
+  //       let changeit = 'input:' + who.split(':')[0];
+  //       // let pxToVwed = pxToVw(changed) + 'vw';
+  //       let pxToVwed = changed / 6 + 1 + 'vw';
+  //       document.getElementById(changeit).style.width = pxToVwed;
+  //       widthSetter(who.split(':')[0], pxToVwed);
+  //     } catch (e) {}
   //   } else {
-  //     while (password !== 'igeu') {
-  //       password = window.prompt('비밀번호를 다시 입력해주세요');
-  //     }
+  //     isMounted.current = true;
   //   }
-  // }, []);
+  // }, [who]);
 
   useEffect(() => {
     if (SD == 'double') {
@@ -1922,6 +1931,7 @@ const $NameTriangle2 = styled.div`
 
 const $PlayerName = styled.div`
   height: 3vw;
+  max-width: 37vw;
   background-color: red;
   color: white;
   display: flex;

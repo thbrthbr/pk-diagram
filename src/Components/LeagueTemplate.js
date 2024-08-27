@@ -661,6 +661,9 @@ const LeagueTemplate = () => {
           if (firstList[a] == 'Basculegion') {
             firstList[a] = 'Basculegion-Male';
           }
+          if (firstList[a] == 'Meowstic') {
+            firstList[a] = 'Meowstic-Male';
+          }
           if (firstList[a] == 'Oinkologne') {
             firstList[a] = 'Oinkologne-Male';
           }

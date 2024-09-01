@@ -248,7 +248,7 @@ const Tiermaker = () => {
       let renew = [];
       for (let i = 0; i < imgSet.length; i++) {
         if (imgSet[i].id !== selectedItem.id) {
-          renew.push(imgSet[i]);
+          if (imgSet[i]) renew.push(imgSet[i]);
         }
         if (imgSet[i].id === id) {
           renew.push({
@@ -496,7 +496,7 @@ const Tiermaker = () => {
     let set2 = [];
     for (let i = 0; i < imgSet.length; i++) {
       if (imgSet[i].id !== selectedItem.id) {
-        set2.push(imgSet[i]);
+        if (imgSet[i]) set2.push(imgSet[i]);
       }
     }
     setImgSet(set2);
@@ -614,7 +614,7 @@ const Tiermaker = () => {
         let set2 = [];
         for (let i = 0; i < imgSet.length; i++) {
           if (imgSet[i].id !== selectedItem.id) {
-            set2.push(imgSet[i]);
+            if (imgSet[i]) set2.push(imgSet[i]);
           }
         }
         setImgSet(set2);
@@ -926,7 +926,7 @@ const Tiermaker = () => {
               }
             }
             for (let i = 0; i < 1342; i++) {
-              if (!used.includes(copy[i].name)) renew.push(copy[i]);
+              if (!used.includes(copy[i].name) && copy[i]) renew.push(copy[i]);
             }
             setImgSet(renew);
           } catch (e) {}
@@ -939,6 +939,7 @@ const Tiermaker = () => {
   const goUp = () => {
     if (topRef.current) {
       topRef.current.scrollIntoView();
+      console.log(imgSet);
     }
   };
   const [offsetX, setOffsetX] = useState(0);

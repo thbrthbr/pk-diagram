@@ -1092,6 +1092,7 @@ const LeagueTemplate = () => {
           try {
             str = e.target.result;
             let pasteData = JSON.parse(str);
+            console.log(pasteData);
             setEachSide(pasteData);
             let elements = document.getElementsByClassName('ban-cover');
             for (let i = 0; i < elements.length; i++) {
@@ -1123,6 +1124,84 @@ const LeagueTemplate = () => {
     const vwValue = (pxValue / viewportWidth) * 110;
     // 가로로 넓은 화면에서 이름 밑칸 길이 길어지는 템포가 늦을 수 있는데 이 때 저 곱하는 숫자를 키우면 된다
     return vwValue;
+  };
+
+  const switchOrder = (side, order, direction) => {
+    let copy = eachSide.slice(0);
+    if (direction == 'up') {
+      if (side == 'first') {
+        for (let i = 0; i < copy[0].players.length; i++) {
+          if (copy[0].players[i].playerId == order && i != 0) {
+            let temp = {};
+            temp = copy[0].players[i - 1];
+            copy[0].players[i - 1] = copy[0].players[i];
+            copy[0].players[i] = temp;
+            let tempId = 0;
+            tempId = copy[0].players[i - 1].playerId;
+            copy[0].players[i - 1].playerId = copy[0].players[i].playerId;
+            copy[0].players[i].playerId = tempId;
+            setEachSide(copy);
+            break;
+          }
+        }
+      } else {
+        for (let i = 0; i < copy[1].players.length; i++) {
+          if (copy[1].players[i].playerId == order && i != 0) {
+            let temp = {};
+            temp = copy[1].players[i - 1];
+            copy[1].players[i - 1] = copy[1].players[i];
+            copy[1].players[i] = temp;
+            let tempId = 0;
+            tempId = copy[1].players[i - 1].playerId;
+            copy[1].players[i - 1].playerId = copy[1].players[i].playerId;
+            copy[1].players[i].playerId = tempId;
+            setEachSide(copy);
+            break;
+          }
+        }
+      }
+    } else {
+      if (side == 'first') {
+        for (let i = 0; i < copy[0].players.length; i++) {
+          if (
+            copy[0].players[i].playerId == order &&
+            i != copy[0].players.length - 1
+          ) {
+            let temp = {};
+            temp = copy[0].players[i + 1];
+            copy[0].players[i + 1] = copy[0].players[i];
+            copy[0].players[i] = temp;
+
+            let tempId = 0;
+            tempId = copy[0].players[i + 1].playerId;
+            copy[0].players[i + 1].playerId = copy[0].players[i].playerId;
+            copy[0].players[i].playerId = tempId;
+            console.log(copy);
+            setEachSide(copy);
+            break;
+          }
+        }
+      } else {
+        for (let i = 0; i < copy[1].players.length; i++) {
+          if (
+            copy[1].players[i].playerId == order &&
+            i != copy[0].players.length - 1
+          ) {
+            let temp = {};
+            temp = copy[1].players[i + 1];
+            copy[1].players[i + 1] = copy[1].players[i];
+            copy[1].players[i] = temp;
+
+            let tempId = 0;
+            tempId = copy[1].players[i + 1].playerId;
+            copy[1].players[i + 1].playerId = copy[1].players[i].playerId;
+            copy[1].players[i].playerId = tempId;
+            setEachSide(copy);
+            break;
+          }
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -1619,6 +1698,28 @@ const LeagueTemplate = () => {
                                       </$PlayerEntry>
                                       <$EntryPaste className="disappear">
                                         <$Util
+                                          onClick={(e) => {
+                                            switchOrder(
+                                              'first',
+                                              x.playerId,
+                                              'up',
+                                            );
+                                          }}
+                                        >
+                                          ▲
+                                        </$Util>
+                                        <$Util
+                                          onClick={(e) => {
+                                            switchOrder(
+                                              'first',
+                                              x.playerId,
+                                              'down',
+                                            );
+                                          }}
+                                        >
+                                          ▼
+                                        </$Util>
+                                        <$Util
                                           onClick={() => {
                                             entryInput(x.playerId);
                                           }}
@@ -1637,6 +1738,28 @@ const LeagueTemplate = () => {
                                   ) : (
                                     <>
                                       <$EntryPaste className="disappear">
+                                        <$Util
+                                          onClick={(e) => {
+                                            switchOrder(
+                                              'second',
+                                              x.playerId,
+                                              'up',
+                                            );
+                                          }}
+                                        >
+                                          ▲
+                                        </$Util>
+                                        <$Util
+                                          onClick={(e) => {
+                                            switchOrder(
+                                              'second',
+                                              x.playerId,
+                                              'down',
+                                            );
+                                          }}
+                                        >
+                                          ▼
+                                        </$Util>
                                         <$Util
                                           onClick={() => {
                                             entryInput(x.playerId);
@@ -1779,7 +1902,7 @@ const $Util = styled.div`
   color: white;
   width: 100%;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin: 1.4vw 0px;
 `;
 
 const $Blackbar = styled.div`

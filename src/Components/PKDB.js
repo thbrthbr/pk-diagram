@@ -2981,7 +2981,7 @@ let db = [
     name: 'Roselia',
     nameKo: '로젤리아',
     code: '',
-    type: ['grass', 'posion'],
+    type: ['grass', 'poison'],
     url: '',
   },
   {

@@ -375,6 +375,34 @@ const TrainerCard = () => {
     }
   };
 
+  const pickImg = () => {
+    let temp = document.createElement('input');
+    temp.type = 'file';
+    temp.addEventListener('change', () => {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        console.log(reader.result);
+        setCurrentAvatar(reader.result);
+      };
+      reader.readAsDataURL(temp.files[0]);
+    });
+    temp.click();
+  };
+
+  const pickImg2 = () => {
+    let temp = document.createElement('input');
+    temp.type = 'file';
+    temp.addEventListener('change', () => {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        console.log(reader.result);
+        setCurrentAvatar2(reader.result);
+      };
+      reader.readAsDataURL(temp.files[0]);
+    });
+    temp.click();
+  };
+
   const backgroundHandler = (e) => {
     console.log(e.target.files[0]);
     let reader = new FileReader();
@@ -703,6 +731,11 @@ const TrainerCard = () => {
                   </$EntryPlace>
                   <$AvatarPlace>
                     <$AvatarImg
+                      onContextMenu={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        pickImg();
+                      }}
                       src={currentAvatar ? currentAvatar : unknown}
                     ></$AvatarImg>
                   </$AvatarPlace>
@@ -1037,6 +1070,11 @@ const TrainerCard = () => {
                   </$EntryPlace>
                   <$AvatarPlace>
                     <$AvatarImg
+                      onContextMenu={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        pickImg();
+                      }}
                       src={currentAvatar2 ? currentAvatar2 : unknown}
                     ></$AvatarImg>
                   </$AvatarPlace>

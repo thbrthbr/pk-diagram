@@ -1429,7 +1429,7 @@ let db = [
     url: '',
   },
   {
-    name: 'Zapdos-Galar',
+    name: 'Moltres-Galar',
     nameKo: '가라르파이어',
     code: '',
     type: ['dark', 'flying'],

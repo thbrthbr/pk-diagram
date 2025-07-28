@@ -8925,7 +8925,7 @@ let db = [
     name: 'Cyclizar',
     nameKo: '모토마',
     code: '',
-    type: ['normal'],
+    type: ['normal', 'dragon'],
     url: '',
   },
   {

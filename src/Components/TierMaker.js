@@ -661,7 +661,70 @@ const Tiermaker = () => {
     }
   };
 
-  const generationChanger = (e) => {
+  // const generationChanger = (e) => {
+  //   let copy = dbSet.slice();
+  //   let renew = [];
+  //   let used = [];
+  //   for (let i = 0; i < tierList.length; i++) {
+  //     for (let j = 0; j < tierList[i].contentArr.length; j++) {
+  //       used.push(tierList[i].contentArr[j].name);
+  //     }
+  //   }
+  //   if (e.value == 'All') {
+  //     for (let i = 0; i < 1342; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   } else if (e.value == 1) {
+  //     for (let i = 1; i < 211; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   } else if (e.value == 2) {
+  //     for (let i = 211; i < 350; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   } else if (e.value == 3) {
+  //     for (let i = 350; i < 515; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   } else if (e.value == 4) {
+  //     for (let i = 515; i < 660; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   } else if (e.value == 5) {
+  //     for (let i = 660; i < 850; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   } else if (e.value == 6) {
+  //     for (let i = 850; i < 981; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   } else if (e.value == 7) {
+  //     for (let i = 981; i < 1087; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   } else if (e.value == 8) {
+  //     for (let i = 1087; i < 1206; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   } else if (e.value == 9) {
+  //     for (let i = 1206; i < 1342; i++) {
+  //       if (!used.includes(copy[i].name)) renew.push(copy[i]);
+  //     }
+  //     setImgSet(renew);
+  //   }
+  //   // 옵션은 더 추가할 수도 있음
+  // };
+
+    const generationChanger = (e) => {
     let copy = dbSet.slice();
     let renew = [];
     let used = [];
@@ -671,55 +734,78 @@ const Tiermaker = () => {
       }
     }
     if (e.value == 'All') {
-      for (let i = 0; i < 1342; i++) {
+      for (let i = 0; i < copy.length; i++) {
         if (!used.includes(copy[i].name)) renew.push(copy[i]);
       }
       setImgSet(renew);
-    } else if (e.value == 1) {
-      for (let i = 1; i < 211; i++) {
-        if (!used.includes(copy[i].name)) renew.push(copy[i]);
+    } else {
+      let generations = ['dummy'];
+      let eachSack = [];
+      for (let i = 0; i < copy.length; i++) {
+        if (copy[i].name.includes('치코리타')) {
+          generations.push(eachSack);
+          eachSack = [];
+          if (e.value == 1) {
+            setImgSet(generations[1]);
+            break;
+          }
+        } else if (copy[i].name.includes('나무지기')) {
+          generations.push(eachSack);
+          eachSack = [];
+          if (e.value == 2) {
+            setImgSet(generations[2]);
+            break;
+          }
+        } else if (copy[i].name.includes('모부기')) {
+          generations.push(eachSack);
+          eachSack = [];
+          if (e.value == 3) {
+            setImgSet(generations[3]);
+            break;
+          }
+        } else if (copy[i].name.includes('주리비얀')) {
+          generations.push(eachSack);
+          eachSack = [];
+          if (e.value == 4) {
+            setImgSet(generations[4]);
+            break;
+          }
+        } else if (copy[i].name.includes('도치마론')) {
+          generations.push(eachSack);
+          eachSack = [];
+          if (e.value == 5) {
+            setImgSet(generations[5]);
+            break;
+          }
+        } else if (copy[i].name.includes('나몰빼미')) {
+          generations.push(eachSack);
+          eachSack = [];
+          if (e.value == 6) {
+            setImgSet(generations[6]);
+            break;
+          }
+        } else if (copy[i].name.includes('흥나숭')) {
+          generations.push(eachSack);
+          eachSack = [];
+          if (e.value == 7) {
+            setImgSet(generations[7]);
+            break;
+          }
+        } else if (copy[i].name.includes('나오하')) {
+          generations.push(eachSack);
+          eachSack = [];
+          if (e.value == 8) {
+            setImgSet(generations[8]);
+            break;
+          }
+        }
+        if (!used.includes(copy[i].name)) eachSack.push(copy[i]);
+        if (e.value == 9 && i === copy.length - 1) {
+          generations.push(eachSack);
+          setImgSet(generations[9]);
+          break;
+        }
       }
-      setImgSet(renew);
-    } else if (e.value == 2) {
-      for (let i = 211; i < 350; i++) {
-        if (!used.includes(copy[i].name)) renew.push(copy[i]);
-      }
-      setImgSet(renew);
-    } else if (e.value == 3) {
-      for (let i = 350; i < 515; i++) {
-        if (!used.includes(copy[i].name)) renew.push(copy[i]);
-      }
-      setImgSet(renew);
-    } else if (e.value == 4) {
-      for (let i = 515; i < 660; i++) {
-        if (!used.includes(copy[i].name)) renew.push(copy[i]);
-      }
-      setImgSet(renew);
-    } else if (e.value == 5) {
-      for (let i = 660; i < 850; i++) {
-        if (!used.includes(copy[i].name)) renew.push(copy[i]);
-      }
-      setImgSet(renew);
-    } else if (e.value == 6) {
-      for (let i = 850; i < 981; i++) {
-        if (!used.includes(copy[i].name)) renew.push(copy[i]);
-      }
-      setImgSet(renew);
-    } else if (e.value == 7) {
-      for (let i = 981; i < 1087; i++) {
-        if (!used.includes(copy[i].name)) renew.push(copy[i]);
-      }
-      setImgSet(renew);
-    } else if (e.value == 8) {
-      for (let i = 1087; i < 1206; i++) {
-        if (!used.includes(copy[i].name)) renew.push(copy[i]);
-      }
-      setImgSet(renew);
-    } else if (e.value == 9) {
-      for (let i = 1206; i < 1342; i++) {
-        if (!used.includes(copy[i].name)) renew.push(copy[i]);
-      }
-      setImgSet(renew);
     }
     // 옵션은 더 추가할 수도 있음
   };

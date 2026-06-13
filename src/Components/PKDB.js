@@ -721,6 +721,13 @@ let db = [
     url: '',
   },
   {
+    name: 'Victreebel-Mega',
+    nameKo: '메가우츠보트',
+    code: '',
+    type: ['grass', 'poison'],
+    url: '',
+  },
+  {
     name: 'Tentacool',
     nameKo: '왕눈해',
     code: '',

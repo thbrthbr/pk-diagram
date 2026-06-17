@@ -315,6 +315,20 @@ let db = [
     url: '',
   },
   {
+    name: 'Raichu-Mega-X',
+    nameKo: '메가라이츄-X',
+    code: '',
+    type: ['electric'],
+    url: '',
+  },
+  {
+    name: 'Raichu-Mega-Y',
+    nameKo: '메가라이츄-Y',
+    code: '',
+    type: ['electric'],
+    url: '',
+  },
+  {
     name: 'Sandshrew',
     nameKo: '모래두지',
     code: '',
@@ -399,7 +413,7 @@ let db = [
     url: '',
   },
   {
-    name: 'Clefable',
+    name: 'Clefable-Mega',
     nameKo: '메가픽시',
     code: '',
     type: ['fairy', 'flying'],
@@ -3755,6 +3769,13 @@ let db = [
     url: '',
   },
   {
+    name: 'Staraptor-Mega',
+    nameKo: '메가찌르호크',
+    code: '',
+    type: ['normal', 'flying'],
+    url: '',
+  },
+  {
     name: 'Bidoof',
     nameKo: '비버니',
     code: '',
@@ -5093,6 +5114,13 @@ let db = [
     url: '',
   },
   {
+    name: 'Scolipede-Mega',
+    nameKo: '메가펜드라',
+    code: '',
+    type: ['bug', 'poison'],
+    url: '',
+  },
+  {
     name: 'Cottonee',
     nameKo: '소미안',
     code: '',
@@ -5242,6 +5270,13 @@ let db = [
   {
     name: 'Scrafty',
     nameKo: '곤율거니',
+    code: '',
+    type: ['dark', 'fighting'],
+    url: '',
+  },
+  {
+    name: 'Scrafty-Mega',
+    nameKo: '메가곤율거니',
     code: '',
     type: ['dark', 'fighting'],
     url: '',
@@ -5627,6 +5662,13 @@ let db = [
   {
     name: 'Elektross',
     nameKo: '저리더프',
+    code: '',
+    type: ['electric'],
+    url: '',
+  },
+  {
+    name: 'Elektross-Mega',
+    nameKo: '메가저리더프',
     code: '',
     type: ['electric'],
     url: '',
@@ -6353,6 +6395,13 @@ let db = [
     url: '',
   },
   {
+    name: 'Pyroar-Mega',
+    nameKo: '메가화염레오',
+    code: '',
+    type: ['fire', 'normal'],
+    url: '',
+  },
+  {
     name: 'Flabébé-Red',
     nameKo: '플라베베-빨간꽃',
     code: '',
@@ -6668,6 +6717,13 @@ let db = [
     url: '',
   },
   {
+    name: 'Malamar-Mega',
+    nameKo: '메가칼라마네로',
+    code: '',
+    type: ['dark', 'psychic'],
+    url: '',
+  },
+  {
     name: 'Binacle',
     nameKo: '거북손손',
     code: '',
@@ -6682,6 +6738,13 @@ let db = [
     url: '',
   },
   {
+    name: 'Barbaracle-Mega',
+    nameKo: '메가거북손데스',
+    code: '',
+    type: ['rock', 'water'],
+    url: '',
+  },
+  {
     name: 'Skrelp',
     nameKo: '수레기',
     code: '',
@@ -6691,6 +6754,13 @@ let db = [
   {
     name: 'Dragalge',
     nameKo: '드래캄',
+    code: '',
+    type: ['poison', 'dragon'],
+    url: '',
+  },
+  {
+    name: 'Dragalge-Mega',
+    nameKo: '메가드래캄',
     code: '',
     type: ['poison', 'dragon'],
     url: '',
@@ -8266,6 +8336,13 @@ let db = [
   {
     name: 'Falinks',
     nameKo: '대여르',
+    code: '',
+    type: ['fighting'],
+    url: '',
+  },
+  {
+    name: 'Falinks-Mega',
+    nameKo: '메가대여르',
     code: '',
     type: ['fighting'],
     url: '',

@@ -6741,7 +6741,7 @@ let db = [
     name: 'Barbaracle-Mega',
     nameKo: '메가거북손데스',
     code: '',
-    type: ['rock', 'water'],
+    type: ['rock', 'fighting'],
     url: '',
   },
   {

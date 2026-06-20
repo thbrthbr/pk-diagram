@@ -3772,7 +3772,7 @@ let db = [
     name: 'Staraptor-Mega',
     nameKo: '메가찌르호크',
     code: '',
-    type: ['normal', 'flying'],
+    type: ['fighting', 'flying'],
     url: '',
   },
   {

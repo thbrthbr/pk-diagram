@@ -834,6 +834,43 @@ const LeagueTemplate = () => {
   //   temp.click();
   // };
 
+  const pickAvatar = (id) => {
+    const fileInput = document.createElement('input');
+
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+
+    fileInput.addEventListener('change', () => {
+      const selectedFile = fileInput.files?.[0];
+
+      if (!selectedFile) {
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        const copy = eachSide.slice();
+
+        for (let i = 0; i < copy.length; i++) {
+          for (let j = 0; j < copy[i].players.length; j++) {
+            if (id == copy[i].players[j].playerId) {
+              copy[i].players[j].playerAvatar = reader.result;
+              break;
+            }
+          }
+        }
+
+        setEachSide(copy);
+        setAvatarSelect('');
+      };
+
+      reader.readAsDataURL(selectedFile);
+    });
+
+    fileInput.click();
+  };
+
   const pickAvatar2 = (id, url) => {
     let copy = eachSide.slice();
     for (let i = 0; i < copy.length; i++) {
@@ -1644,6 +1681,11 @@ const LeagueTemplate = () => {
                                                 }
                                               }
                                             }}
+                                            onContextMenu={(e) => {
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              pickAvatar(x.playerId);
+                                            }}
                                           ></img>
                                         </$PlayerAvatar>
                                       </$PlayerAvatarWrapper>
@@ -1856,6 +1898,11 @@ const LeagueTemplate = () => {
                                                   setAvatarSelect('');
                                                 }
                                               }
+                                            }}
+                                            onContextMenu={(e) => {
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              pickAvatar(x.playerId);
                                             }}
                                           ></img>
                                         </$PlayerAvatar>

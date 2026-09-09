@@ -1507,14 +1507,14 @@ let db = [
   },
   {
     name: 'Mewtwo-Mega-X',
-    nameKo: '메가뮤츠X',
+    nameKo: '메가뮤츠-X',
     code: '',
     type: ['psychic', 'fighting'],
     url: '',
   },
   {
     name: 'Mewtwo-Mega-Y',
-    nameKo: '메가뮤츠Y',
+    nameKo: '메가뮤츠-Y',
     code: '',
     type: ['psychic'],
     url: '',
@@ -3419,6 +3419,13 @@ let db = [
     url: '',
   },
   {
+    name: 'Absol-Mega-Z',
+    nameKo: '메가앱솔-Z',
+    code: '',
+    type: ['dark', 'ghost'],
+    url: '',
+  },
+  {
     name: 'Wynaut',
     nameKo: '마자',
     code: '',
@@ -4168,6 +4175,13 @@ let db = [
     url: '',
   },
   {
+    name: 'Garchomp-Mega-Z',
+    nameKo: '메가한카리아스-Z',
+    code: '',
+    type: ['dragon'],
+    url: '',
+  },
+  {
     name: 'Munchlax',
     nameKo: '먹고자',
     code: '',
@@ -4191,6 +4205,13 @@ let db = [
   {
     name: 'Lucario-Mega',
     nameKo: '메가루카리오',
+    code: '',
+    type: ['fighting', 'steel'],
+    url: '',
+  },
+  {
+    name: 'Lucario-Mega-Z',
+    nameKo: '메가루카리오-Z',
     code: '',
     type: ['fighting', 'steel'],
     url: '',
@@ -7466,6 +7487,13 @@ let db = [
     url: '',
   },
   {
+    name: 'Golisopod-Mega',
+    nameKo: '메가갑주무사',
+    code: '',
+    type: ['bug', 'steel'],
+    url: '',
+  },
+  {
     name: 'Sandygast',
     nameKo: '모래꿍',
     code: '',
@@ -9393,6 +9421,13 @@ let db = [
   {
     name: 'Baxcalibur',
     nameKo: '드닐레이브',
+    code: '',
+    type: ['dragon', 'ice'],
+    url: '',
+  },
+  {
+    name: 'Baxcalibur-Mega',
+    nameKo: '메가드닐레이브',
     code: '',
     type: ['dragon', 'ice'],
     url: '',

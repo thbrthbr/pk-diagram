@@ -458,6 +458,7 @@ const LeagueTemplate = () => {
         if (copy[i].players[j].playerId == id) {
           for (let a = 0; a < copy[i].players[j].entry.length; a++) {
             copy[i].players[j].entry[a].src = '';
+            copy[i].players[j].entry[a].banned = false;
           }
         }
       }
@@ -784,14 +785,31 @@ const LeagueTemplate = () => {
     setWho(pw + ':' + Date.now());
   };
 
-  const ban = (id) => {
-    if (
-      document.getElementById(id).style.backgroundColor !== 'rgba(0, 0, 0, 0.8)'
-    ) {
-      document.getElementById(id).style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-    } else {
-      document.getElementById(id).style.backgroundColor = 'rgba(0, 0, 0, 0)';
-    }
+  const ban = (sideName, playerId, entryId) => {
+    setEachSide((previous) =>
+      previous.map((side) =>
+        side.name !== sideName
+          ? side
+          : {
+              ...side,
+              players: side.players.map((player) =>
+                player.playerId !== playerId
+                  ? player
+                  : {
+                      ...player,
+                      entry: player.entry.map((pokemon) =>
+                        pokemon.id !== entryId
+                          ? pokemon
+                          : {
+                              ...pokemon,
+                              banned: !pokemon.banned,
+                            },
+                      ),
+                    },
+              ),
+            },
+      ),
+    );
   };
 
   const searchOn = () => {
@@ -915,6 +933,15 @@ const LeagueTemplate = () => {
       }
     }
     setEachSide(copy);
+  };
+
+  const setSideColor = (sideName, color) => {
+    if (!/^#[0-9a-f]{6}$/i.test(color)) return;
+    setEachSide((previous) =>
+      previous.map((side) =>
+        side.name === sideName ? { ...side, teamColor: color } : side,
+      ),
+    );
   };
 
   const widthSetter = (id, widthNew) => {
@@ -1131,10 +1158,6 @@ const LeagueTemplate = () => {
             let pasteData = JSON.parse(str);
             console.log(pasteData);
             setEachSide(pasteData);
-            let elements = document.getElementsByClassName('ban-cover');
-            for (let i = 0; i < elements.length; i++) {
-              elements[i].style.backgroundColor = 'rgba(0, 0, 0, 0)';
-            }
           } catch (e) {}
         };
       });
@@ -1472,6 +1495,21 @@ const LeagueTemplate = () => {
                                 pickLogo2(e.label, e.value, a.name);
                               }}
                             ></$Select>
+                            <$SideColorPicker>
+                              색상 선택
+                              <input
+                                type="color"
+                                aria-label={`${a.name === 'first' ? '왼쪽' : '오른쪽'} 사이드 색상 직접 선택`}
+                                value={
+                                  /^#[0-9a-f]{6}$/i.test(a.teamColor || '')
+                                    ? a.teamColor
+                                    : '#808080'
+                                }
+                                onChange={(event) =>
+                                  setSideColor(a.name, event.target.value)
+                                }
+                              />
+                            </$SideColorPicker>
                           </$SelectWrapper>
                           <$TeamLogo
                             src={a.teamLogo}
@@ -1692,9 +1730,10 @@ const LeagueTemplate = () => {
                                       <$PlayerEntry id={x.playerId}>
                                         <$Blackbar></$Blackbar>
                                         {x.entry.map((y) => {
-                                          const id = y.id + Date.now();
+                                          const id = `ban:${a.name}:${y.id}`;
                                           return (
                                             <$EachPokemonWrapper
+                                              key={y.id}
                                               className="each-item"
                                               onClick={(e) => {
                                                 if (eachPK == y.id) {
@@ -1723,11 +1762,16 @@ const LeagueTemplate = () => {
                                               }}
                                               onContextMenu={(e) => {
                                                 e.preventDefault();
-                                                ban(id);
+                                                ban(a.name, x.playerId, y.id);
                                               }}
                                             >
                                               <$Banned
                                                 className="ban-cover"
+                                                style={{
+                                                  backgroundColor: y.banned
+                                                    ? 'rgba(0, 0, 0, 0.8)'
+                                                    : 'rgba(0, 0, 0, 0)',
+                                                }}
                                                 id={id}
                                               ></$Banned>
                                               <$EachPokemon
@@ -1821,9 +1865,10 @@ const LeagueTemplate = () => {
                                       <$PlayerEntry id={x.playerId}>
                                         <$Blackbar></$Blackbar>
                                         {x.entry.map((y) => {
-                                          const id = y.id + Date.now();
+                                          const id = `ban:${a.name}:${y.id}`;
                                           return (
                                             <$EachPokemonWrapper
+                                              key={y.id}
                                               className="each-item"
                                               onClick={(e) => {
                                                 if (eachPK == y.id) {
@@ -1852,11 +1897,16 @@ const LeagueTemplate = () => {
                                               }}
                                               onContextMenu={(e) => {
                                                 e.preventDefault();
-                                                ban(id);
+                                                ban(a.name, x.playerId, y.id);
                                               }}
                                             >
                                               <$Banned
                                                 className="ban-cover"
+                                                style={{
+                                                  backgroundColor: y.banned
+                                                    ? 'rgba(0, 0, 0, 0.8)'
+                                                    : 'rgba(0, 0, 0, 0)',
+                                                }}
                                                 id={id}
                                               ></$Banned>
                                               <$EachPokemon
@@ -1933,6 +1983,34 @@ const LeagueTemplate = () => {
     </>
   );
 };
+
+const $SideColorPicker = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  box-sizing: border-box;
+  width: 100px;
+  margin-top: 6px;
+  padding: 4px 6px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background: #282828;
+  color: white;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+
+  input[type='color'] {
+    width: 30px;
+    height: 26px;
+    padding: 1px;
+    border: 1px solid #777;
+    border-radius: 4px;
+    cursor: pointer;
+    background: transparent;
+  }
+`;
 
 const $Label = styled.img`
   width: 6vw;
